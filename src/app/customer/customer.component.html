@@ -1,0 +1,172 @@
+    <div style="font-family: 'Nunito', sans-serif;">
+      <div class="container" style="padding-left: 10px;font-weight: bold;">
+        <br>
+        <ul class="uk-breadcrumb">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Customer 360</a></li>
+
+        </ul>
+      </div>
+      <div class="uk-child-width-2-2@s uk-grid-match" uk-grid style="width: 100%;padding-left: 10px;padding-top: 20px;">
+        <div>
+          <div class="uk-card uk-card-default uk-card-hover uk-card-body">
+           <h4 class="uk-heading-bullet" style="color: #303f9f;">Customer Name &nbsp;</h4>
+           <p> <a class="ui green label">BFSI</a> <a class="ui brown label">LIMITED</a></p>
+
+           <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
+            <div>
+              <div class="uk-background-muted uk-padding">
+               <span style="font-weight: bold;"> No of Endoints :</span> 
+               <h4>1000</h4>
+             </div>
+           </div>
+           <div>
+            <div class="uk-background-muted uk-padding">
+              <span style="font-weight: bold;">End Point Security Availabe :</span>
+              <h4 style="color: green"> <i class="fas fa-check"></i></h4>
+            </div>
+          </div>
+          <div>
+            <div class="uk-background-muted uk-padding">
+              <span style="font-weight: bold;">Back Up Solution Availabe :</span>
+              <h4 style="color: red"> <i class="fas fa-times"></i></h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="uk-child-width-2-2@s" uk-grid style="width: 100%;padding-left: 10px;padding-top: 20px;">
+    <div>
+      <div class="uk-card-primary uk-card-default uk-card-small uk-card-body">
+        <h3 class="uk-card-title">Current Products</h3>
+        <div class="uk-child-width-1-2@s" uk-grid>
+          <div>
+            <ul class="uk-tab" uk-tab>
+              <li class="uk-active"><a href="#"  (click)="toggle()">End Point Security</a>
+              </li>
+              <li><a href="#" (click)="togglechats()">Server Security</a></li>
+            </ul>
+          </div>
+        </div>
+        <div [hidden]="!isActive" class="container" style="padding-left: 10px;padding-top: 10px;">
+         <table class="ui red table">
+          <thead>
+            <tr><th>Product</th>
+              <th>Brand</th>
+              <th>License Qty</th>
+              <th>License Expires In</th>
+              <th>Serviced by </th>
+              <th>Competitor </th>
+            </tr></thead><tbody>
+              <tr>
+                <td>Client Server Messaging Security for SMB</td>
+                <td>Trend</td>
+                <td>1000</td>
+                <td>June 2020</td>
+                <th>Self </th>
+                <th>Self</th>
+              </tr>
+              <tr>
+                <td>Client Server Security for SMB - Worry-Free</td>
+                <td>Trend</td>
+                <td>100</td>
+                <td>August 2020</td>
+                <th> Other </th>
+                <th> XYZ PVT LTD</th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div [hidden]="!isActive_chats" class="container" style="padding-left: 10px;padding-top: 10px;">
+         List of Server Security Products
+       </div>
+     </div>
+     <div>
+     </div>
+   </div>
+ </div>
+ <br>
+
+ <div style="width: 100%;padding-left: 10px;padding-top: 20px;padding-right: 35px;">
+  <div class="uk-card-secondary uk-card-default uk-card-small uk-card-body">
+    <h3 class="uk-card-title">Upcoming Renewals</h3>
+    <div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" uk-grid>
+
+      <div>
+        <div class="uk-card uk-card-primary uk-card-body">
+          <h3 class="uk-card-title">Client Server Messaging Security for SMB</h3>
+          <span style="font-weight: bold;">License Qty:</span> 
+          <h4>1000</h4>
+          <p uk-margin>
+            <button class="uk-button uk-button-default">Create Lead</button>
+          </p>
+        </div>
+      </div>
+      <br>
+      <div>
+        <div class="uk-card uk-card-primary uk-card-body">
+          <h3 class="uk-card-title">Client Server Messaging Security for SMB</h3>
+          <span style="font-weight: bold;">License Qty:</span> 
+          <h4>100</h4>
+              <p uk-margin>
+            <button class="uk-button uk-button-default">Create Lead</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+
+ <div style="width: 100%;padding-left: 10px;padding-top: 20px;padding-right: 35px;">
+  <div class="uk-card-secondary uk-card-default uk-card-small uk-card-body">
+    <h3 class="uk-card-title">Similar Companies</h3>
+    <div class="uk-child-width-3-3@m uk-grid-small uk-grid-match" uk-grid>
+      <table class="ui orange table">
+  <thead>
+    <tr><th>Company Name</th>
+  </tr></thead><tbody>
+    <tr>
+      <td>Apples Pvt Ltd</td>
+  
+    </tr>
+    <tr>
+      <td> Some Ltd</td>
+  </tbody>
+</table>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+
+ <div style="width: 100%;padding-left: 10px;padding-top: 20px;padding-right: 35px;">
+  <div class="uk-card-secondary uk-card-default uk-card-small uk-card-body">
+    <h3 class="uk-card-title">Similar Companies Bought</h3>
+    <div>
+      <table class="ui inverted teal table">
+  <thead>
+    <tr><th>Product</th>
+    <th>Create Lead</th>
+   
+  </tr></thead><tbody>
+    <tr>
+      <td>AV Trend</td>
+      <td> <button class="uk-button uk-button-default">Create Lead</button></td>
+
+    </tr>
+    <tr>
+      <td>Mobile Security suite</td>
+      <td> <button class="uk-button uk-button-default">Create Lead</button></td>
+
+    </tr>
+  </tbody>
+</table>
+    </div>
+  </div>
+</div>
