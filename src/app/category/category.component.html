@@ -1,118 +1,48 @@
-    <div>
+<br>
+<br>
+<br>
+<br>
 
-      <div class="container" style="padding-left: 10px;font-weight: bold;">
-        <br>
-        <ul class="uk-breadcrumb">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Product Category Master</a></li>
-
-        </ul>
-      </div>
-      <div class="uk-child-width-2-2@s uk-grid-match" uk-grid style="width: 100%;padding-left: 10px;padding-top: 20px;">
-        <div>
-          <div class="uk-card uk-card-default uk-card-hover uk-card-body">
-           <h4 class="uk-heading-bullet" style="color: #303f9f;">Product Category Master </h4>
-           <table class="uk-table">
-            <caption>Update Product Category</caption>
-            <thead>
-              <tr>
-                <th> Product Name </th>
-                <th> Brand </th>
-                <th> Category </th>
-                <th> Sub Category </th>
-                <th> Implementation </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Client Server Messaging Security for SMB </td>
-                <td>Trend </td>
-                <td>
-                 <div class="uk-form-select" data-uk-form-select>
-                  <span></span>
-                  <select>
-                    <option value="Endpoint Security">Endpoint Security</option>
-                    <option value="Server Security">Server Security</option>
-                    <option value="Email Security">Email Security</option>
-                    <option value="Mobile Security">Mobile Security</option>
-                    <option value="MDM">MDM</option>
-                    <option value="Infra Structure Management">Infrastructure Monitoring Management</option>
-                  </select>
-                </div>
-              </td>
-
-         
-
-              <td>
-                <div class="uk-form-select" data-uk-form-select>
-                  <span></span>
-                  <select>
-                    <option value="Basic Endpoint Security">Basic Endpoint Security</option>
-                    <option value="Advanced Endpoint Security">Advanced Endpoint Security</option>
-                    <option value="EDR">EDR</option>
-                    <option value="Advanced Endpoint Protection">Advanced Endpoint Protection</option>
-                    <option value="Endpoint Encryption / Removal media / FIles & folder">Endpoint Encryption / Removal media / FIles & folder</option>
-                    <option value="Endpoint Application Control">Endpoint Application Control</option>
-                    <option value="End point DLP">End point DLP</option>
-                  </select>
-                </div>
-              </td>
-
-              <td>
-                 <div class="uk-form-select" data-uk-form-select>
-                  <span></span>
-                  <select>
-                    <option value="Cloud">Cloud</option>
-                    <option value="On Prem">On Prem</option>
-                  </select>
-                </div>
-              </td>
-
-            </tr>
-            <tr>
-              <td>Client Server Security for SMB - Worry-Free</td>
-              <td>Trend </td>
-              <td>
-               <div class="uk-form-select" data-uk-form-select>
-                <span></span>
-                <select>
-                  <option value="Endpoint Security">Endpoint Security</option>
-                  <option value="Server Security">Server Security</option>
-                  <option value="Email Security">Email Security</option>
-                  <option value="Mobile Security">Mobile Security</option>
-                  <option value="MDM">MDM</option>
-                  <option value="Infra Structure Management">Infrastructure Monitoring Management</option>
-                </select>
-              </div>
-            </td>
-            <td>
-              <div class="uk-form-select" data-uk-form-select>
-                <span></span>
-                <select>
-                  <option value="Basic Endpoint Security">Basic Endpoint Security</option>
-                  <option value="Advanced Endpoint Security">Advanced Endpoint Security</option>
-                  <option value="EDR">EDR</option>
-                  <option value="Advanced Endpoint Protection">Advanced Endpoint Protection</option>
-                  <option value="Endpoint Encryption / Removal media / FIles & folder">Endpoint Encryption / Removal media / FIles & folder</option>
-                  <option value="Endpoint Application Control">Endpoint Application Control</option>
-                  <option value="End point DLP">End point DLP</option>
-                </select>
-              </div>
-            </td>
-
-             <td>
-                 <div class="uk-form-select" data-uk-form-select>
-                  <span></span>
-                  <select>
-                    <option value="Cloud">Cloud</option>
-                    <option value="On Prem">On Prem</option>
-                  </select>
-                </div>
-              </td>
-          </tr>
-        </tbody>
-      </table>
+<div class="ui styled accordion">
+  <div *ngFor="let item of items">
+    <div class=" title" >
+      <i class="dropdown icon"></i>
+      {{item.categoryname}}
     </div>
+    <div *ngIf="item.hassubcategory">
+      <div class="content">
+       <div *ngFor="let subitem of item.subcategory">
+        <div class="accordion">
+          <div class="title">
+            <i class="dropdown icon"></i>
+            {{subitem.categoryname}}
+          </div>
+          <div class="content">
+            Welcome to level 1
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div style="padding-left: 10px;padding-bottom: 10px;padding-top: 10px;">
+  <div style="padding-left: 20px;">
+    <form class="ui form">
+      <div class="field">
+        <label>First Name</label>
+        <input [(ngModel)]="categoryname" type="text" name="categoryname" placeholder="Category Name">
+      </div>
+      <div class="field">
+        <label>Last Name</label>
+        <input [(ngModel)]="hassubcategory" type="text" name="last-name" placeholder="Sub Category">
+      </div>
+      <button class="circular ui icon button" (click)="addcategoryobject()">
+        <i class="icon settings"></i>
+      </button>
+      Add Category 
+    </form>
   </div>
 </div>
 </div>
