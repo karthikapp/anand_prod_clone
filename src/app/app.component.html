@@ -13,15 +13,15 @@
  
   <a class="mdl-navigation__link"  style="font-family: 'Nunito', sans-serif;color: white;" (click)="toggle()">Product Master Update</a>
   <a class="mdl-navigation__link"  style="font-family: 'Nunito', sans-serif;color: white;" (click)="togglechats()">Customer 360</a>
-  <a class="mdl-navigation__link"  style="font-family: 'Nunito', sans-serif;color: white;" (click)="togglechatscreate()">Create Product</a>
-
+<!--   <a class="mdl-navigation__link"  style="font-family: 'Nunito', sans-serif;color: white;" (click)="togglechatscreate()">Create Product</a>
+ -->
 </nav>
 </div>
 <main class="mdl-layout__content">
   <div class="page-content">
    <app-category [hidden]="!isActive"></app-category>
    <app-customer [hidden]="!isActive_chats"></app-customer>
-   <app-create-customer [hidden]="!isActive_create"></app-create-customer> 
-</div>
+<!--    <app-create-customer [hidden]="!isActive_create"></app-create-customer> 
+ --></div>
 </main>
 </div>

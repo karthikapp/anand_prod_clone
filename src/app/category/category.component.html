@@ -5,21 +5,37 @@
 
 <div class="ui styled accordion">
   <div *ngFor="let item of items">
-    <div class=" title" >
+    <div class="title" >
       <i class="dropdown icon"></i>
       {{item.categoryname}}
+
+      <button class = "ui circular info icon button" (click)="updateCategory(item.id)">
+          <!--button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"-->
+            <i class="material-icons" style="font-size: 10pt;">edit</i>
+          </button>
+         
+          <button class="ui circular google plus icon button" (click)="deleteCategory(item.id)">
+            <i class="material-icons"  style="font-size: 10pt;">delete</i>
+          </button>
     </div>
     <div *ngIf="item.hassubcategory">
       <div class="content">
-       <div *ngFor="let subitem of item.subcategory">
+       <div *ngFor="let subitem of item.subcategory; let subitemid=index">
         <div class="accordion">
           <div class="title">
-            <i class="dropdown icon"></i>
-            {{subitem.categoryname}}
+           <!--  <i class="dropdown icon"></i> -->
+            {{subitem.subcategoryname}}
+            <button class = "ui circular info icon button" (click)="updateSubCategory(item.id, subitemid)">
+              <i class="material-icons" style="font-size: 10pt;">edit</i>
+            </button>
+         
+          <button class="ui circular google plus icon button" (click)="deleteSubCategory(item.id, subitemid)">
+            <i class="material-icons"  style="font-size: 10pt;">delete</i>
+          </button>
           </div>
-          <div class="content">
+<!--           <div class="content">
             Welcome to level 1
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -31,13 +47,63 @@
   <div style="padding-left: 20px;">
     <form class="ui form">
       <div class="field">
-        <label>First Name</label>
+        <label>Category Name</label>
         <input [(ngModel)]="categoryname" type="text" name="categoryname" placeholder="Category Name">
       </div>
-      <div class="field">
-        <label>Last Name</label>
-        <input [(ngModel)]="hassubcategory" type="text" name="last-name" placeholder="Sub Category">
+
+      <!-- <div class="inline fields" (click)="addSubCategory(0)">
+        <label>Has SubCategory?</label>
+        <div class="field">
+          <div class="ui radio checkbox">   
+            <input type="radio" id="100" value=true name="hassubcategory"  tabindex="0" class="hidden" [(ngModel)]="hassubcategory" />
+            <label for="100">Yes</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio"  id="101" value=false name="hassubcategory" tabindex="0" class="hidden" [(ngModel)]="hassubcategory" />
+            <label for="101">No</label>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="inline fields">
+        <label>Has SubCategory?</label>
+          <button class="ui green button" value=true (click)="addSubCategory(0, true)"> Yes</button> 
+          <button class="ui red button" (click)="addSubCategory(0, false)"> No </button> 
       </div>
+
+      <div *ngFor="let subcategory of addsubFields;let i=index">
+        <div class="field">
+          <label>SubCategory Name</label>
+          <input [(ngModel)]="subcategory.subcategoryname" type="text" name="subcategoryname" placeholder="Sub Category">
+        </div>
+
+        <div class="inline fields">
+          <label>Has SubCategory?</label>
+          <button  class="ui green button" (click)="addSubCategoryLoop(i, true)"> Yes</button> 
+
+          <button  class="ui red button" (click)="addSubCategoryLoop(i, false)"> No </button> 
+        </div>
+      </div>
+
+        <!-- <div class="inline fields" (click)="addSubCategoryLoop(i)">
+          <label>Has SubCategory?</label>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" id="102" value=true name="hassubcategoryl1"  tabindex="0" class="hidden" [(ngModel)]="subcategory.hassubcategoryl1" />
+              <label for="102">Yes</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio"  id="103" value=false name="hassubcategoryl1" tabindex="0" class="hidden" [(ngModel)]="subcategory.hassubcategoryl1" />
+              <label for="103">No</label>
+            </div>
+          </div>
+        </div> -->
+      
+
       <button class="circular ui icon button" (click)="addcategoryobject()">
         <i class="icon settings"></i>
       </button>
