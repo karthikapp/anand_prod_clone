@@ -15,6 +15,7 @@ export class CategoryComponent implements OnInit {
 
 	public jsonvalue : any;
 	public items : any
+  public subitems: any;
 	public id?: string;
 	public categoryname?: string;
 	public hassubcategory?: any;
@@ -51,12 +52,15 @@ export class CategoryComponent implements OnInit {
   ngAfterViewInit() 
   {
     jQuery('.ui.radio.checkbox').checkbox()
+    //  jQuery('.ui.accordion > .title:not(.active)').mouseenter(function(){
+    //   jQuery(this).trigger('click');
+    // });
    
   }
 
   ngAfterContentChecked()
   {
-    jQuery('.ui.accordion').accordion()
+    jQuery('.ui.accordion').accordion();
   }
 
   addcategoryshow(toggle)
@@ -110,9 +114,9 @@ export class CategoryComponent implements OnInit {
   	this.hassubcategory = false;
   }
 
-  updateCategory(itemid){
-  	console.log(itemid)
-  	this.db.updateCategory(itemid)
+  updateCategory(itemid, categoryname){
+  	console.log(itemid, categoryname)
+  	this.db.updateCategory(itemid, categoryname)
   }
 
   updateSubCategory(itemid, subitemid){
@@ -164,8 +168,15 @@ export class CategoryComponent implements OnInit {
 
   getsubcollections(itemid)
   {
+    this.subitems = [];
+    this.db.showsubcollectios(itemid).subscribe((val: any) => {
+      this.subitems = [];
+      this.subitems = val
+      console.log("subitems", this.subitems)
+      //return this.subitems
+    }
 
-   
+   )
   }
 
 
@@ -200,12 +211,6 @@ export class CategoryComponent implements OnInit {
 
   }
   
-
-
-
-
-
-
   
   returnnullsubcategory(subcategory)
   {
