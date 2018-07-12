@@ -2,113 +2,149 @@
 <br>
 <br>
 <br>
-
-<div class="ui styled accordion">
-  <div *ngFor="let item of items">
-    <div class="title" >
-      <i class="dropdown icon"></i>
-      {{item.categoryname}}
-
-      <button class = "ui circular info icon button" (click)="updateCategory(item.id)">
-          <!--button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"-->
-            <i class="material-icons" style="font-size: 10pt;">edit</i>
-          </button>
-         
-          <button class="ui circular google plus icon button" (click)="deleteCategory(item.id)">
-            <i class="material-icons"  style="font-size: 10pt;">delete</i>
-          </button>
-    </div>
-    <div *ngIf="item.hassubcategory">
-      <div class="content">
-       <div *ngFor="let subitem of item.subcategory; let subitemid=index">
-        <div class="accordion">
-          <div class="title">
-           <!--  <i class="dropdown icon"></i> -->
-            {{subitem.subcategoryname}}
-            <button class = "ui circular info icon button" (click)="updateSubCategory(item.id, subitemid)">
-              <i class="material-icons" style="font-size: 10pt;">edit</i>
-            </button>
-         
-          <button class="ui circular google plus icon button" (click)="deleteSubCategory(item.id, subitemid)">
-            <i class="material-icons"  style="font-size: 10pt;">delete</i>
-          </button>
+<div style="padding-left: 20px;">
+  <div class="ui styled accordion">
+    <div *ngFor="let item of items">
+      <div class="title" style="width: 100%;">
+        <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
+          <div>
+            <div style="text-align: left;">
+              <i class="dropdown icon"></i>
+              {{item.categoryname | uppercase}}
+            </div>
           </div>
-<!--           <div class="content">
-            Welcome to level 1
-          </div> -->
+          <div>
+            <div style="text-align: right;">
+              <div class="ui icon buttons" style="text-align: right">
+                <button class="ui blue button" (click)="updateCategory(item.id)" uk-toggle="target: #modal-example">
+                  <i class="edit icon"></i>
+                </button>
+                <button class="ui red button" (click)="deleteCategory(item.id)">
+                  <i class="trash icon"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- This is the modal for updating category -->
+            <div id="modal-example" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Update Category</h2>
+                <form class="ui form">
+                  <div class="field">
+                    <label>Category Name</label>
+                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="item.categoryname">
+                  </div>
+                </form>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button">Save</button>
+                </p>
+              </div>
+            </div>
+            <!-- This is the modal for updating category -->
+          </div>
         </div>
       </div>
+
+
+    <!-- Sub Category Section -->
+      <div *ngIf="item.hassubcategory">
+        <div class="content">
+         <div *ngFor="let subitem of getsubcollections(item.id); let subitemid=index">
+          <div class="accordion">
+            <div class="title">
+               <i class="dropdown icon"></i>
+             {{subitem.categoryname | uppercase}}
+           </div>
+         </div>
+       </div>
+       <div>
+         <div style="padding-left: 30px;">
+          <span class="uk-margin-small-right" uk-icon="warning"></span>
+          {{returnnullsubcategory(item.subcategory)}}
+        </div>
+        <br>
+
+         <!-- Add  Sub Category Section -->
+        <div style="padding-left: 10px;padding-bottom: 10px;padding-top: 10px;" >
+          <div style="padding-left: 20px;">
+           <span class="uk-margin-small-right" uk-icon="plus" (click)="addsubcategoryshow(addsubcategorytoggle)"></span>
+           Add Sub Category 
+           <br>
+           <br>
+
+           <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addsubcategorytoggle">
+             <hr class="uk-divider-icon">
+             <div class="field">
+
+              <label> Sub Category Name</label>
+              <input [(ngModel)]="subcategoryname" type="text" name="categoryname" placeholder=" Sub Category Name">
+            </div>
+            <form>
+              <fieldset class="uk-fieldset">
+               <label>Has Sub Category ? </label>
+               <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
+                <label><input class="uk-radio" type="radio" name="radio2" checked (click)="togglesubhassubcategorytrue()"> Yes</label>
+                <label><input class="uk-radio" type="radio" name="radio2" (click)="togglesubhassubcategoryfalse()"> No </label>
+              </div>
+            </fieldset>
+          </form>
+          <!-- Accent-colored raised button with ripple -->
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addsubcategoryobject(item.id)">
+            Add Sub Category
+          </button>
+          <hr class="uk-divider-icon">
+        </form>
+      </div>
     </div>
+     <!-- Add Sub Category Section -->
   </div>
+</div>
+</div>
+  <!--  Sub Category Section -->
+
+
 </div>
 
 
+
+
+<!-- Add Category -->
 <div style="padding-left: 10px;padding-bottom: 10px;padding-top: 10px;">
   <div style="padding-left: 20px;">
-    <form class="ui form">
+    <span class="uk-margin-small-right" uk-icon="plus" (click)="addcategoryshow(addtoggle)"></span>
+    Add Category 
+    <br>
+    <br>
+    <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addtoggle">
+      <hr class="uk-divider-icon">
       <div class="field">
         <label>Category Name</label>
         <input [(ngModel)]="categoryname" type="text" name="categoryname" placeholder="Category Name">
       </div>
-
-      <!-- <div class="inline fields" (click)="addSubCategory(0)">
-        <label>Has SubCategory?</label>
-        <div class="field">
-          <div class="ui radio checkbox">   
-            <input type="radio" id="100" value=true name="hassubcategory"  tabindex="0" class="hidden" [(ngModel)]="hassubcategory" />
-            <label for="100">Yes</label>
-          </div>
+      <form>
+        <fieldset class="uk-fieldset">
+         <label>Has Sub Category ? </label>
+         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
+          <label><input class="uk-radio" type="radio" name="radio2" checked (click)="togglesubcategorytrue()"> Yes</label>
+          <label><input class="uk-radio" type="radio" name="radio2" (click)="togglesubcategoryfalse()"> No </label>
         </div>
-        <div class="field">
-          <div class="ui radio checkbox">
-            <input type="radio"  id="101" value=false name="hassubcategory" tabindex="0" class="hidden" [(ngModel)]="hassubcategory" />
-            <label for="101">No</label>
-          </div>
-        </div>
-      </div> -->
-
-      <div class="inline fields">
-        <label>Has SubCategory?</label>
-          <button class="ui green button" value=true (click)="addSubCategory(0, true)"> Yes</button> 
-          <button class="ui red button" (click)="addSubCategory(0, false)"> No </button> 
-      </div>
-
-      <div *ngFor="let subcategory of addsubFields;let i=index">
-        <div class="field">
-          <label>SubCategory Name</label>
-          <input [(ngModel)]="subcategory.subcategoryname" type="text" name="subcategoryname" placeholder="Sub Category">
-        </div>
-
-        <div class="inline fields">
-          <label>Has SubCategory?</label>
-          <button  class="ui green button" (click)="addSubCategoryLoop(i, true)"> Yes</button> 
-
-          <button  class="ui red button" (click)="addSubCategoryLoop(i, false)"> No </button> 
-        </div>
-      </div>
-
-        <!-- <div class="inline fields" (click)="addSubCategoryLoop(i)">
-          <label>Has SubCategory?</label>
-          <div class="field">
-            <div class="ui radio checkbox">
-              <input type="radio" id="102" value=true name="hassubcategoryl1"  tabindex="0" class="hidden" [(ngModel)]="subcategory.hassubcategoryl1" />
-              <label for="102">Yes</label>
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui radio checkbox">
-              <input type="radio"  id="103" value=false name="hassubcategoryl1" tabindex="0" class="hidden" [(ngModel)]="subcategory.hassubcategoryl1" />
-              <label for="103">No</label>
-            </div>
-          </div>
-        </div> -->
-      
-
-      <button class="circular ui icon button" (click)="addcategoryobject()">
-        <i class="icon settings"></i>
-      </button>
-      Add Category 
+      </fieldset>
     </form>
-  </div>
+    <!-- Accent-colored raised button with ripple -->
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addcategoryobject()">
+      Add Category
+    </button>
+    <hr class="uk-divider-icon">
+  </form>
 </div>
+</div>
+<!-- Add Category -->
+
+</div>
+
 </div>

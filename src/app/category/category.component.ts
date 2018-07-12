@@ -23,6 +23,15 @@ export class CategoryComponent implements OnInit {
 	public edittime?: string;
 	public datetime?: any;
 	public datetimec?: any;
+  public addtoggle: boolean;
+  public listonb?: any;
+
+
+  public addsubcategorytoggle: boolean;
+  public subcattogglevalue : boolean;
+  public subcategoryname?: string;
+  public subcathassubcategory?: boolean;
+
 	public addsubFields: {
 		subcategoryname : string,
 		hassubcategory: any,
@@ -39,45 +48,60 @@ export class CategoryComponent implements OnInit {
 		
 	}
 
- ngAfterViewInit() 
+  ngAfterViewInit() 
   {
-    // jQuery('.ui.accordion').accordion().on('click', function(e) {
-    //   console.log("aftervirew", e);
-    // });
+    jQuery('.ui.radio.checkbox').checkbox()
+   
   }
 
-    ngAfterContentChecked()
+  ngAfterContentChecked()
   {
     jQuery('.ui.accordion').accordion()
   }
 
+  addcategoryshow(toggle)
+  {
+    this.addtoggle = !toggle
+
+  }
+
+
+    addsubcategoryshow(toggle)
+  {
+    this.addsubcategorytoggle = !toggle
+
+  }
+
+
+
+   addsubcategoryobject(categoryid)
+  {
+    console.log("id",categoryid)
+    var objecttopush = 
+    {
+      "categoryname" : this.subcategoryname,
+      "hassubcategory" : this.subcathassubcategory,
+      "createtime": this.datetime,
+      "edittime" : this.datetime
+    }
+    this.db.addsubcategory(objecttopush, categoryid).then(success => {
+      alert("added successfully");
+    })
+  }
+
   addcategoryobject()
   {
-  	// if(this.hassubcategory == 'Yes')
-  	// {
-  	// 	this.hassubcategory = true
-  	// }
-  	// else
-  	// {
-  	// 	this.subcategory = false
-  	// }
-  	
   	var objecttopush = 
   	{
-	"categoryname" : this.categoryname,
-	"hassubcategory" : this.hassubcategory,
-	"createtime": this.datetime,
-	"edittime" : this.datetime
-  	}
-
-  	console.log("addsubFields", this.addsubFields)
-
-
-
-  	this.db.addcategory(objecttopush, this.addsubFields).then(success => {
-  		alert("added successfully");
-  		this.discardCategory();
-  	})
+      "categoryname" : this.categoryname,
+      "hassubcategory" : this.subcattogglevalue,
+      "createtime": this.datetime,
+      "edittime" : this.datetime
+    }
+    console.log("addsubFields", this.addsubFields)
+    this.db.addcategory(objecttopush).then(success => {
+      alert("added successfully");
+    })
   }
 
   discardCategory(){
@@ -103,49 +127,111 @@ export class CategoryComponent implements OnInit {
 
   deleteSubCategory(itemid, subitemid){
   	console.log(subitemid)
-
   	this.db.deleteSubCategory(itemid,subitemid)
   }
 
-  addSubCategory(index, hassubcategory){
-  	this.hassubcategory = hassubcategory
-  	if(hassubcategory == true)
-  	{
-  		this.addsubFields.push({ subcategoryname:'', 
-  			hassubcategory: false,
-  			createtime: this.datetimec,
-  			edittime: this.datetimec});
-  	}
-  	else
-  	{
-  		this.addsubFields.splice(index,1);
-  	}
+  // addSubCategory(index, hassubcategory){
+  // 	this.hassubcategory = hassubcategory
+  // 	if(hassubcategory == true)
+  // 	{
+  // 		this.addsubFields.push({ subcategoryname:'', 
+  // 			hassubcategory: false,
+  // 			createtime: this.datetimec,
+  // 			edittime: this.datetimec});
+  // 	}
+  // 	else
+  // 	{
+  // 		this.addsubFields.splice(index,1);
+  // 	}
+  // }
+
+  // addSubCategoryLoop(index,  hassubcategory){
+  // 	this.addsubFields[index].hassubcategory = hassubcategory
+
+  // 	if(hassubcategory == true)
+  // 	{
+  // 		this.addsubFields.push({ subcategoryname:'', 
+  // 			hassubcategory: false,
+  // 			createtime: this.datetimec,
+  // 			edittime: this.datetimec});
+  // 	}
+  // 	else
+  // 	{
+  // 		this.addsubFields.splice(index+1,1);
+  // 	}
+  // }
+
+
+  getsubcollections(itemid)
+  {
+
+   
   }
 
-  addSubCategoryLoop(index,  hassubcategory){
-  	this.addsubFields[index].hassubcategory = hassubcategory
 
-  	if(hassubcategory == true)
-  	{
-  		this.addsubFields.push({ subcategoryname:'', 
-  			hassubcategory: false,
-  			createtime: this.datetimec,
-  			edittime: this.datetimec});
-  	}
-  	else
-  	{
-  		this.addsubFields.splice(index+1,1);
-  	}
+  togglesubcategorytrue()
+  {
+    this.subcattogglevalue = true
+    console.log(this.subcattogglevalue)
+
+  }
+
+
+  togglesubcategoryfalse()
+  {
+    this.subcattogglevalue = false
+    console.log(this.subcattogglevalue)
+
+  }
+
+
+    togglesubhassubcategorytrue()
+  {
+    this.subcathassubcategory = true
+    console.log(this.subcattogglevalue)
+
+  }
+
+
+  togglesubhassubcategoryfalse()
+  {
+    this.subcathassubcategory = false
+    console.log(this.subcattogglevalue)
+
+  }
+  
+
+
+
+
+
+
+  
+  returnnullsubcategory(subcategory)
+  {
+    if (subcategory == undefined)
+    {
+      var val = "No Sub Category Added Yet"
+    }
+
+    return  val;
+
   }
 
 
 
-	ngOnInit() 
-	{
-		this.db.showcollectios().subscribe((val: any) => {
-			this.items = val
-			console.log(this.items)
-		})
-	}
+
+  ngOnInit() 
+  {
+    this.db.showcollectios().subscribe((val: any) => {
+      this.items = val
+      console.log(this.items)
+    })
+
+    this.addtoggle = false;
+    this.subcattogglevalue = true;
+    this.addsubcategorytoggle = false;
+    this.subcathassubcategory = true
+  }
 
 }
