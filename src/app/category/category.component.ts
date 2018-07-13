@@ -40,6 +40,12 @@ export class CategoryComponent implements OnInit {
 		edittime: any
 	}[] = []
 
+  public upCategoryname: any;
+  public upCategoryid: any;
+  public upSubCategoryid: any;
+  public upSubCategoryname: any;
+  public itemid: any;
+
 	constructor(public db: FirebaseserviceService) 
 	{ 
 		this.hassubcategory = false;
@@ -90,6 +96,8 @@ export class CategoryComponent implements OnInit {
     }
     this.db.addsubcategory(objecttopush, categoryid).then(success => {
       alert("added successfully");
+      this.subcategoryname = '';
+      this.subcathassubcategory = false;
     })
   }
 
@@ -105,6 +113,8 @@ export class CategoryComponent implements OnInit {
     console.log("addsubFields", this.addsubFields)
     this.db.addcategory(objecttopush).then(success => {
       alert("added successfully");
+      this.categoryname = '';
+      this.subcattogglevalue = false;
     })
   }
 
@@ -116,12 +126,31 @@ export class CategoryComponent implements OnInit {
 
   updateCategory(itemid, categoryname){
   	console.log(itemid, categoryname)
-  	this.db.updateCategory(itemid, categoryname)
+  	this.db.updateCategory(itemid, categoryname).then(success => {
+      this.upCategoryname = '';
+      this.upCategoryid = '';
+    })
   }
 
-  updateSubCategory(itemid, subitemid){
+    updateCategoryItems(categoryname, categoryid){
+      this.upCategoryname = '';
+      this.upCategoryid = '';
+    this.upCategoryname = categoryname
+    this.upCategoryid = categoryid
+  }
+
+  updateSubCategory(itemid, subitemid, subcategoryname){
   	console.log(subitemid)
-  	this.db.updateSubCategory(itemid, subitemid)
+  	this.db.updateSubCategory(itemid, subitemid, subcategoryname).then(success => {
+      this.upSubCategoryid = '';
+      this.upSubCategoryname = '';
+    })
+  }
+
+   updateSubCategoryItems(subcategoryname, subcategoryid){
+    console.log(subcategoryid)
+    this.upSubCategoryid = subcategoryid
+    this.upSubCategoryname = subcategoryname
   }
 
   deleteCategory(itemid){
@@ -169,7 +198,9 @@ export class CategoryComponent implements OnInit {
   getsubcollections(itemid)
   {
     this.subitems = [];
-    this.db.showsubcollectios(itemid).subscribe((val: any) => {
+    this.itemid = '';
+    this.itemid = itemid
+    this.db.showsubcollectios(this.itemid).subscribe((val: any) => {
       this.subitems = [];
       this.subitems = val
       console.log("subitems", this.subitems)
@@ -178,6 +209,8 @@ export class CategoryComponent implements OnInit {
 
    )
   }
+
+
 
 
   togglesubcategorytrue()
@@ -228,6 +261,12 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() 
   {
+    this.itemid = '';
+    this.upCategoryid = '';
+    this.upCategoryname = '';
+    this.upSubCategoryname = '';
+    this.upSubCategoryid = '';
+
     this.db.showcollectios().subscribe((val: any) => {
       this.items = val
       console.log(this.items)

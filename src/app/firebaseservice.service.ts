@@ -13,12 +13,17 @@ export class FirebaseserviceService {
   public category : Observable<CategoryItem[]>
   public categoryDoc: AngularFirestoreDocument<CategoryItem>;
   public categoryUpdateDoc: AngularFirestoreDocument<CategoryItem>;
+  public subcategoryUpdateDoc: AngularFirestoreDocument<CategoryItem>;
+  public categoryDeleteDoc: AngularFirestoreDocument<CategoryItem>;
+  //public subcategoryDeleteDoc: AngularFirestoreCollection<CategoryItem>;
+  public scategoryDeleteDoc: AngularFirestoreDocument<CategoryItem>;
   SubCategoryCollection: AngularFirestoreCollection<CategoryItem>
   public subcategory: Observable<CategoryItem[]>;
+  public edittime: any;
 
   constructor(public db: AngularFirestore)
   {
-  
+    this.edittime = firebase.firestore.FieldValue.serverTimestamp();
    }
 
 
@@ -39,7 +44,7 @@ export class FirebaseserviceService {
         const data = a.payload.doc.data() as CategoryItem;
         const id = a.payload.doc.id;
 
-        console.log("main",id, a.payload.doc.data())
+        //console.log("main",id, a.payload.doc.data())
         return { id, ...data };
       });
     });
@@ -95,7 +100,7 @@ export class FirebaseserviceService {
   {
     // this.category = this.db.collection('category').valueChanges()
     // return this.category
-    console.log(itemid)
+    //console.log(itemid)
      this.SubCategoryCollection = this.db.collection<CategoryItem>('category').doc(itemid).collection('subcategory');
     // .snapshotChanges() returns a DocumentChangeAction[], which contains
     // a lot of information about "what happened" with each change. If you want to
@@ -105,7 +110,7 @@ export class FirebaseserviceService {
       return actions.map(a => {
         const data = a.payload.doc.data() as CategoryItem;
         const id = a.payload.doc.id;
-        console.log("sub",id, a.payload.doc.data())
+        //console.log("sub",id, a.payload.doc.data())
         return { id, ...data };
       });
     });
@@ -136,18 +141,39 @@ export class FirebaseserviceService {
 
   updateCategory(categoryid, categoryname){
     this.categoryUpdateDoc = this.db.collection('category').doc(categoryid);
-    this.categoryUpdateDoc.update({"categoryname": categoryname})
+    var data = {"categoryname": categoryname, "edittime": this.edittime}
+    return this.categoryUpdateDoc.update(data)
   }
 
   deleteCategory(categoryid){
-    this.categoryDoc = this.db.collection('category').doc(categoryid);
-    console.log(this.categoryDoc)
-    this.categoryDoc.delete();
+    // Get a new write batch
+    const batch = firebase.firestore().batch()
+    const itemField = "category" + "/" + categoryid + "/" + "subcategory"
+    const itemCollection = firebase.firestore().collection(itemField).get().then((subCollectionSnapshot) => {
+      subCollectionSnapshot.forEach((subDoc) => {
+        
+        console.log(subDoc.data(), subDoc.id);
+        batch.delete(subDoc.ref)
+      });
+      return batch.commit();
+    });;
+    
+   // batch.delete(subcategoryDeleteDoc);
+   // itemCollection.forEach( (document) => {
+   //  batch.delete(document.id);
+   // })
+    
+    this.categoryDeleteDoc = this.db.collection('category').doc(categoryid)
+    this.categoryDeleteDoc.delete();
+
+    //return batch.commit();
   }
 
-  updateSubCategory(categoryid, subcategoryid)
+  updateSubCategory(categoryid, subcategoryid, subcategoryname)
   {
-
+    this.subcategoryUpdateDoc = this.db.collection('category').doc(categoryid).collection('subcategory').doc(subcategoryid);
+    var data = {"categoryname": subcategoryname, "edittime": this.edittime}
+    return this.subcategoryUpdateDoc.update(data)
   }
 
   deleteSubCategory(categoryid, subcategoryid){
@@ -157,6 +183,10 @@ export class FirebaseserviceService {
 //     var removeSubCategory = categoryRef.update({
 //     subcategory: firebase.firestore.FieldValue.delete()
 // });
+
+  this.scategoryDeleteDoc = this.db.collection('category').doc(categoryid).collection('subcategory').doc(subcategoryid);
+  this.scategoryDeleteDoc.delete();
+
   }
 
 }
