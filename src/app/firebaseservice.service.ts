@@ -123,18 +123,9 @@ export class FirebaseserviceService {
 
    addsubcategory(subcategoryobject, categoryid)
   {
-    // var item = {
-    //   categoryname: categoryobject.categoryname,
-    //   hassubcategory: categoryobject.hassubcategory,
-    //   createtime: categoryobject.createtime,
-    //   edittime: categoryobject.edittime,
-    //   subcategory: subcategoryobject
-    // }
-
-    // console.log("item", item)
-    var refstring = "category" + "/" + categoryid  + "/" + "subcategory"
-    const subcatlistRef = this.db.collection(refstring)
-    return subcatlistRef.add(subcategoryobject)
+    var refstring = "category" + "/" + categoryid
+    const subcatlistRef = this.db.doc(refstring)
+    return subcatlistRef.update({"subcategory": subcategoryobject})
   }
 
 

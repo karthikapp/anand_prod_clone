@@ -2,10 +2,14 @@
 <br>
 <br>
 <br>
+
 <div style="padding-left: 20px;">
+  <!--1 Accordion Starts-->
   <div class="ui styled accordion">
+    <!-- Category Section Starts -->
     <div *ngFor="let item of items">
-      <div class="title" style="width: 100%;" (click)="getsubcollections(item.id)">
+      <!-- Start Title in Main Category Accordion-->
+      <div class="title" style="width: 100%;">
         <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
           <div>
             <div style="text-align: left;">
@@ -13,181 +17,378 @@
               {{item.categoryname | uppercase}}
             </div>
           </div>
-          <div>
-            <div style="text-align: right;">
-              <div class="ui icon buttons" style="text-align: right">
-
-                <button class="ui blue button" (click)="updateCategoryItems(item.categoryname,item.id)" uk-toggle="target: #modal-example">
-                  <i class="edit icon"></i>
-                </button>
-                <button class="ui red button" (click)="deleteCategory(item.id)">
-                  <i class="trash icon"></i>
-                </button>
-              </div>
+          <!-- Button for Edit and Delete -->
+          <div style="text-align: right;">
+            <div class="ui icon buttons" style="text-align: right">
+              <button class="ui blue button" (click)="updateCategoryItems(item.categoryname,item.id)" uk-toggle="target: #modal-example">
+                <i class="edit icon"></i>
+              </button>
+              <button class="ui red button" (click)="deleteCategory(item.id)">
+                <i class="trash icon"></i>
+              </button>
             </div>
-
-            <!-- This is the modal for updating category -->
-            <div id="modal-example" uk-modal>
-              <br>
-              <br>
-              <div class="uk-modal-dialog uk-modal-body">
-                <h2 class="uk-modal-title">Update Category</h2>
-                <form class="ui form">
-                  <div class="field">
-                    <label>Category Name</label>
-                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upCategoryname">
-                  </div>
-                </form>
-                <br>
-                <br>
-                <p class="uk-text-right">
-                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="updateCategory(upCategoryid, upCategoryname)">Save</button>
-                </p>
-              </div>
-            </div>
-            <!-- This is the modal for updating category -->
           </div>
-        </div>
+          <!--End Button-->
+        <div>
       </div>
-
-
-    <!-- Sub Category Section -->
-     <!--  <div *ngIf="item.hassubcategory"> -->
-        <div class="content">
-         <div *ngFor="let subitem of subitems">
-          <div class="accordion">
-            <div class="title" style="width: 100%;">
-              <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
-                <div>
+      <!-- Category Section Ends-->
+    </div>
+    <!--End Title in Main Category Accordion-->
+      
+    <!--Begin Content Main Category Accordion -->
+    <div class="content">
+      
+      
+      <!--2 Accordion Starts-->
+      <div class="ui styled accordion" *ngIf="item.hassubcategory == true">
+        <!-- Sub Category Lvl 1 Section Begins-->
+        <div *ngFor="let subitem of item.subcategory; let sid1=index">
+          <!-- Sub Category Level 1 Title Begins--> 
+          <div class="title" style="width: 100%;">
+            <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
+              <div>
                 <div style="text-align: left;">
                   {{subitem.categoryname | uppercase}}
+                  {{sid1}}
                 </div>
-                </div>
-                <div style="text-align: right;">
-              <div class="ui icon buttons" style="text-align: right">
-
-                <button class="ui blue button" (click)="updateSubCategoryItems(subitem.categoryname,subitem.id)" uk-toggle="target: #submodal-example">
-                  <i class="edit icon"></i>
-                </button>
-                <button class="ui red button" (click)="deleteSubCategory(itemid, subitem.id)">
-                  <i class="trash icon"></i>
-                </button>
               </div>
-            </div>
-         </div>
+              <!--Buttton for Edit and Delete -->
+              <div style="text-align: right;">
+                <div class="ui icon buttons" style="text-align: right">
+                  <button class="ui blue button" (click)="updateSubCategoryItems(subitem.categoryname,sid1,subitem.hassubcategory)" uk-toggle="target: #submodal-example">
+                    <i class="edit icon"></i>
+                  </button>
+                  <button class="ui red button" (click)="deleteSubCategory(item.id, sid1)">
+                    <i class="trash icon"></i>
+                  </button>
+                </div>
+              </div>
+              <!--Button Ends-->
             </div>
           </div>
-           
+          <!-- Sub Category Level 1 Title Ends-->
 
-            <!-- This is the modal for updating sub category -->
-            <div id="submodal-example" uk-modal>
-              <br>
-              <br>
-              <div class="uk-modal-dialog uk-modal-body">
-                <h2 class="uk-modal-title">Update Sub Category</h2>
-                <form class="ui form">
-                  <div class="field">
-                    <label>Sub Category Name</label>
-                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upSubCategoryname">
+          <!--Sub Category Lvl 1 Content Begins -->
+          <div class ="active content">
+        
+            <!--3 Accordion Starts-->
+            <div class="ui styled accordion" *ngIf="subitem.hassubcategory == true">
+              <!-- Sub Category Lvl 2 Section Begins-->
+              <div *ngFor="let s1 of subitem.subcategory; let sid2 = index;">
+                <!-- Sub Category Level 2 Title Begins--> 
+                <div class="title" style="width: 100%;">
+                  <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
+                    <div>
+                      <div style="text-align: left;">
+                        {{s1.categoryname | uppercase}}
+                        {{sid2}}
+                      </div>
+                    </div>
+                    <!--Buttton for Edit and Delete -->
+                    <div style="text-align: right;">
+                      <div class="ui icon buttons" style="text-align: right">
+
+                        <button class="ui blue button" (click)="updateSubCategoryItems(subitem.categoryname,subitem.id, subitem.hassubcategory)" uk-toggle="target: #submodal-example">
+                          <i class="edit icon"></i>
+                        </button>
+                        <button class="ui red button" (click)="deleteSubCategory(itemid, subitem.id)">
+                          <i class="trash icon"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <!--Button Ends-->
                   </div>
-                </form>
-                <br>
-                <br>
-                <p class="uk-text-right">
-                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="updateSubCategory(itemid, upSubCategoryid, upSubCategoryname)">Save</button>
-                </p>
+                </div>
+                <!-- Sub Category Level 2 Title Ends-->
+
+                <!--Sub Category Level 2 Content Begins -->
+                <div class ="active content">
+        
+                  <!--4 Accordion Starts-->
+                  <div class="ui styled accordion" *ngIf="s1.hassubcategory == true">
+                    <!-- Sub Category Lvl 3 Section Begins-->
+                    <div *ngFor="let s2 of s1.subcategory; let sid3 = index;">
+                      <!-- Sub Category Level 3 Title Begins--> 
+                      <div class="title" style="width: 100%;">
+                        <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
+                          <div>
+                            <div style="text-align: left;">
+                              {{s2.categoryname | uppercase}}
+                              {{sid3}}
+                            </div>
+                          </div>
+                          <!--Buttton for Edit and Delete -->
+                          <div style="text-align: right;">
+                            <div class="ui icon buttons" style="text-align: right">
+
+                              <button class="ui blue button" (click)="updateSubCategoryItems(subitem.categoryname,subitem.id, subitem.hassubcategory)" uk-toggle="target: #submodal-example">
+                                <i class="edit icon"></i>
+                              </button>
+                              <button class="ui red button" (click)="deleteSubCategory(itemid, subitem.id)">
+                                <i class="trash icon"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <!--Button Ends-->
+                        </div>
+                      </div>
+                      <!-- Sub Category Level 3 Title Ends-->
+
+                      <!--Sub Category Level 3 Content Begins -->
+
+                      <!--Sub Category Level 3 Content Endsundefined-->
+
+                    </div>
+                    <!-- Sub Catgory Lvl 3 Section Ends -->
+
+                    <!-- If no subcatgeory is added -->
+                    <div>
+                      <div *ngIf="s1.subcategory?.length === 0">
+                        <div style="padding-left: 30px;">
+                          <span class="uk-margin-small-right" uk-icon="warning"></span>
+                          {{returnnullsubcategory()}}
+                        </div>
+                      </div>
+                      <br>
+                    </div>
+                    <!-- If no subcatgeory is added -->
+
+                    <!-- Add  Sub Category Section Begins -->
+                    <div style="padding-left: 10px;padding-bottom: 10px;padding-top: 10px;" uk-form>
+                      <div style="padding-left: 20px;">
+                        <span class="uk-margin-small-right" uk-icon="plus" (click)="addsubcategoryshow('l3',addsubcategorytoggle)"></span>
+                        Add Sub Category 
+                        <br>
+                        <br>
+
+                        <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addsubcategorytoggle && subitemmark == 'l3'">
+                          <hr class="uk-divider-icon">
+                          <div class="field">
+                            <label> Sub Category Name</label>
+                            <input [(ngModel)]="subcategoryname" type="text" name="categoryname" placeholder=" Sub Category Name">
+                          </div>
+                          <form>
+                            <fieldset class="uk-fieldset">
+                              <label>Has Sub Category ? </label>
+                              <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
+                                <label><input class="uk-radio" type="radio" name="radio2" checked (click)="togglesubhassubcategorytrue()"> Yes</label>
+                                <label><input class="uk-radio" type="radio" name="radio2" (click)="togglesubhassubcategoryfalse()"> No </label>
+                              </div>
+                            </fieldset>
+                          </form>
+                          {{'sid1'}}{{sid1}}
+                    {{'sid2'}}{{sid2}}
+                    {{'sid3'}}{{sid3}}
+                          <!-- Accent-colored raised button with ripple -->
+                          <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addsubcategoryobject(item.id,item.subcategory, sid1,sid2, -1, -1, -1)">
+                            Add Sub Category
+                          </button>
+                          <hr class="uk-divider-icon">
+                        </form>
+                      </div>
+                    </div>
+                    <!-- Add Sub Category Section Ends-->
+
+                  </div>
+                  <!--4 Accordion Ends-->
+            
+                </div>
+                <!--Sub Category Level 2 Content Ends-->
+
               </div>
+              <!-- Sub Catgory Lvl 2 Section Ends -->
+
+              <!-- If no subcatgeory is added -->
+              <div>
+                <div *ngIf="subitem.subcategory?.length === 0">
+                  <div style="padding-left: 30px;">
+                    <span class="uk-margin-small-right" uk-icon="warning"></span>
+                    {{returnnullsubcategory()}}
+                  </div>
+                </div>
+                <br>
+              </div>
+              <!-- If no subcatgeory is added -->
+
+              <!-- Add  Sub Category Section Begins -->
+              <div style="padding-left: 10px;padding-bottom: 10px;padding-top: 10px;" uk-form>
+                <div style="padding-left: 20px;">
+                  <span class="uk-margin-small-right" uk-icon="plus" (click)="addsubcategoryshow('l2',addsubcategorytoggle)"></span>
+                  Add Sub Category 
+                  <br>
+                  <br>
+
+                  <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addsubcategorytoggle && subitemmark == 'l2'">
+                    <hr class="uk-divider-icon">
+                    <div class="field">
+                      <label> Sub Category Name</label>
+                      <input [(ngModel)]="subcategoryname" type="text" name="categoryname" placeholder=" Sub Category Name">
+                    </div>
+                    <form>
+                      <fieldset class="uk-fieldset">
+                        <label>Has Sub Category ? </label>
+                        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
+                          <label><input class="uk-radio" type="radio" name="radio2" checked (click)="togglesubhassubcategorytrue()"> Yes</label>
+                          <label><input class="uk-radio" type="radio" name="radio2" (click)="togglesubhassubcategoryfalse()"> No </label>
+                        </div>
+                      </fieldset>
+                    </form>
+                    {{'sid1'}}{{sid1}}
+                    {{'sid2'}}{{sid2}}
+                    {{'sid3'}}{{sid3}}
+                    <!-- Accent-colored raised button with ripple -->
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addsubcategoryobject(item.id, item.subcategory, sid1, -1, -1, -1, -1)">
+                      Add Sub Category
+                    </button>
+                    <hr class="uk-divider-icon">
+                  </form>
+                </div>
+              </div>
+              <!-- Add Sub Category Section Ends-->
+
             </div>
-            <!-- This is the modal for updating sub category -->
+            <!--3 Accordion Ends-->
+            
+          </div>
+          <!--Sub Category Lvl 1 Content Ends --> 
 
+          
         </div>
-       <div>
-        <div *ngIf="subitems?.length === 0">
-         <div style="padding-left: 30px;">
-          <span class="uk-margin-small-right" uk-icon="warning"></span>
-          {{returnnullsubcategory(item.subcategory)}}
-        </div>
-      </div>
-        <br>
+        <!-- Sub Catgory Lvl 1 Section Ends -->
 
-         <!-- Add  Sub Category Section -->
-        <div style="padding-left: 10px;padding-bottom: 10px;padding-top: 10px;" >
+        <!-- If no subcatgeory is added -->
+        <div>
+          <div *ngIf="item.subcategory?.length === 0">
+            <div style="padding-left: 30px;">
+              <span class="uk-margin-small-right" uk-icon="warning"></span>
+                {{returnnullsubcategory()}}
+            </div>
+          </div>
+          <br>
+        </div>
+        <!-- If no subcatgeory is added -->
+
+        <!-- Add  Sub Category Section Begins -->
+        <div style="padding-left: 10px;padding-bottom: 10px;padding-top: 10px;" uk-form>
           <div style="padding-left: 20px;">
-           <span class="uk-margin-small-right" uk-icon="plus" (click)="addsubcategoryshow(addsubcategorytoggle)"></span>
-           Add Sub Category 
-           <br>
-           <br>
+            <span class="uk-margin-small-right" uk-icon="plus" (click)="addsubcategoryshow('l1',addsubcategorytoggle)"></span>
+            Add Sub Category 
+            <br>
+            <br>
 
-           <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addsubcategorytoggle">
-             <hr class="uk-divider-icon">
-             <div class="field">
-
-              <label> Sub Category Name</label>
-              <input [(ngModel)]="subcategoryname" type="text" name="categoryname" placeholder=" Sub Category Name">
-            </div>
-            <form>
-              <fieldset class="uk-fieldset">
-               <label>Has Sub Category ? </label>
-               <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
-                <label><input class="uk-radio" type="radio" name="radio2" checked (click)="togglesubhassubcategorytrue()"> Yes</label>
-                <label><input class="uk-radio" type="radio" name="radio2" (click)="togglesubhassubcategoryfalse()"> No </label>
+            <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addsubcategorytoggle && subitemmark == 'l1'">
+              <hr class="uk-divider-icon">
+              <div class="field">
+                <label> Sub Category Name</label>
+                <input [(ngModel)]="subcategoryname" type="text" name="categoryname" placeholder=" Sub Category Name">
               </div>
-            </fieldset>
-          </form>
-          <!-- Accent-colored raised button with ripple -->
-          <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addsubcategoryobject(item.id)">
-            Add Sub Category
-          </button>
-          <hr class="uk-divider-icon">
-        </form>
-      </div>
-    </div>
-     <!-- Add Sub Category Section -->
-  </div>
-</div>
-</div>
-  <!--  Sub Category Section -->
-
-
-<!-- </div> -->
-
-
-
-
-<!-- Add Category -->
-<div style="padding-left: 10px;padding-bottom: 10px;padding-top: 10px;">
-  <div style="padding-left: 20px;">
-    <span class="uk-margin-small-right" uk-icon="plus" (click)="addcategoryshow(addtoggle)"></span>
-    Add Category 
-    <br>
-    <br>
-    <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addtoggle">
-      <hr class="uk-divider-icon">
-      <div class="field">
-        <label>Category Name</label>
-        <input [(ngModel)]="categoryname" type="text" name="categoryname" placeholder="Category Name">
-      </div>
-      <form>
-        <fieldset class="uk-fieldset">
-         <label>Has Sub Category ? </label>
-         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
-          <label><input class="uk-radio" type="radio" name="radio2" checked (click)="togglesubcategorytrue()"> Yes</label>
-          <label><input class="uk-radio" type="radio" name="radio2" (click)="togglesubcategoryfalse()"> No </label>
+              <form>
+                <fieldset class="uk-fieldset">
+                  <label>Has Sub Category ? </label>
+                  <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
+                    <label><input class="uk-radio" type="radio" name="radio2" checked (click)="togglesubhassubcategorytrue()"> Yes</label>
+                    <label><input class="uk-radio" type="radio" name="radio2" (click)="togglesubhassubcategoryfalse()"> No </label>
+                  </div>
+                </fieldset>
+              </form>
+              {{'sid1'}}{{sid1}}
+                    {{'sid2'}}{{sid2}}
+                    {{'sid3'}}{{sid3}}
+              <!-- Accent-colored raised button with ripple -->
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addsubcategoryobject(item.id, item.subcategory, -1, -1, -1, -1, -1)">
+                Add Sub Category
+              </button>
+              <hr class="uk-divider-icon">
+            </form>
+          </div>
         </div>
-      </fieldset>
-    </form>
-    <!-- Accent-colored raised button with ripple -->
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addcategoryobject()">
-      Add Category
-    </button>
-    <hr class="uk-divider-icon">
-  </form>
-</div>
-</div>
-<!-- Add Category -->
-
+        <!-- Add Sub Category Section Ends-->
+      </div>
+      <!--2 Accordion Ends-->
+      
+    </div>
+    <!--End Content Main Category Accordion -->
+  </div>
+  <!--1 Accordion Ends-->
 </div>
 
-</div>
+  <!-- This is the modal for updating category -->
+  <div id="modal-example" uk-modal>
+    <br>
+    <br>
+    <div class="uk-modal-dialog uk-modal-body">
+      <h2 class="uk-modal-title">Update Category</h2>
+      <form class="ui form">
+        <div class="field">
+          <label>Category Name</label>
+          <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upCategoryname">
+        </div>
+      </form>
+      <br>
+      <br>
+      <p class="uk-text-right">
+        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+        <button class="uk-button uk-button-primary" type="button" (click)="updateCategory(upCategoryid, upCategoryname)">Save</button>
+      </p>
+    </div>
+  </div>
+  <!-- This is the modal for updating category -->
+      
+  <!-- This is the modal for updating sub category -->
+  <div id="submodal-example" uk-modal>
+    <br>
+    <br>
+    <div class="uk-modal-dialog uk-modal-body">
+      <h2 class="uk-modal-title">Update Sub Category</h2>
+      <form class="ui form">
+        <div class="field">
+          <label>Sub Category Name</label>
+          <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upSubCategoryname">
+        </div>
+      </form>
+      <div *ngIf="uphassubcategory == true">
+        <div uk-toggle="target:#add-subcategory-section">
+        </div>
+      </div>
+      <br>
+      <br>
+      <p class="uk-text-right">
+        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+        <button class="uk-button uk-button-primary" type="button" (click)="updateSubCategory(itemid, upSubCategoryid, upSubCategoryname)">Save</button>
+      </p>
+    </div>
+  </div>
+  <!-- This is the modal for updating sub category -->
+
+  <!-- Add Category Begins-->
+  <div style="padding-left: 10px;padding-bottom: 10px;padding-top: 10px;">
+    <div style="padding-left: 20px;">
+      <span class="uk-margin-small-right" uk-icon="plus" (click)="addcategoryshow(addtoggle)"></span>
+      Add Category 
+      <br>
+      <br>
+      <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addtoggle">
+        <hr class="uk-divider-icon">
+        <div class="field">
+          <label>Category Name</label>
+          <input [(ngModel)]="categoryname" type="text" name="categoryname" placeholder="Category Name">
+        </div>
+        <form>
+          <fieldset class="uk-fieldset">
+            <label>Has Sub Category ? </label>
+            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
+              <label><input class="uk-radio" type="radio" name="radio2" checked (click)="togglesubcategorytrue()"> Yes</label>
+              <label><input class="uk-radio" type="radio" name="radio2" (click)="togglesubcategoryfalse()"> No </label>
+            </div>
+          </fieldset>
+        </form>
+        <!-- Accent-colored raised button with ripple -->
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addcategoryobject()">
+          Add Category
+        </button>
+        <hr class="uk-divider-icon">
+      </form>
+    </div>
+  </div>
+  <!-- Add Category Ends-->
+

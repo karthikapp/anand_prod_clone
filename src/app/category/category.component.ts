@@ -18,7 +18,7 @@ export class CategoryComponent implements OnInit {
   public subitems: any;
 	public id?: string;
 	public categoryname?: string;
-	public hassubcategory?: any;
+	 hassubcategory?: boolean;
 	public subcategory?: any[];
 	public createtime?: string;
 	public edittime?: string;
@@ -35,7 +35,7 @@ export class CategoryComponent implements OnInit {
 
 	public addsubFields: {
 		subcategoryname : string,
-		hassubcategory: any,
+		hassubcategory: boolean,
 		createtime: any,
 		edittime: any
 	}[] = []
@@ -44,24 +44,44 @@ export class CategoryComponent implements OnInit {
   public upCategoryid: any;
   public upSubCategoryid: any;
   public upSubCategoryname: any;
+  public uphassubcategory: boolean;
   public itemid: any;
+
+  public subitemmark: any;
+
+  public sl1: { categoryname : string,
+      hassubcategory : boolean,
+      createtime: Date,
+      edittime : Date,
+      subcategory: any[]
+  }[] = []
+
+  public sl2: { categoryname : string,
+      hassubcategory : boolean,
+      createtime: Date,
+      edittime : Date,
+      subcategory: any[]
+  }[] = []
+
+  public s11: { categoryname : string,
+      hassubcategory : boolean,
+      createtime: Date,
+      edittime : Date,
+      subcategory: any[]
+  }[] = []
 
 	constructor(public db: FirebaseserviceService) 
 	{ 
 		this.hassubcategory = false;
 		this.datetime = firebase.firestore.FieldValue.serverTimestamp();
-		this.datetimec = firebase.database.ServerValue.TIMESTAMP;
-		//this.addsubFields[0].hassubcategoryl1 = false 
+		this.datetimec = new Date();
+    this.subitemmark = '';
 		
 	}
 
   ngAfterViewInit() 
   {
-    jQuery('.ui.radio.checkbox').checkbox()
-    //  jQuery('.ui.accordion > .title:not(.active)').mouseenter(function(){
-    //   jQuery(this).trigger('click');
-    // });
-   
+    jQuery('.ui.radio.checkbox').checkbox()   
   }
 
   ngAfterContentChecked()
@@ -76,29 +96,367 @@ export class CategoryComponent implements OnInit {
   }
 
 
-    addsubcategoryshow(toggle)
+    addsubcategoryshow(subitemmark, toggle)
   {
     this.addsubcategorytoggle = !toggle
+    this.subitemmark = subitemmark
 
   }
 
 
 
-   addsubcategoryobject(categoryid)
+   addsubcategoryobject(categoryid, subitem, sid1, sid2, sid3, sid4, sid5)
   {
-    console.log("id",categoryid)
-    var objecttopush = 
+
+    console.log("id",categoryid, subitem, Object.keys(subitem).length, sid1,sid2, sid3,sid4,sid5)
+    var iobjecttopush = 
     {
       "categoryname" : this.subcategoryname,
       "hassubcategory" : this.subcathassubcategory,
-      "createtime": this.datetime,
-      "edittime" : this.datetime
+      "createtime": this.datetimec,
+      "edittime" : this.datetimec,
+      "subcategory": []
     }
-    this.db.addsubcategory(objecttopush, categoryid).then(success => {
-      alert("added successfully");
-      this.subcategoryname = '';
-      this.subcathassubcategory = false;
-    })
+
+    var objecttopush2 = []
+   
+    for(let i =0; i < subitem.length; i++)
+    {
+      //console.log("p", subitem[i], i )
+      this.sl1 = []
+      this.s11 = []
+
+      if(i != sid1)
+      {
+        var s1 = 
+        {
+          "categoryname": subitem[i].categoryname,
+          "hassubcategory": subitem[i].hassubcategory,
+          "createtime": subitem[i].createtime,
+          "edittime": subitem[i].edittime,
+          "subcategory":[]
+        }
+
+        this.sl1.push(s1)
+      }
+
+      if(i == sid1 && sid2 < 0 && sid3 < 0 && sid4 < 0 && sid5 < 0)
+      {
+        //console.log("Bharadwaj")
+        //sl1 = iobjecttopush
+        s1 = {
+          "categoryname": subitem[i].categoryname,
+          "hassubcategory": subitem[i].hassubcategory,
+          "createtime": subitem[i].createtime,
+          "edittime": subitem[i].edititme,
+          "subcategory": [ iobjecttopush ]
+        }
+
+        this.sl1.push(s1)
+
+      }
+      else if(i == sid1)
+      {
+        var sl11 = {
+          "categoryname": subitem[i].categoryname,
+          "hassubcategory": subitem[i].hassubcategory,
+          "createtime": subitem[i].createtime,
+          "edittime": subitem[i].edittime,
+          "subcategory": []
+        }
+      }
+
+      this.sl2 = []
+
+      if(subitem[i].subcategory != undefined)
+      {
+        if(subitem[i].subcategory.length > 0)
+        {
+          subitem[i].subcategory.forEach( (q, key) => {
+            //console.log("q",q)
+
+            if(key != sid2)
+            {
+              var s2 = 
+              {
+                  "categoryname": q.categoryname,
+                  "hassubcategory": q.hassubcategory,
+                  "createtime": q.createtime,
+                  "edittime": q.edititme,
+                  "subcategory": []
+              }
+
+              this.sl2.push(s2)
+            }
+
+            if( key == sid2 && sid3 < 0 && sid4 < 0 && sid5 < 0)
+            {
+              //sl2 = iobjecttopush
+              //console.log("Chandrasekaran", iobjecttopush)
+
+              s2 = {
+                "categoryname": q.categoryname,
+                  "hassubcategory": q.hassubcategory,
+                  "createtime": q.createtime,
+                  "edittime": q.edititme,
+                "subcategory": [ iobjecttopush ]
+              }
+
+              this.sl2.push(s2)
+            }
+            else if (key == sid2){
+              var sl22 = {
+                "categoryname": q.categoryname,
+                  "hassubcategory": q.hassubcategory,
+                  "createtime": q.createtime,
+                  "edittime": q.edititme,
+                "subcategory": []
+              }
+            }
+
+            if(q.subcategory != undefined)
+            {
+              if(q.subcategory.length > 0)
+              {
+                q.subcategory.forEach( (r,key) => {
+                  console.log("r",r)
+
+                  if(key != sid3) {
+                    var objecttopush = 
+                    {
+                      "categoryname": subitem[i].categoryname,
+                      "hassubcategory": subitem[i].hassubcategory,
+                      "createtime": subitem[i].createtime,
+                      "edittime": subitem[i].edititme,
+                      "subcategory": [{
+                        "categoryname": q.categoryname,
+                        "hassubcategory": q.hassubcategory,
+                        "createtime": q.createtime,
+                        "edittime": q.edititme,
+                        "subcategory": [{
+                          "categoryname": r.categoryname,
+                        "hassubcategory": r.hassubcategory,
+                        "createtime": r.createtime,
+                        "edittime": r.edititme,
+                        "subcategory": []
+                        }]
+                      }]
+                    }
+                  }
+
+                  if(key == sid3 && sid4 < 0 && sid5 < 0)
+                  {
+                    objecttopush = 
+                    {
+                      "categoryname": subitem[i].categoryname,
+                      "hassubcategory": subitem[i].hassubcategory,
+                      "createtime": subitem[i].createtime,
+                      "edittime": subitem[i].edititme,
+                      "subcategory": [{
+                        "categoryname": q.categoryname,
+                        "hassubcategory": q.hassubcategory,
+                        "createtime": q.createtime,
+                        "edittime": q.edititme,
+                        "subcategory": [{
+                          "categoryname": r.categoryname,
+                        "hassubcategory": r.hassubcategory,
+                        "createtime": r.createtime,
+                        "edittime": r.edititme,
+                        "subcategory": [ iobjecttopush ]
+                        }]
+                      }]
+                    }
+                  }
+
+                  if(r.subcategory != undefined)
+                  {
+                    if( r.subcategory.length > 0)
+                    {
+                      r.subcategory.forEach( (s,key) => {
+                        console.log("s", s)
+                        if( key != sid4)
+                        {
+                          objecttopush = 
+                          {
+                            "categoryname": subitem[i].categoryname,
+                            "hassubcategory": subitem[i].hassubcategory,
+                            "createtime": subitem[i].createtime,
+                            "edittime": subitem[i].edititme,
+                            "subcategory": [{
+                              "categoryname": q.categoryname,
+                              "hassubcategory": q.hassubcategory,
+                              "createtime": q.createtime,
+                              "edittime": q.edititme,
+                              "subcategory": [{
+                                "categoryname": r.categoryname,
+                              "hassubcategory": r.hassubcategory,
+                              "createtime": r.createtime,
+                              "edittime": r.edititme,
+                              "subcategory": [{
+                                "categoryname": s.categoryname,
+                              "hassubcategory": s.hassubcategory,
+                              "createtime": s.createtime,
+                              "edittime": s.edititme,
+                              "subcategory": []
+                              }]
+                              }]
+                            }]
+                          }
+                        }
+
+                        if( key == sid4 && sid5 < 0)
+                        {
+                          objecttopush = 
+                          {
+                            "categoryname": subitem[i].categoryname,
+                            "hassubcategory": subitem[i].hassubcategory,
+                            "createtime": subitem[i].createtime,
+                            "edittime": subitem[i].edititme,
+                            "subcategory": [{
+                              "categoryname": q.categoryname,
+                              "hassubcategory": q.hassubcategory,
+                              "createtime": q.createtime,
+                              "edittime": q.edititme,
+                              "subcategory": [{
+                                "categoryname": r.categoryname,
+                              "hassubcategory": r.hassubcategory,
+                              "createtime": r.createtime,
+                              "edittime": r.edititme,
+                              "subcategory": [{
+                                "categoryname": s.categoryname,
+                              "hassubcategory": s.hassubcategory,
+                              "createtime": s.createtime,
+                              "edittime": s.edititme,
+                              "subcategory": [ iobjecttopush]
+                              }]
+                              }]
+                            }]
+                          }
+                        }
+                        if(s.subcategory != undefined) 
+                        {
+                          if(s.subcategory.length > 0)
+                          {
+                            s.subcategory.forEach( t => {
+                              console.log ("t", t)
+                              if(key != sid5 )
+                              {
+                                objecttopush = 
+                                {
+                                  "categoryname": subitem[i].categoryname,
+                                  "hassubcategory": subitem[i].hassubcategory,
+                                  "createtime": subitem[i].createtime,
+                                  "edittime": subitem[i].edititme,
+                                  "subcategory": [{
+                                    "categoryname": q.categoryname,
+                                    "hassubcategory": q.hassubcategory,
+                                    "createtime": q.createtime,
+                                    "edittime": q.edititme,
+                                    "subcategory": [{
+                                      "categoryname": r.categoryname,
+                                    "hassubcategory": r.hassubcategory,
+                                    "createtime": r.createtime,
+                                    "edittime": r.edititme,
+                                    "subcategory": [{
+                                      "categoryname": s.categoryname,
+                                    "hassubcategory": s.hassubcategory,
+                                    "createtime": s.createtime,
+                                    "edittime": s.edititme,
+                                    "subcategory": [{
+                                      "categoryname": t.categoryname,
+                                    "hassubcategory": t.hassubcategory,
+                                    "createtime": t.createtime,
+                                    "edittime": t.edititme
+                                    }]
+                                    }]
+                                    }]
+                                  }]
+                                }
+                              }
+
+                              if(key == sid5 )
+                              {
+                                objecttopush = 
+                                {
+                                  "categoryname": subitem[i].categoryname,
+                                  "hassubcategory": subitem[i].hassubcategory,
+                                  "createtime": subitem[i].createtime,
+                                  "edittime": subitem[i].edititme,
+                                  "subcategory": [{
+                                    "categoryname": q.categoryname,
+                                    "hassubcategory": q.hassubcategory,
+                                    "createtime": q.createtime,
+                                    "edittime": q.edititme,
+                                    "subcategory": [{
+                                      "categoryname": r.categoryname,
+                                    "hassubcategory": r.hassubcategory,
+                                    "createtime": r.createtime,
+                                    "edittime": r.edititme,
+                                    "subcategory": [{
+                                      "categoryname": s.categoryname,
+                                    "hassubcategory": s.hassubcategory,
+                                    "createtime": s.createtime,
+                                    "edittime": s.edititme,
+                                    "subcategory": [{
+                                      "categoryname": t.categoryname,
+                                    "hassubcategory": t.hassubcategory,
+                                    "createtime": t.createtime,
+                                    "edittime": t.edititme
+                                    }]
+                                    }]
+                                    }]
+                                  }]
+                                }
+                              }
+                            })
+                          }
+                        }
+                      })
+                    }
+                  }
+                })
+                
+                
+
+
+              }
+            }  
+
+
+
+            
+
+
+
+          })
+console.log("sl12", sl11,  this.sl1, this.sl2)
+          
+          //console.log("sl12", this.sl1, this.sl2)
+          // var objecttopush3 = {
+          //   "subcategory": this.sl2
+          // }
+          
+          // objecttopush2.push(this.sl1, objecttopush3)
+        }
+      }
+      //console.log("sl12", this.sl1,this.sl2)
+
+      //objecttopush2.push(this.sl1, this.sl2)
+    }
+
+    if(sid1 < 0)
+    {
+      console.log("krishna")
+      objecttopush2.push(iobjecttopush)
+    }
+
+    console.log("objecttopush", objecttopush2)
+
+    // this.db.addsubcategory([objecttopush], categoryid).then(success => {
+    //   alert("added successfully");
+    //   this.subcategoryname = '';
+    //   this.subcathassubcategory = false;
+    // })
   }
 
   addcategoryobject()
@@ -108,7 +466,8 @@ export class CategoryComponent implements OnInit {
       "categoryname" : this.categoryname,
       "hassubcategory" : this.subcattogglevalue,
       "createtime": this.datetime,
-      "edittime" : this.datetime
+      "edittime" : this.datetime,
+      "subcategory": []
     }
     console.log("addsubFields", this.addsubFields)
     this.db.addcategory(objecttopush).then(success => {
@@ -132,9 +491,9 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-    updateCategoryItems(categoryname, categoryid){
-      this.upCategoryname = '';
-      this.upCategoryid = '';
+  updateCategoryItems(categoryname, categoryid){
+    this.upCategoryname = '';
+    this.upCategoryid = '';
     this.upCategoryname = categoryname
     this.upCategoryid = categoryid
   }
@@ -144,13 +503,15 @@ export class CategoryComponent implements OnInit {
   	this.db.updateSubCategory(itemid, subitemid, subcategoryname).then(success => {
       this.upSubCategoryid = '';
       this.upSubCategoryname = '';
+      this.uphassubcategory = false;
     })
   }
 
-   updateSubCategoryItems(subcategoryname, subcategoryid){
-    console.log(subcategoryid)
+   updateSubCategoryItems(subcategoryname, subcategoryid, hassubcategory){
+    console.log(subcategoryid, subcategoryname)
     this.upSubCategoryid = subcategoryid
     this.upSubCategoryname = subcategoryname
+    this.uphassubcategory = hassubcategory
   }
 
   deleteCategory(itemid){
@@ -159,58 +520,9 @@ export class CategoryComponent implements OnInit {
   }
 
   deleteSubCategory(itemid, subitemid){
-  	console.log(subitemid)
-  	this.db.deleteSubCategory(itemid,subitemid)
+  	console.log(subitemid, itemid)
+  	// this.db.deleteSubCategory(itemid,subitemid)
   }
-
-  // addSubCategory(index, hassubcategory){
-  // 	this.hassubcategory = hassubcategory
-  // 	if(hassubcategory == true)
-  // 	{
-  // 		this.addsubFields.push({ subcategoryname:'', 
-  // 			hassubcategory: false,
-  // 			createtime: this.datetimec,
-  // 			edittime: this.datetimec});
-  // 	}
-  // 	else
-  // 	{
-  // 		this.addsubFields.splice(index,1);
-  // 	}
-  // }
-
-  // addSubCategoryLoop(index,  hassubcategory){
-  // 	this.addsubFields[index].hassubcategory = hassubcategory
-
-  // 	if(hassubcategory == true)
-  // 	{
-  // 		this.addsubFields.push({ subcategoryname:'', 
-  // 			hassubcategory: false,
-  // 			createtime: this.datetimec,
-  // 			edittime: this.datetimec});
-  // 	}
-  // 	else
-  // 	{
-  // 		this.addsubFields.splice(index+1,1);
-  // 	}
-  // }
-
-
-  getsubcollections(itemid)
-  {
-    this.subitems = [];
-    this.itemid = '';
-    this.itemid = itemid
-    this.db.showsubcollectios(this.itemid).subscribe((val: any) => {
-      this.subitems = [];
-      this.subitems = val
-      console.log("subitems", this.subitems)
-      //return this.subitems
-    }
-
-   )
-  }
-
-
 
 
   togglesubcategorytrue()
@@ -245,15 +557,10 @@ export class CategoryComponent implements OnInit {
   }
   
   
-  returnnullsubcategory(subcategory)
+  returnnullsubcategory()
   {
-    if (subcategory == undefined)
-    {
-      var val = "No Sub Category Added Yet"
-    }
-
+    var val = "No Sub Category Added Yet"
     return  val;
-
   }
 
 
