@@ -28,6 +28,7 @@
     "firestore": "^1.1.6",
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",
+    "uikit": "^3.0.0-rc.9",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {

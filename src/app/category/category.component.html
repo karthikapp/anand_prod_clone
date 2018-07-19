@@ -5,29 +5,304 @@
   <!-- for categories -->
   <ul uk-accordion>
     <li *ngFor="let item of items">
-      <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getsubcategorylist(item.id,item.subcategory)">  ❯ &nbsp;{{item.categoryname | uppercase}} &nbsp; <span class="uk-margin-small-right uk-icon" uk-icon="pencil"></span><span class="uk-margin-small-right uk-icon" uk-icon="trash"></span> </a>
-      <div class="uk-accordion-content">
+      <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getsubcategorylist(item.subcategory)">  ❯ &nbsp;{{item.categoryname | uppercase}} &nbsp; <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-edit-cat" uk-icon="pencil"></span>
+        <!-- This is the modal for updating category -->
+            <div id="modal-edit-cat" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Update Category</h2>
+                <form class="ui form">
+                  <div class="field">
+                    <label>Category Name</label>
+                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="item.categoryname">
+                  </div>
+                </form>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="editcategory(item.id, item.categoryname)">Save</button>
+                </p>
+              </div>
+            </div>
+            <!-- This is the modal for updating category -->
 
+        <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletecategory(item.id)"></span> </a>
+
+      <div class="uk-accordion-content">
 
         <!-- for subcategory -->
         <ul uk-accordion style="padding-left: 20px;">
           <li *ngFor="let subcat of item.subcategory; index as i"  >
-            <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getlevel1subcategorylist(item.id,i,subcat.subcategory)" > ❯ &nbsp; {{subcat.categoryname | uppercase}}  <span class="uk-margin-small-right uk-icon" uk-icon="pencil" uk-toggle="target: #modal-edit-subcat"></span>  <span class="uk-margin-small-right uk-icon" uk-icon="trash" uk-toggle="target: #modal-delete-subcat"></span></a>
+            <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getlevel1subcategorylist(subcat.subcategory)" > ❯ &nbsp; {{subcat.categoryname | uppercase}}  
+              <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategory(i, subcat.categoryname)" uk-toggle="target: #modal-edit-subcat"></span> 
+              <!-- This is the modal for updating category -->
+            <div id="modal-edit-subcat" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Update Category</h2>
+                <form class="ui form">
+                  <div class="field">
+                    <label>Category Name</label>
+                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upcategoryname">
+                  </div>
+                </form>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="editsubcategory(item, upcategoryname)">Save</button>
+                </p>
+              </div>
+            </div>
+            <!-- This is the modal for updating category -->
+             <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletesubcategory(item, i)" ></span></a>
+
             <div class="uk-accordion-content">
-
-
 
             <!-- for sub sub category  -->
             <ul uk-accordion style="padding-left: 20px;">
-              <li *ngFor="let subsubcat of subcat.subcategory">
-                <a class="uk-accordion-title" href="#" style="font-size: 10pt;"> ❯ &nbsp; {{subsubcat.categoryname | uppercase}}</a>
+              <li *ngFor="let subsubcat of subcat.subcategory; index as j">
+                <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getlevel2subcategorylist(subsubcat.subcategory)"> ❯ &nbsp; {{subsubcat.categoryname | uppercase}}
+                <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl1(i, j, subsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl1"></span> 
+              <!-- This is the modal for updating category -->
+            <div id="modal-edit-subcatlvl1" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Update Category</h2>
+                <form class="ui form">
+                  <div class="field">
+                    <label>Category Name</label>
+                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upcategorylvl1name">
+                  </div>
+                </form>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl1(item, upcategorylvl1name)">Save</button>
+                </p>
+              </div>
+            </div>
+            <!-- This is the modal for updating category -->
+             <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletesublvl1category(item,i , j)" ></span></a>
+
                 <div class="uk-accordion-content">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
+
+                  <!-- for subsubsubcategory -->
+                  <ul uk-accordion style="padding-left: 20px;">
+                    <li *ngFor="let subsubsubcat of subsubcat.subcategory; index as k"  >
+                      <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getlevel3subcategorylist(subsubsubcat.subcategory)" > ❯ &nbsp; {{subsubsubcat.categoryname | uppercase}}  
+                        <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl2(i, j, k, subsubsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl2"></span> 
+                        <!-- This is the modal for updating category -->
+                      <div id="modal-edit-subcatlvl2" uk-modal>
+                        <br>
+                        <br>
+                        <div class="uk-modal-dialog uk-modal-body">
+                          <h2 class="uk-modal-title">Update Category</h2>
+                          <form class="ui form">
+                            <div class="field">
+                              <label>Category Name</label>
+                              <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upcategorylvl2name">
+                            </div>
+                          </form>
+                          <br>
+                          <br>
+                          <p class="uk-text-right">
+                            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                            <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl2(item, upcategorylvl2name)">Save</button>
+                          </p>
+                        </div>
+                      </div>
+                      <!-- This is the modal for updating category -->
+                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletesublvl2category(item, i, j, k)"></span></a>
+
+                       <div class="uk-accordion-content">
+                        
+
+                        <!-- for subsubsubsubcategory -->
+                  <ul uk-accordion style="padding-left: 20px;">
+                    <li *ngFor="let subsubsubsubcat of subsubsubcat.subcategory; index as l"  >
+                      <a class="uk-accordion-title" href="#" style="font-size: 10pt;"  (click)="getlevel4subcategorylist(subsubsubcat.subcategory)"> ❯ &nbsp; {{subsubsubsubcat.categoryname | uppercase}}  
+                        <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl3(i, j, k, l, subsubsubsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl3"></span> 
+                        <!-- This is the modal for updating category -->
+                      <div id="modal-edit-subcatlvl3" uk-modal>
+                        <br>
+                        <br>
+                        <div class="uk-modal-dialog uk-modal-body">
+                          <h2 class="uk-modal-title">Update Category</h2>
+                          <form class="ui form">
+                            <div class="field">
+                              <label>Category Name</label>
+                              <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upcategorylvl3name">
+                            </div>
+                          </form>
+                          <br>
+                          <br>
+                          <p class="uk-text-right">
+                            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                            <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl3(item, upcategorylvl3name)">Save</button>
+                          </p>
+                        </div>
+                      </div>
+                      <!-- This is the modal for updating category -->
+                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletesublvl3category(item,i, j, k, l)"></span></a>
+
+                       <div class="uk-accordion-content">
+
+                         <!-- for subsubsubsubsubcategory -->
+                  <ul uk-accordion style="padding-left: 20px;">
+                    <li *ngFor="let subsubsubsubsubcat of subsubsubsubcat.subcategory; index as m"  >
+                      <a class="uk-accordion-title" href="#" style="font-size: 10pt;"  > ❯ &nbsp; {{subsubsubsubsubcat.categoryname | uppercase}}  
+                        <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl4(i, j, k, l, m, subsubsubsubsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl4"></span> 
+                        <!-- This is the modal for updating category -->
+                      <div id="modal-edit-subcatlvl4" uk-modal>
+                        <br>
+                        <br>
+                        <div class="uk-modal-dialog uk-modal-body">
+                          <h2 class="uk-modal-title">Update Category</h2>
+                          <form class="ui form">
+                            <div class="field">
+                              <label>Category Name</label>
+                              <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upcategorylvl4name">
+                            </div>
+                          </form>
+                          <br>
+                          <br>
+                          <p class="uk-text-right">
+                            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                            <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl4(item, upcategorylvl4name)">Save</button>
+                          </p>
+                        </div>
+                      </div>
+                      <!-- This is the modal for updating category -->
+                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletesublvl4category(item, i, j, k ,l ,m)"></span></a>
+
+                       <div class="uk-accordion-content">
+
+                        <!--END END -->
+
+                         </div>
+                      </li>
+                      </ul>
+                      <!-- end of for sub sub sub sub sub category -->
+
+                        <!-- for add sub level 5 category  -->
+
+            <div style="padding-left: 20px;" *ngIf="subsubsubsubcat.hassubcategory">
+              <div style="background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);">
+                <div style="margin: 10px;padding-top: 20px;">
+                 <span class="uk-margin-small-right" uk-icon="plus" (click)="addsublev5categoryshow(addsubcatlev5toggle)"></span>
+                 Add Sub Category level 4
+                 <br>
+                 <br>
+                 <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addsubcatlev5toggle">
+                  <div class="field">
+                    <label> Sub Category Name</label>
+                    <input [(ngModel)]="subcatlev5egoryname" type="text" name="categoryname" placeholder="Sub Category Name">
+                  </div>
+
+                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addsublev5category(item.id, i,j, k,l,item)">
+                    Add Sub Category
+                  </button>
+                  <br>
+                  <br>
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- end of for add level 5 sub category -->
+
+                        </div>
+                      </li>
+                      </ul>
+                      <!-- end of for sub sub sub sub category -->
+
+                       <!-- for add sub level 4 category  -->
+            <div style="padding-left: 20px;" *ngIf="subsubsubcat.hassubcategory">
+              <div style="background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);">
+                <div style="margin: 10px;padding-top: 20px;">
+                 <span class="uk-margin-small-right" uk-icon="plus" (click)="addsublev4categoryshow(addsubcatlev4toggle)"></span>
+                 Add Sub Category level 3
+                 <br>
+                 <br>
+                 <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addsubcatlev4toggle">
+                  <div class="field">
+                    <label> Sub Category Name</label>
+                    <input [(ngModel)]="subcatlev4egoryname" type="text" name="categoryname" placeholder="Sub Category Name">
+                  </div>
+                  <form>
+                    <fieldset class="uk-fieldset">
+                      <label style="font-weight: bold;">Has Sub Category ? </label>
+                      <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
+                        <label><input class="uk-radio" type="radio" name="radio2" checked (click)="togglesubcatleve4true()"> Yes</label>
+                        <label><input class="uk-radio" type="radio" name="radio2" (click)="togglesubcatlevel4false()"> No </label>
+                      </div>
+                    </fieldset>
+                  </form>
+                  <!-- Accent-colored raised button with ripple -->
+                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addsublev4category(item.id, i,j, k,item)">
+                    Add Sub Category
+                  </button>
+                  <br>
+                  <br>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- end of for add level 4 sub category -->
+
+
+                       </div>
+                      </li>
+                      </ul>
+                      <!-- end of for sub sub sub category -->
+
+                       <!-- for add sub level 3 category  -->
+            <div style="padding-left: 20px;" *ngIf="subsubcat.hassubcategory">
+              <div style="background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);">
+                <div style="margin: 10px;padding-top: 20px;">
+                 <span class="uk-margin-small-right" uk-icon="plus" (click)="addsublev3categoryshow(addsubcatlev3toggle)"></span>
+                 Add Sub Category level 2
+                 <br>
+                 <br>
+                 <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addsubcatlev3toggle">
+                  <div class="field">
+                    <label> Sub Category Name</label>
+                    <input [(ngModel)]="subcatlev3egoryname" type="text" name="categoryname" placeholder="Sub Category Name">
+                  </div>
+                  <form>
+                    <fieldset class="uk-fieldset">
+                      <label style="font-weight: bold;">Has Sub Category ? </label>
+                      <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
+                        <label><input class="uk-radio" type="radio" name="radio2" checked (click)="togglesubcatleve3true()"> Yes</label>
+                        <label><input class="uk-radio" type="radio" name="radio2" (click)="togglesubcatlevel3false()"> No </label>
+                      </div>
+                    </fieldset>
+                  </form>
+                  <!-- Accent-colored raised button with ripple -->
+                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addsublev3category(item.id, i,j, item)">
+                    Add Sub Category
+                  </button>
+                  <br>
+                  <br>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- end of for add level 3 sub category -->
+
                 </div>
               </li>
             </ul>
 
-            <!-- end of for sub category -->
+            <!-- end of for sub sub category -->
 
             <!-- for add sub level 2 category  -->
             <div style="padding-left: 20px;" *ngIf="subcat.hassubcategory">
@@ -37,7 +312,7 @@
                  Add Sub Category level 1
                  <br>
                  <br>
-                 <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addsubcatlev1toggle">
+                 <form class="ui form" style="padding-left: 20px;padding-right: 20px;" *ngIf="addsubcatlev2toggle">
                   <div class="field">
                     <label> Sub Category Name</label>
                     <input [(ngModel)]="subcatlev2egoryname" type="text" name="categoryname" placeholder="Sub Category Name">
@@ -66,6 +341,7 @@
         </div>
       </li>
     </ul>
+<!-- end for sub category -->
 
     <!-- for add sub category  -->
     <div style="padding-left: 20px;" *ngIf="item.hassubcategory">
@@ -105,12 +381,8 @@
 </li>
 </ul>
 
-<!-- end for sub category -->
 
 <!-- end of categories -->
-
-
-
 
 <!-- for add category  -->
 <div style="background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);">
@@ -143,6 +415,9 @@
 </div>
 </div>
 <!-- end of for add category -->
+
+
+
 </div>
 <br>
 <br>

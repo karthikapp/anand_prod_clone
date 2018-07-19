@@ -146,8 +146,6 @@ export class FirebaseserviceService {
   }
 
 
-
-
     deletecategory(categoryid)
   {
     const updatesubcatgoryRef = this.db.collection('category').doc(categoryid)
@@ -156,6 +154,7 @@ export class FirebaseserviceService {
 
   updatesubcategoryname(id,item)
   {
+    //console.log("fb", id, item)
     const updatesubcatgoryRef = this.db.collection('category').doc(id)
     return updatesubcatgoryRef.update(item)
   }
@@ -201,17 +200,19 @@ export class FirebaseserviceService {
     return this.subcategoryUpdateDoc.update(data)
   }
 
-  deleteSubCategory(categoryid, subcategoryid){
-//     var categoryRef = this.db.collection('category').doc(categoryid);
+//   deleteSubCategory(categoryid, subcategoryid){
+// //     var categoryRef = this.db.collection('category').doc(categoryid);
 
-// // Remove the 'capital' field from the document
-//     var removeSubCategory = categoryRef.update({
-//     subcategory: firebase.firestore.FieldValue.delete()
-// });
+// // // Remove the 'capital' field from the document
+// //     var removeSubCategory = categoryRef.update({
+// //     subcategory: firebase.firestore.FieldValue.delete()
+// // });
 
-  this.scategoryDeleteDoc = this.db.collection('category').doc(categoryid).collection('subcategory').doc(subcategoryid);
-  this.scategoryDeleteDoc.delete();
+//   this.scategoryDeleteDoc = this.db.collection('category').doc(categoryid).collection('subcategory').doc(subcategoryid);
+//   this.scategoryDeleteDoc.delete();
 
-  }
+//   }
+
+
 
 }

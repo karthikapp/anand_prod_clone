@@ -4,6 +4,8 @@ declare var jQuery: any;
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 import { AngularFirestore } from 'angularfire2/firestore';
+//import * as UIkit from 'uikit';
+declare var UIkit:any;
 
 
 @Component({
@@ -41,21 +43,43 @@ export class CategoryComponent implements OnInit {
   public addsubcatlev2toggle: boolean;
   public subcatlev2egoryname: any;
   public sublevel1categorylist: any[];
+  public subcatlev3togglevalue : boolean;
+  public addsubcatlev3toggle: boolean;
+  public subcatlev3egoryname: any;
+  public sublevel2categorylist: any[];
+  public subcatlev4togglevalue : boolean;
+  public addsubcatlev4toggle: boolean;
+  public subcatlev4egoryname: any;
+  public sublevel3categorylist: any[];
+   public subcatlev5togglevalue : boolean;
+  public addsubcatlev5toggle: boolean;
+  public subcatlev5egoryname: any;
+  public sublevel4categorylist: any[];
   public item: any;
-  
-  
 
+  public subcatid: any;
+  public upcategoryname: any;
+  public subcatlvl1id: any;
+  public upcategorylvl1name: any;
+  public upcategorylvl2name: any;
+  public subcatlvl2id: any;
+  public upcategorylvl3name: any;
+  public subcatlvl3id: any;
+  public upcategorylvl4name: any;
+  public subcatlvl4id: any;
 
-
-
+  public itemcat: any;
+  public UTCseconds: any;
 
 	constructor(public db: FirebaseserviceService) 
 	{ 
 		this.hassubcategory = false;
 		this.datetime = firebase.firestore.FieldValue.serverTimestamp();
-	}
 
- 
+    this.datetimec = new Date();
+    this.UTCseconds = (this.datetimec.getTime() + this.datetimec.getTimezoneOffset()*60*1000)/1000;
+
+	}
 
   addcategoryshow(toggle)
   {
@@ -75,11 +99,23 @@ export class CategoryComponent implements OnInit {
 
   }
 
+      addsublev3categoryshow(toggle)
+  {
+    this.addsubcatlev3toggle = !toggle
 
+  }
 
+        addsublev4categoryshow(toggle)
+  {
+    this.addsubcatlev4toggle = !toggle
 
+  }
 
+          addsublev5categoryshow(toggle)
+  {
+    this.addsubcatlev5toggle = !toggle
 
+  }
 
   addcategoryobject()
   {
@@ -100,23 +136,41 @@ export class CategoryComponent implements OnInit {
   }
 
 
-
-  getsubcategorylist(id, list)
+  getsubcategorylist(list)
   {
     this.subcategorylist = list
+    //console.log("sublist", this.subcategorylist)
    
   }
 
 
-  getlevel1subcategorylist(id,subid,list)
+  getlevel1subcategorylist(list)
   {
     this.sublevel1categorylist = list
+    //console.log("sublevel1", this.sublevel1categorylist)
     
   }
 
+    getlevel2subcategorylist(list)
+  {
+    this.sublevel2categorylist = list
+    //console.log("sublevel1", this.sublevel1categorylist)
+    
+  }
 
+      getlevel3subcategorylist(list)
+  {
+    this.sublevel3categorylist = list
+    //console.log("sublevel1", this.sublevel1categorylist)
+    
+  }
 
-
+        getlevel4subcategorylist(list)
+  {
+    this.sublevel4categorylist = list
+    //console.log("sublevel1", this.sublevel1categorylist)
+    
+  }
 
 
 // for subcategory 
@@ -157,23 +211,56 @@ export class CategoryComponent implements OnInit {
   }
 
 
+// for subcatlev3
+  togglesubcatlevel3false()
+  {
+    this.subcatlev3togglevalue = false
+  }
+
+    togglesubcatleve3true()
+  {
+    this.subcatlev3togglevalue = true
+  }
+
+  // for subcatlev4
+  togglesubcatlevel4false()
+  {
+    this.subcatlev4togglevalue = false
+  }
+
+    togglesubcatleve4true()
+  {
+    this.subcatlev4togglevalue = true
+  }
+
+  //   // for subcatlev5
+  // togglesubcatlevel5false()
+  // {
+  //   this.subcatlev5togglevalue = false
+  // }
+
+  //   togglesubcatleve5true()
+  // {
+  //   this.subcatlev5togglevalue = true
+  // }
+
   addsublev1category(id)
   {
 
-    this.datetimec = new Date();
-    var UTCseconds = (this.datetimec.getTime() + this.datetimec.getTimezoneOffset()*60*1000)/1000;
+    
     var subcatlev1object = 
     {
       "categoryname" : this.subcatlev1egoryname,
       "hassubcategory" : this.subcatlev1togglevalue,
-      "createtime": UTCseconds,
-      "edittime" : UTCseconds,
+      "createtime": this.UTCseconds,
+      "edittime" : this.UTCseconds,
       "subcategory": []
 
     }
 
 
     this.subcategorylist.push(subcatlev1object)
+    //console.log("sublvl",this.subcategorylist)
     this.db.addsubcategory(id, this.subcategorylist).then(success => 
     {
       alert(" Sub category added successfully !!");
@@ -185,23 +272,22 @@ export class CategoryComponent implements OnInit {
   }
 
 
-
    addsublev2category(id,subid,item)
   {
-    this.datetimec = new Date();
-    var UTCseconds = (this.datetimec.getTime() + this.datetimec.getTimezoneOffset()*60*1000)/1000;
+    
     var subcatlev2object = 
     {
       "categoryname" : this.subcatlev2egoryname,
       "hassubcategory" : this.subcatlev2togglevalue,
-      "createtime": UTCseconds,
-      "edittime" : UTCseconds,
+      "createtime": this.UTCseconds,
+      "edittime" : this.UTCseconds,
       "subcategory": []
 
     }
     this.item = item
     this.sublevel1categorylist.push(subcatlev2object)
     this.item.subcategory[subid].subcategory = this.sublevel1categorylist
+    //console.log("sublvl2", this.sublevel1categorylist, this.item.subcategory[subid].subcategory, id,item)
 
     this.db.addlevel1subcategory(id, item).then(success => 
     {
@@ -211,36 +297,315 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-
-  editcategory(itemid, categoryname)
+     addsublev3category(id,subid,subid1,item)
   {
-    this.db.updatecategoryname(itemid,categoryname)
+
+    //console.log("this", this.subcatlev3egoryname)
+    
+    var subcatlev3object = 
+    {
+      "categoryname" : this.subcatlev3egoryname,
+      "hassubcategory" : this.subcatlev3togglevalue,
+      "createtime": this.UTCseconds,
+      "edittime" : this.UTCseconds,
+      "subcategory": []
+
+    }
+    this.item = item
+    this.sublevel2categorylist.push(subcatlev3object)
+    this.item.subcategory[subid].subcategory[subid1].subcategory = this.sublevel2categorylist
+   // console.log("sublvl2", this.sublevel2categorylist,  id,item)
+
+
+
+    this.db.addlevel1subcategory(id, item).then(success => 
+    {
+      alert(" Sub category added successfully !!");
+      this.subcatlev3egoryname = '';
+      this.subcatlev3togglevalue = true;
+    })
   }
+
+       addsublev4category(id,subid,subid1,subid2,item)
+  {
+
+   // console.log("this", this.subcatlev3egoryname)
+    
+    var subcatlev4object = 
+    {
+      "categoryname" : this.subcatlev4egoryname,
+      "hassubcategory" : this.subcatlev4togglevalue,
+      "createtime": this.UTCseconds,
+      "edittime" : this.UTCseconds,
+      "subcategory": []
+    }
+
+    this.item = item
+    this.sublevel3categorylist.push(subcatlev4object)
+    this.item.subcategory[subid].subcategory[subid1].subcategory[subid2].subcategory = this.sublevel3categorylist
+   // console.log("sublvl2", this.sublevel3categorylist,  id,item)
+
+
+
+    this.db.addlevel1subcategory(id, item).then(success => 
+    {
+      alert(" Sub category added successfully !!");
+      this.subcatlev4egoryname = '';
+      this.subcatlev4togglevalue = true;
+    })
+  }
+
+         addsublev5category(id,subid,subid1,subid2,subid3,item)
+  {
+
+   // console.log("this", this.subcatlev3egoryname)
+    
+    var subcatlev5object = 
+    {
+      "categoryname" : this.subcatlev5egoryname,
+      "hassubcategory" : this.subcatlev5togglevalue,
+      "createtime": this.UTCseconds,
+      "edittime" : this.UTCseconds,
+      "subcategory": []
+    }
+
+    this.item = item
+    this.sublevel4categorylist.push(subcatlev5object)
+    this.item.subcategory[subid].subcategory[subid1].subcategory[subid2].subcategory[subid3].subcategory = this.sublevel4categorylist
+  //  console.log("sublvl2", this.sublevel4categorylist,  id,item)
+
+
+
+    this.db.addlevel1subcategory(id, item).then(success => 
+    {
+      alert(" Sub category added successfully !!");
+      this.subcatlev5egoryname = '';
+      this.subcatlev5togglevalue = false;
+    })
+  }
+
+
 
   assignname(name)
   {
       
   }
 
+  // Updating category and sub categories 
 
+  updateSubCategory(subcatid, oldsubcatname)
+  {
+    this.subcatid = ''
+    this.upcategoryname = ''
+    this.subcatid = subcatid
+    this.upcategoryname = oldsubcatname
+  }
+
+  updateSubCategorylvl1(subcatid, subcatid1, oldsubcatname)
+  { 
+    this.subcatid = ''
+    this.subcatlvl1id = ''
+    this.upcategorylvl1name = ''
+    this.subcatid = subcatid
+    this.subcatlvl1id = subcatid1
+    this.upcategorylvl1name = oldsubcatname
+    //this.itemcat = item
+  }
+
+    updateSubCategorylvl2(subcatid, subcatid1, subcatid2, oldsubcatname)
+  { 
+    this.subcatid = ''
+    this.subcatlvl1id = ''
+    this.subcatlvl2id = ''
+    this.upcategorylvl2name = ''
+    this.subcatid = subcatid
+    this.subcatlvl1id = subcatid1
+    this.subcatlvl2id = subcatid2
+    this.upcategorylvl2name = oldsubcatname
+    //this.itemcat = item
+  }
+
+    updateSubCategorylvl3(subcatid, subcatid1, subcatid2, subcatid3, oldsubcatname)
+  { 
+    this.subcatid = ''
+    this.subcatlvl1id = ''
+    this.subcatlvl2id = ''
+    this.subcatlvl3id = ''
+    this.upcategorylvl3name = ''
+    this.subcatid = subcatid
+    this.subcatlvl1id = subcatid1
+    this.subcatlvl2id = subcatid2
+    this.subcatlvl3id = subcatid3
+    this.upcategorylvl3name = oldsubcatname
+    //this.itemcat = item
+  }
+
+      updateSubCategorylvl4(subcatid, subcatid1, subcatid2, subcatid3, subcatid4, oldsubcatname)
+  { 
+    this.subcatid = ''
+    this.subcatlvl1id = ''
+    this.subcatlvl2id = ''
+    this.subcatlvl3id = ''
+    this.subcatlvl4id = ''
+    this.upcategorylvl4name = ''
+    this.subcatid = subcatid
+    this.subcatlvl1id = subcatid1
+    this.subcatlvl2id = subcatid2
+    this.subcatlvl3id = subcatid3
+    this.subcatlvl4id = subcatid4
+    this.upcategorylvl4name = oldsubcatname
+    //this.itemcat = item
+  }
+
+ 
+
+  editcategory(itemid, categoryname)
+  {
+    this.db.updatecategoryname(itemid,categoryname).then(success => {
+      alert("Category name successfully modified !!")
+      //UIkit.modal("#modal-edit-cat").hide();
+    })
+  }
+
+    editsubcategory(item,categoryname)
+  {
+    this.itemcat = []
+    this.itemcat = item
+    this.itemcat.subcategory[this.subcatid].categoryname = categoryname
+    this.itemcat.subcategory[this.subcatid].edittime = this.UTCseconds
+
+    this.db.updatesubcategoryname(item.id, item).then(success => {
+       alert(" Sub category name succesfully modified !!");
+       //UIkit.modal("#modal-edit-subcat").hide();
+       })
+  }
+
+  editsubcategorylvl1(item,categoryname)
+  {
+    this.itemcat = []
+    this.itemcat = item
+    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].categoryname = categoryname
+    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].edittime = this.UTCseconds
+
+    this.db.updatesubcategoryname(item.id, item).then(success => {
+       alert(" Sub category name succesfully modified !!");
+       //UIkit.modal('#modal-edit-subcatlvl1').hide();
+     })
+  }
+
+    editsubcategorylvl2(item,categoryname)
+  {
+    //  console.log("lvl2", item, categoryname)
+    this.itemcat = []
+    this.itemcat = item
+    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].categoryname = categoryname
+    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].edittime = this.UTCseconds
+
+    this.db.updatesubcategoryname(item.id, item).then(success => {
+       alert(" Sub category name succesfully modified !!");
+       //UIkit.modal('#modal-edit-subcatlvl2').hide();
+     })
+  }
+
+    editsubcategorylvl3(item,categoryname)
+  {
+    //console.log("lvl3", item, categoryname)
+    this.itemcat = []
+    this.itemcat = item
+    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].categoryname = categoryname
+    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].edittime = this.UTCseconds
+
+    this.db.updatesubcategoryname(item.id, item).then(success => {
+       alert(" Sub category name succesfully modified !!");
+       //UIkit.modal('#modal-edit-subcatlvl3').hide();
+     })
+  }
+
+      editsubcategorylvl4(item,categoryname)
+  {
+    console.log("lvl3", item, categoryname, this.subcatid,this.subcatlvl1id, this.subcatlvl2id, this.subcatlvl3id, this.subcatlvl4id)
+    this.itemcat = []
+    this.itemcat = item
+    //console.log("hello", this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].subcategory[this.subcatlvl4id].categoryname)
+    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].subcategory[this.subcatlvl4id].categoryname = categoryname
+    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].subcategory[this.subcatlvl4id].edittime = this.UTCseconds
+
+    console.log(item)
+    this.db.updatesubcategoryname(item.id, item).then(success => {
+       alert(" Sub category name succesfully modified !!");
+       //UIkit.modal('#modal-edit-subcatlvl4').hide();
+     })
+  }
+
+  //Deleting Category and Sub Category
   deletecategory(itemid)
   {
     this.db.deletecategory(itemid)
   }
 
-  // manipulating sub categories 
-
-    editsubcategory(item, id ,categoryname)
+    deletesubcategory(item, subid)
   {
+       this.itemcat = []
+    this.itemcat = item
+    this.itemcat.subcategory.splice(subid,1)
+    //console.log("1", item)
+
     this.db.updatesubcategoryname(item.id, item).then(success => {
-       alert(" Sub category name succesfully modified !!");
-    })
+       alert(" Deleted subcategory succesfully !!");
+       //UIkit.modal('#modal-edit-subcat').hide();
+     })
   }
 
+    deletesublvl1category(item, subid, subid1)
+  {
+       this.itemcat = []
+    this.itemcat = item
+    this.itemcat.subcategory[subid].subcategory.splice(subid1,1)
+//console.log("2", item, this.itemcat.subcategory[subid].subcategory)
 
 
+    this.db.updatesubcategoryname(item.id, item).then(success => {
+       alert(" Deleted subcategory succesfully !!");
+       //UIkit.modal('#modal-edit-subcat').hide();
+     })
+  }
 
+    deletesublvl2category(item, subid, subid1, subid2)
+  {
+       this.itemcat = []
+    this.itemcat = item
+    this.itemcat.subcategory[subid].subcategory[subid1].subcategory.splice(subid2,1)
+//console.log("3", item)
+    this.db.updatesubcategoryname(item.id, item).then(success => {
+       alert(" Deleted subcategory succesfully !!");
+       //UIkit.modal('#modal-edit-subcat').hide();
+     })
+  }
 
+    deletesublvl3category(item, subid, subid1, subid2, subid3)
+  {
+       this.itemcat = []
+    this.itemcat = item
+    this.itemcat.subcategory[subid].subcategory[subid1].subcategory[subid2].subcategory.splice(subid3,1)
+//console.log("4", item)
+    this.db.updatesubcategoryname(item.id, item).then(success => {
+       alert(" Deleted subcategory succesfully !!");
+       //UIkit.modal('#modal-edit-subcat').hide();
+     })
+  }
+
+    deletesublvl4category(item, subid, subid1, subid2, subid3, subid4)
+  {
+
+    this.itemcat = []
+    this.itemcat = item
+    this.itemcat.subcategory[subid].subcategory[subid1].subcategory[subid2].subcategory[subid3].subcategory.splice(subid4,1)
+//console.log("5", item)
+    this.db.updatesubcategoryname(item.id, item).then(success => {
+       alert(" Deleted subcategory succesfully !!");
+       //UIkit.modal('#modal-edit-subcat').hide();
+     })
+  }
 
 
   ngOnInit() 
@@ -248,15 +613,23 @@ export class CategoryComponent implements OnInit {
 
     this.db.showcollectios().subscribe((val: any) => {
       this.items = val
-      console.log(this.items)
+      //console.log(this.items)
     })
 
     this.addcattoggle = false;
     this.subcattogglevalue = true;
     this.addsubcatlev1toggle = true;
     this.addsubcatlev2toggle = true;
+    this.addsubcatlev3toggle = true;
+        this.addsubcatlev4toggle = true;
+          this.addsubcatlev5toggle = true;
+
     this.subcatlev1togglevalue = true;
     this.subcatlev2togglevalue = true;
+    this.subcatlev3togglevalue = true;
+        this.subcatlev4togglevalue = true;
+         this.subcatlev5togglevalue = false;
+
 
   }
 
