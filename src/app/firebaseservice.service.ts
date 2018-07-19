@@ -20,6 +20,7 @@ export class FirebaseserviceService {
   SubCategoryCollection: AngularFirestoreCollection<CategoryItem>
   public subcategory: Observable<CategoryItem[]>;
   public edittime: any;
+  public categoryupdate : any;
 
   constructor(public db: AngularFirestore)
   {
@@ -121,12 +122,45 @@ export class FirebaseserviceService {
 
 
 
-   addsubcategory(subcategoryobject, categoryid)
+
+
+
+
+   addsubcategory(id, subcategorylist)
   {
-    var refstring = "category" + "/" + categoryid
-    const subcatlistRef = this.db.doc(refstring)
-    return subcatlistRef.update({"subcategory": subcategoryobject})
+    
+    const updatesubcatgoryRef = this.db.collection('category').doc(id)
+    return updatesubcatgoryRef.update({subcategory: subcategorylist})
   }
+
+    addlevel1subcategory(id,item)
+  {
+    const updatesubcatgoryRef = this.db.collection('category').doc(id)
+    return updatesubcatgoryRef.update(item)
+  }
+
+  updatecategoryname(categoryid, categoryname)
+  {
+    const updatesubcatgoryRef = this.db.collection('category').doc(categoryid)
+     return updatesubcatgoryRef.update({categoryname: categoryname})
+  }
+
+
+
+
+    deletecategory(categoryid)
+  {
+    const updatesubcatgoryRef = this.db.collection('category').doc(categoryid)
+     return updatesubcatgoryRef.delete()
+  }
+
+  updatesubcategoryname(id,item)
+  {
+    const updatesubcatgoryRef = this.db.collection('category').doc(id)
+    return updatesubcatgoryRef.update(item)
+  }
+
+
 
 
 
@@ -136,29 +170,29 @@ export class FirebaseserviceService {
     return this.categoryUpdateDoc.update(data)
   }
 
-  deleteCategory(categoryid){
-    // Get a new write batch
-    const batch = firebase.firestore().batch()
-    const itemField = "category" + "/" + categoryid + "/" + "subcategory"
-    const itemCollection = firebase.firestore().collection(itemField).get().then((subCollectionSnapshot) => {
-      subCollectionSnapshot.forEach((subDoc) => {
+  // deleteCategory(categoryid){
+  //   // Get a new write batch
+  //   const batch = firebase.firestore().batch()
+  //   const itemField = "category" + "/" + categoryid + "/" + "subcategory"
+  //   const itemCollection = firebase.firestore().collection(itemField).get().then((subCollectionSnapshot) => {
+  //     subCollectionSnapshot.forEach((subDoc) => {
         
-        console.log(subDoc.data(), subDoc.id);
-        batch.delete(subDoc.ref)
-      });
-      return batch.commit();
-    });;
+  //       console.log(subDoc.data(), subDoc.id);
+  //       batch.delete(subDoc.ref)
+  //     });
+  //     return batch.commit();
+  //   });;
     
-   // batch.delete(subcategoryDeleteDoc);
-   // itemCollection.forEach( (document) => {
-   //  batch.delete(document.id);
-   // })
+  //  // batch.delete(subcategoryDeleteDoc);
+  //  // itemCollection.forEach( (document) => {
+  //  //  batch.delete(document.id);
+  //  // })
     
-    this.categoryDeleteDoc = this.db.collection('category').doc(categoryid)
-    this.categoryDeleteDoc.delete();
+  //   this.categoryDeleteDoc = this.db.collection('category').doc(categoryid)
+  //   this.categoryDeleteDoc.delete();
 
-    //return batch.commit();
-  }
+  //   //return batch.commit();
+  // }
 
   updateSubCategory(categoryid, subcategoryid, subcategoryname)
   {
