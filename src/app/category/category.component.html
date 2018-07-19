@@ -5,7 +5,7 @@
   <!-- for categories -->
   <ul uk-accordion>
     <li *ngFor="let item of items">
-      <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getsubcategorylist(item.id,item.subcategory)">  ❯ &nbsp;{{item.categoryname | uppercase}} &nbsp; <span class="uk-margin-small-right uk-icon" uk-icon="pencil" uk-toggle="target: #modal-example"></span><span class="uk-margin-small-right uk-icon" uk-icon="trash" uk-toggle="target: #modal-delete"></span> </a>
+      <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getsubcategorylist(item.id,item.subcategory)">  ❯ &nbsp;{{item.categoryname | uppercase}} &nbsp; <span class="uk-margin-small-right uk-icon" uk-icon="pencil"></span><span class="uk-margin-small-right uk-icon" uk-icon="trash"></span> </a>
       <div class="uk-accordion-content">
 
 
