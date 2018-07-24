@@ -5,7 +5,7 @@
   <!-- for categories -->
   <ul uk-accordion>
     <li *ngFor="let item of items">
-      <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getsubcategorylist(item.subcategory)">  ❯ &nbsp;{{item.categoryname | uppercase}} &nbsp; <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-edit-cat" uk-icon="pencil"></span>
+      <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getsubcategorylist(item.subcategory)">   ❯ &nbsp;{{item.categoryname | uppercase}} &nbsp; <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-edit-cat" uk-icon="pencil" (click)="updateCategory(item.id, item.categoryname)"></span>
         <!-- This is the modal for updating category -->
             <div id="modal-edit-cat" uk-modal>
               <br>
@@ -15,20 +15,37 @@
                 <form class="ui form">
                   <div class="field">
                     <label>Category Name</label>
-                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="item.categoryname">
+                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upcatname">
                   </div>
                 </form>
                 <br>
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="editcategory(item.id, item.categoryname)">Save</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="editcategory(item, upcatname)">Save</button>
                 </p>
               </div>
             </div>
             <!-- This is the modal for updating category -->
 
-        <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletecategory(item.id)"></span> </a>
+        <span class="uk-margin-small-right uk-icon" uk-icon="trash" uk-toggle="target: #modal-delete-cat" (click)="delcategory(item.id, item.categoryname)"></span> 
+          <!-- This is the modal for Deleting category -->
+          <div id="modal-delete-cat" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Delete Category</h2>
+                <p>Are you sure want to delete the category <b>{{delcatname}} </b>? </p>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletecategory(item)">Confirm</button>
+                </p>
+              </div>
+            </div>
+             <!-- This is the modal for Deleting category -->
+      </a>
 
       <div class="uk-accordion-content">
 
@@ -37,7 +54,7 @@
           <li *ngFor="let subcat of item.subcategory; index as i"  >
             <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getlevel1subcategorylist(subcat.subcategory)" > ❯ &nbsp; {{subcat.categoryname | uppercase}}  
               <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategory(i, subcat.categoryname)" uk-toggle="target: #modal-edit-subcat"></span> 
-              <!-- This is the modal for updating category -->
+              <!-- This is the modal for Updating category -->
             <div id="modal-edit-subcat" uk-modal>
               <br>
               <br>
@@ -56,9 +73,27 @@
                   <button class="uk-button uk-button-primary" type="button" (click)="editsubcategory(item, upcategoryname)">Save</button>
                 </p>
               </div>
+              <!--This is the modal for Updating category -->
             </div>
-            <!-- This is the modal for updating category -->
-             <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletesubcategory(item, i)" ></span></a>
+            
+             <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsubcategory(i, subcat.categoryname)" uk-toggle="target: #modal-delete-subcat" ></span>
+             <!-- This is the modal for Deleting category -->
+             <div id="modal-delete-subcat" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Delete Sub Category</h2>
+                <p>Are you sure want to delete sub category <b>{{delsubcatname}} </b>? </p>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletesubcategory(item)">Confirm</button>
+                </p>
+              </div>
+            </div>
+            <!--This is the modal for Deleting category -->
+           </a>
 
             <div class="uk-accordion-content">
 
@@ -88,7 +123,24 @@
               </div>
             </div>
             <!-- This is the modal for updating category -->
-             <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletesublvl1category(item,i , j)" ></span></a>
+             <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl1category(i , j, subsubcat.categoryname)" uk-toggle="target: #modal-delete-subcat1"></span>
+             <!-- This is the modal for Deleting category -->
+             <div id="modal-delete-subcat1" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Delete Sub Category</h2>
+                <p>Are you sure want to delete sub category <b>{{delcategorylvl1name}} </b>? </p>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl1category(item)">Confirm</button>
+                </p>
+              </div>
+            </div>
+            <!--This is the modal for Deleting category -->
+           </a>
 
                 <div class="uk-accordion-content">
                   <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
@@ -119,7 +171,25 @@
                         </div>
                       </div>
                       <!-- This is the modal for updating category -->
-                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletesublvl2category(item, i, j, k)"></span></a>
+                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl2category(i, j, k, subsubsubcat.categoryname)"  uk-toggle="target: #modal-delete-subcat2"></span>
+                        <!-- This is the modal for Deleting category -->
+             <div id="modal-delete-subcat2" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Delete Sub Category</h2>
+                <p>Are you sure want to delete sub category <b>{{delcategorylvl2name}} </b>? </p>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl2category(item)">Confirm</button>
+                </p>
+              </div>
+            </div>
+            <!--This is the modal for Deleting category -->
+
+                     </a>
 
                        <div class="uk-accordion-content">
                         
@@ -150,7 +220,24 @@
                         </div>
                       </div>
                       <!-- This is the modal for updating category -->
-                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletesublvl3category(item,i, j, k, l)"></span></a>
+                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl3category(i, j, k, l, subsubsubsubcat.categoryname)"  uk-toggle="target: #modal-delete-subcat3"></span>
+                        <!-- This is the modal for Deleting category -->
+             <div id="modal-delete-subcat3" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Delete Sub Category</h2>
+                <p>Are you sure want to delete sub category <b>{{delcategorylvl3name}} </b>? </p>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl3category(item)">Confirm</button>
+                </p>
+              </div>
+            </div>
+            <!--This is the modal for Deleting category -->
+                     </a>
 
                        <div class="uk-accordion-content">
 
@@ -180,7 +267,24 @@
                         </div>
                       </div>
                       <!-- This is the modal for updating category -->
-                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="deletesublvl4category(item, i, j, k ,l ,m)"></span></a>
+                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl4category(i, j, k ,l ,m, subsubsubsubsubcat.categoryname)"  uk-toggle="target: #modal-delete-subcat4"></span>
+ <!-- This is the modal for Deleting category -->
+             <div id="modal-delete-subcat4" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Delete Sub Category</h2>
+                <p>Are you sure want to delete sub category <b>{{delcategorylvl4name}} </b>? </p>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl4category(item)">Confirm</button>
+                </p>
+              </div>
+            </div>
+            <!--This is the modal for Deleting category -->
+                     </a>
 
                        <div class="uk-accordion-content">
 

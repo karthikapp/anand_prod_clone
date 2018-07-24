@@ -57,6 +57,9 @@ export class CategoryComponent implements OnInit {
   public sublevel4categorylist: any[];
   public item: any;
 
+
+  public upcatname: any;
+  public catid: any;
   public subcatid: any;
   public upcategoryname: any;
   public subcatlvl1id: any;
@@ -68,8 +71,22 @@ export class CategoryComponent implements OnInit {
   public upcategorylvl4name: any;
   public subcatlvl4id: any;
 
+  public delitemid: any;
+  public delcatname: any;
+  public delsubcatid: any;
+  public delsubcatname: any;
+  public delsubcatlvl1id: any;
+  public delcategorylvl1name: any;
+  public delcategorylvl2name: any;
+  public delsubcatlvl2id: any;
+  public delcategorylvl3name: any;
+  public delsubcatlvl3id: any;
+  public delcategorylvl4name: any;
+  public delsubcatlvl4id: any;
+
   public itemcat: any;
   public UTCseconds: any;
+
 
 	constructor(public db: FirebaseserviceService) 
 	{ 
@@ -393,6 +410,14 @@ export class CategoryComponent implements OnInit {
 
   // Updating category and sub categories 
 
+  updateCategory(catid, oldcatname){
+    this.catid = ''
+    this.upcatname = ''
+    this.upcatname = oldcatname
+    this.catid = catid
+
+  }
+
   updateSubCategory(subcatid, oldsubcatname)
   {
     this.subcatid = ''
@@ -459,9 +484,9 @@ export class CategoryComponent implements OnInit {
 
  
 
-  editcategory(itemid, categoryname)
+  editcategory(item, categoryname)
   {
-    this.db.updatecategoryname(itemid,categoryname).then(success => {
+    this.db.updatecategoryname(item.id,categoryname).then(success => {
       alert("Category name successfully modified !!")
       //UIkit.modal("#modal-edit-cat").hide();
     })
@@ -538,16 +563,84 @@ export class CategoryComponent implements OnInit {
   }
 
   //Deleting Category and Sub Category
-  deletecategory(itemid)
+  delcategory(itemid, oldcategoryname)
   {
-    this.db.deletecategory(itemid)
+    this.delitemid = ''
+    this.delcatname = ''
+    this.delitemid = itemid
+    this.delcatname = oldcategoryname
   }
 
-    deletesubcategory(item, subid)
+   delsubcategory(subcatid, oldcategoryname)
+  {
+    this.delsubcatid = ''
+    this.delsubcatname = ''
+    this.delsubcatid = subcatid
+    this.delsubcatname = oldcategoryname
+  }
+
+  delsublvl1category(subcatid, subcatid1, oldcategoryname)
+  {
+    this.delsubcatid = ''
+    this.delsubcatlvl1id = ''
+    this.delcategorylvl1name = ''
+    this.delsubcatid = subcatid
+    this.delsubcatlvl1id = subcatid1
+    this.delcategorylvl1name = oldcategoryname
+  }
+
+  delsublvl2category(subcatid, subcatid1, subcatid2, oldcategoryname)
+  {
+    this.delsubcatid = ''
+    this.delsubcatlvl1id = ''
+    this.delsubcatlvl2id = ''
+    this.delcategorylvl2name = ''
+    this.delsubcatid = subcatid
+    this.delsubcatlvl1id = subcatid1
+    this.delsubcatlvl2id = subcatid2
+    this.delcategorylvl2name = oldcategoryname
+  }
+
+  delsublvl3category(subcatid, subcatid1, subcatid2, subcatid3, oldcategoryname)
+  {
+    this.delsubcatid = ''
+    this.delsubcatlvl1id = ''
+    this.delsubcatlvl2id = ''
+    this.delsubcatlvl3id = ''
+    this.delcategorylvl3name = ''
+    this.delsubcatid = subcatid
+    this.delsubcatlvl1id = subcatid1
+    this.delsubcatlvl2id = subcatid2
+    this.delsubcatlvl3id = subcatid3
+    this.delcategorylvl3name = oldcategoryname
+  }
+
+  delsublvl4category(subcatid, subcatid1, subcatid2, subcatid3, subcatid4, oldcategoryname)
+  {
+    this.delsubcatid = ''
+    this.delsubcatlvl1id = ''
+    this.delsubcatlvl2id = ''
+    this.delsubcatlvl3id = ''
+    this.delsubcatlvl4id = ''
+    this.delcategorylvl4name = ''
+    this.delsubcatid = subcatid
+    this.delsubcatlvl1id = subcatid1
+    this.delsubcatlvl2id = subcatid2
+    this.delsubcatlvl3id = subcatid3
+    this.delsubcatlvl4id = subcatid4
+    this.delcategorylvl4name = oldcategoryname
+  }
+
+  deletecategory(item)
+  {
+    this.db.deletecategory(item.id)
+  }
+
+    deletesubcategory(item)
   {
        this.itemcat = []
     this.itemcat = item
-    this.itemcat.subcategory.splice(subid,1)
+    this.itemcat.subcategory.splice(this.delsubcatid,1)
     //console.log("1", item)
 
     this.db.updatesubcategoryname(item.id, item).then(success => {
@@ -556,11 +649,11 @@ export class CategoryComponent implements OnInit {
      })
   }
 
-    deletesublvl1category(item, subid, subid1)
+    deletesublvl1category(item)
   {
        this.itemcat = []
     this.itemcat = item
-    this.itemcat.subcategory[subid].subcategory.splice(subid1,1)
+    this.itemcat.subcategory[this.delsubcatid].subcategory.splice(this.delsubcatlvl1id,1)
 //console.log("2", item, this.itemcat.subcategory[subid].subcategory)
 
 
@@ -570,11 +663,11 @@ export class CategoryComponent implements OnInit {
      })
   }
 
-    deletesublvl2category(item, subid, subid1, subid2)
+    deletesublvl2category(item)
   {
        this.itemcat = []
     this.itemcat = item
-    this.itemcat.subcategory[subid].subcategory[subid1].subcategory.splice(subid2,1)
+    this.itemcat.subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory.splice(this.delsubcatlvl2id,1)
 //console.log("3", item)
     this.db.updatesubcategoryname(item.id, item).then(success => {
        alert(" Deleted subcategory succesfully !!");
@@ -582,11 +675,11 @@ export class CategoryComponent implements OnInit {
      })
   }
 
-    deletesublvl3category(item, subid, subid1, subid2, subid3)
+    deletesublvl3category(item)
   {
        this.itemcat = []
     this.itemcat = item
-    this.itemcat.subcategory[subid].subcategory[subid1].subcategory[subid2].subcategory.splice(subid3,1)
+    this.itemcat.subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory[this.delsubcatlvl2id].subcategory.splice(this.delsubcatlvl3id,1)
 //console.log("4", item)
     this.db.updatesubcategoryname(item.id, item).then(success => {
        alert(" Deleted subcategory succesfully !!");
@@ -594,12 +687,12 @@ export class CategoryComponent implements OnInit {
      })
   }
 
-    deletesublvl4category(item, subid, subid1, subid2, subid3, subid4)
+    deletesublvl4category(item)
   {
 
     this.itemcat = []
     this.itemcat = item
-    this.itemcat.subcategory[subid].subcategory[subid1].subcategory[subid2].subcategory[subid3].subcategory.splice(subid4,1)
+    this.itemcat.subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory[this.delsubcatlvl2id].subcategory[this.delsubcatlvl3id].subcategory.splice(this.delsubcatlvl4id,1)
 //console.log("5", item)
     this.db.updatesubcategoryname(item.id, item).then(success => {
        alert(" Deleted subcategory succesfully !!");
