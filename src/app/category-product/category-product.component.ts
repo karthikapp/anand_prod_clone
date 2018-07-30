@@ -57,6 +57,7 @@ export class CategoryProductComponent implements OnInit {
     showTitle: true,
     headers: ['Product ID', 'Product_Name','Brand'] 
     };
+    
   }
 
   ngOnInit() 

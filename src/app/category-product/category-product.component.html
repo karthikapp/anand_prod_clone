@@ -90,7 +90,7 @@
 		  	</thead>
 
 		  	<tbody>
-		  		<tr *ngFor="let product of products">
+		  		<tr *ngFor="let product of products| paginate: { itemsPerPage: 10, currentPage: p }">
 		    		<td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Product_name}}</td>
 		    		<td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Brand}}</td>
 		    		<td>
@@ -111,6 +111,8 @@
 
 
   <br>
+
+   <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
   <!--Pagination-->
 <!--   <div class="ui item" style="color: white; background-color: #eee; float:right; border-radius: 5px;">

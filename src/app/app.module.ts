@@ -8,7 +8,7 @@ import { CategoryComponent } from './category/category.component';
 import { CustomerComponent } from './customer/customer.component';
 import { CreateCustomerComponent } from './create-customer/create-customer.component';
 import { CategoryProductComponent } from './category-product/category-product.component'
-
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from '../environments/firebase.config'
 import { FirebaseserviceService } from '../app/firebaseservice.service'
@@ -24,6 +24,7 @@ import { FirebaseserviceService } from '../app/firebaseservice.service'
   ],
   imports: [
     BrowserModule,
+    NgxPaginationModule,
     AngularFireModule.initializeApp(firebaseConfig),
      AngularFirestoreModule,
      FormsModule
