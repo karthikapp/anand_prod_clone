@@ -2,6 +2,9 @@ import { Component,OnInit } from '@angular/core';
 import { CategoryComponent } from './category/category.component'
 import { CustomerComponent } from './customer/customer.component'
 import { CreateCustomerComponent } from './create-customer/create-customer.component'
+import { CategoryProductComponent } from './category-product/category-product.component'
+
+
 
 @Component({
   selector: 'app-root',

@@ -1,0 +1,184 @@
+<div align="center">
+  
+
+	<!--Modal for adding a new Product-->
+
+<div id="modal-add-product" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Add Product</h2>
+                <form class="ui form">
+                  <div class="field">
+                    <label>Product Name</label>
+                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upcatname">
+                  </div>
+                </form>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="editcategory(item, upcatname)">Save</button>
+                </p>
+              </div>
+            </div>
+
+<!-- 	<lsu-modal [(ngModel)]="addProductModal_flag" [options]="modalOptions" align="center">
+  
+  		<div class="header">Create Product</div>
+  
+  		<div class="description">
+    	<br> -->
+    	<!--Product Name-->
+<!--     		<form class="ui mini form">
+      			<div class="field" style="padding: 20px;">
+        			<label style="font-weight: bold; font-size: 15px;">Product Name</label>
+        			<br>
+        			<input type="text"  name="Product_name" placeholder="Product Name" [(ngModel)]="Product_name"> 
+      			</div>
+    		</form> -->
+    	<!--Brand-->
+<!--     	    <form class="ui mini form">
+      			<div class="field" style="padding: 20px;">
+        			<label style="font-weight: bold; font-size: 15px;">Brand</label>
+        			<br>
+        			<input type="text"  name="Brand" placeholder="Brand" [(ngModel)]="Brand"> 
+      			</div>
+    		</form>
+  		</div>
+
+
+  		<div class="actions">
+    		<button class="ui black deny button" (click)="cancelProductModal()">Cancel</button>
+    		<button class="ui positive right labeled icon button" [disabled]="Product_name==''" (click)="on_add_product()">Add
+      			<i class="checkmark icon"></i>
+    		</button>
+  		</div>
+	</lsu-modal> -->
+
+	<div id="" style="overflow-y: scroll;height: 100%;width:95%;">
+  	<br>
+  <!--Search button with expandable holder-->
+  <div appMzterialDesignLite style="float:right; color: white;height: 50px">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+      <label class="mdl-button mdl-js-button mdl-button--icon" for="site-search">
+        <i class="material-icons" style="top: 10px">search</i>
+      </label>
+      <div class="mdl-textfield__expandable-holder">
+        <input class="mdl-textfield__input" type="search" id="site-search" name="site-search" placeholder ="Product Name" [(ngModel)] ="querystring" />
+        <label class="mdl-textfield__label" for="site-search">Search</label>
+      </div>
+    </div>
+  </div>
+
+  <!--Add Product Button on top right corner-->
+  <div style="float:right;padding: 5px;font-family: 'Marvel', sans-serif;">
+      <button class="ui inverted button" (click)="addProductModal()" uk-toggle="target: #modal-add-product">Add Product</button>
+  </div>
+
+  <br>
+  <br>
+  <br>
+		<!--List Product in a table with fields product name, brand and actions (Edit/ Delete)-->
+		<table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp" style="width: 95%;background-color: white;height:50vh">
+		  	<thead>
+		  		<tr>
+		    		<th>Product Name</th>
+		    		<th>Brand</th>
+		    		<th>Actions</th>
+		  		</tr>
+		  	</thead>
+
+		  	<tbody>
+		  		<tr *ngFor="let product of products">
+		    		<td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Product_name}}</td>
+		    		<td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Brand}}</td>
+		    		<td>
+		    			<!-- <a (click)="editProductModal(product.productkey)">
+		    				<i class="material-icons">edit</i>
+		    			</a> -->
+
+              <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-edit-product" uk-icon="pencil" (click)="editProductModal(product.productkey)"></span>
+		    			&nbsp;
+		    			<!-- <a (click)="on_delete_product(product.productkey)">
+		    				<i class="material-icons">delete</i>
+		    			</a> -->
+              <span class="uk-margin-small-right uk-icon" uk-icon="trash" uk-toggle="target: #modal-delete-product" (click)="on_delete_product(product.productkey)"></span>
+		    		</td>
+		  		</tr>
+		  	</tbody>
+		</table>
+
+
+  <br>
+
+  <!--Pagination-->
+<!--   <div class="ui item" style="color: white; background-color: #eee; float:right; border-radius: 5px;">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div> -->
+	</div>
+
+
+
+	<!--Modal for Editing an Product -->
+<!-- 	<lsu-modal [(ngModel)]="editProductModal_flag" [options]="modalOptions">
+  
+  		<div class="header">Edit Product</div>
+  
+  		<div class="description">
+    	<br> -->
+    	<!--Product Name-->
+<!--     		<form class="ui mini form">
+      			<div class="field" style="padding: 20px;">
+        			<label style="font-weight: bold; font-size: 15px;">Product Name</label>
+        			<br>
+        			<input type="text"  name="productname" placeholder="Product Name" [(ngModel)]="productname" required> 
+      			</div>
+   			</form> -->
+    	<!--Brand-->
+<!--     		<form class="ui mini form">
+      			<div class="field" style="padding: 20px;">
+        			<label style="font-weight: bold; font-size: 15px;">Brand</label>
+        			<br>
+        			<input type="text"  name="brand" placeholder="brand" [(ngModel)]="brands" required> 
+      			</div>
+   			</form>
+  		</div>
+
+  		<div class="actions">
+    		<button class="ui black deny button" (click)="cancelProductModal()">Cancel</button>
+    		<button class="ui positive right labeled icon button" [disabled]="productname==''" (click)="on_edit_product()">Save changes
+      			<i class="checkmark icon"></i>
+    		</button>
+  		</div>
+	</lsu-modal> -->
+
+
+  <div id="modal-edit-product" uk-modal>
+              <br>
+              <br>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Update Product</h2>
+                <form class="ui form">
+                  <div class="field">
+                    <label>Product Name</label>
+                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upcatname">
+                  </div>
+                </form>
+                <br>
+                <br>
+                <p class="uk-text-right">
+                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="editcategory(item, upcatname)">Save</button>
+                </p>
+              </div>
+            </div>
+
+ </div>
+	
+
+
+
+
+
+
