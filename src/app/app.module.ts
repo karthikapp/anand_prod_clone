@@ -11,7 +11,9 @@ import { CategoryProductComponent } from './category-product/category-product.co
 import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from '../environments/firebase.config'
-import { FirebaseserviceService } from '../app/firebaseservice.service'
+import { FirebaseserviceService } from '../app/firebaseservice.service';
+import { ProductSearchPipe } from './product-search.pipe';
+import { SortorderPipe } from './sortorder.pipe'
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { FirebaseserviceService } from '../app/firebaseservice.service'
     CategoryComponent,
     CustomerComponent,
     CreateCustomerComponent,
-    CategoryProductComponent
+    CategoryProductComponent,
+    ProductSearchPipe,
+    SortorderPipe
   ],
   imports: [
     BrowserModule,

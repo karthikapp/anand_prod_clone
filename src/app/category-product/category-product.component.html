@@ -3,7 +3,7 @@
 	<div id="" style="overflow-y: scroll;height: 100%;width:95%;">
   	<br>
   <!--Search button with expandable holder-->
-  <div appMzterialDesignLite style="float:right; color: white;height: 50px">
+  <div style="float:right; color: black;height: 50px">
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
       <label class="mdl-button mdl-js-button mdl-button--icon" for="site-search">
         <i class="material-icons" style="top: 10px">search</i>
@@ -14,8 +14,6 @@
       </div>
     </div>
   </div>
-
-
 
   <br>
   <br>
@@ -32,25 +30,20 @@
 		  	</thead>
 
 		  	<tbody>
-		  		<tr *ngFor="let product of products| paginate: { itemsPerPage: 10, currentPage: p }">
+		  		<tr *ngFor="let product of products| productSearch: querystring | sortorder | paginate: { itemsPerPage: 10, currentPage: p }">
 		    		<td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Product_name}}</td>
 		    		<td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Brand}}</td>
             <td class="mdl-data-table__cell--non-numeric" style="color:black" *ngIf="product.category != undefined">
-
-
               <ol class="ui list">
-
-  <li value="*">{{product.category.category}}
-    <ol>
-      <li value="-" *ngIf="product.category.subcategorylvl1 != ''">{{product.category.subcategorylvl1}}</li>
-      <li value="-" *ngIf="product.category.subcategorylvl2 != ''">{{product.category.subcategorylvl2}}</li>
-      <li value="-" *ngIf="product.category.subcategorylvl3 != ''">{{product.category.subcategorylvl3}}</li>
-      <li value="-" *ngIf="product.category.subcategorylvl4 != ''">{{product.category.subcategorylvl4}}</li>
-    </ol>
-  </li>
-</ol>
-
-
+                <li value="*" *ngIf="product.category.category != ''"><b>{{product.category.category}}</b>
+                  <ol>
+                    <li value="-" *ngIf="product.category.subcategorylvl1 != ''">{{product.category.subcategorylvl1}}</li>
+                    <li value="-" *ngIf="product.category.subcategorylvl2 != ''">{{product.category.subcategorylvl2}}</li>
+                    <li value="-" *ngIf="product.category.subcategorylvl3 != ''">{{product.category.subcategorylvl3}}</li>
+                    <li value="-" *ngIf="product.category.subcategorylvl4 != ''">{{product.category.subcategorylvl4}}</li>
+                  </ol>
+                </li>
+              </ol>
 		    		</td>
 
               <td class="mdl-data-table__cell--non-numeric"  *ngIf="product.category == undefined">
