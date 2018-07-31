@@ -14,10 +14,10 @@ export class CategoryProductComponent implements OnInit {
   Product_name: string;
   Brand: string;
   product_key: string;
-  items: any;
 
   product: object;
   productname: string;
+  brand: string
   brands: string
   productkey: string;
 
@@ -28,6 +28,21 @@ export class CategoryProductComponent implements OnInit {
   editProductModal_flag: boolean;
 
   querystring: string;
+
+  items: any;
+  item: any;
+  itemsub1: any;
+  itemsub2: any;
+  itemsub3: any;
+  itemsub4: any;
+
+  categoryname: any;
+  subcategoryname1: any;
+  subcategoryname2: any;
+  subcategoryname3: any;
+  subcategoryname4: any;
+
+
 
 
   //initializing p to one for pagination pipe
@@ -63,7 +78,19 @@ export class CategoryProductComponent implements OnInit {
   ngOnInit() 
   {
   	//List of Products
-  
+
+    this.item = [];
+    this.itemsub1 = [];
+    this.itemsub2 = [];
+    this.itemsub3 = [];
+    this.itemsub4 = [];
+
+    this.categoryname = '';
+    this.subcategoryname1 = '';
+    this.subcategoryname2 = '';
+    this.subcategoryname3 = '';
+    this.subcategoryname4 = '';
+
 this.firebaseservice.getProducts().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(products => {
@@ -79,77 +106,175 @@ this.firebaseservice.getProducts().snapshotChanges().map(changes => {
 
     }
 
-  //Add a new Product
-  on_add_product(){
-  	//console.log("add");
+    changesubcategory(value: any)
+    {
+      //console.log("vaue", value, this.items)
 
-    let product = { Product_name: this.Product_name,
-                	Brand: this.Brand,
-                	productkey: this.product_key,
-                	created_at: this.created_at
-            	}
-    this.firebaseservice.addProduct(product);
-    this.cancelProductModal();
-  }
+      console.log("event", value)
+      this.item = []
+       this.itemsub1 = [];
+        this.itemsub2 = [];
+        this.itemsub3 = [];
+        this.itemsub4 = [];
+
+        if(value == 'All'){
+          this.categoryname = ''
+          this.subcategoryname1 = ''
+          this.subcategoryname2 = ''
+          this.subcategoryname3 = ''
+          this.subcategoryname4 = ''
+          this.item = []
+        }
+        else
+{
+      this.item = this.items.filter( k => {return k.id === value})
+      console.log("itemssub", this.item)
+
+      this.categoryname = this.item[0].categoryname
+
+      console.log("categoryname", this.categoryname);
+
+      if (this.item[0].hassubcategory === true)
+      {
+      
+        this.itemsub1 = this.item[0].subcategory
+        console.log("itemsub1", this.itemsub1, this.itemsub1.length)
+      }
+    }
+
+    }
+
+    changesubcategory1(value: any){
+      console.log("event1", value )
+      this.itemsub2 = [];
+        this.itemsub3 = [];
+        this.itemsub4 = [];
+
+        if (value == 'All') {
+          this.subcategoryname1 = ''
+          this.subcategoryname2 = ''
+          this.subcategoryname3 = ''
+          this.subcategoryname4 = ''
+        }
+        else {
+      this.subcategoryname1 = this.item[0].subcategory[value].categoryname
+
+      console.log("sub", this.subcategoryname1)
+
+      if(this.item[0].subcategory[value].hassubcategory === true)
+      {
+       
+        this.itemsub2 = this.item[0].subcategory[value].subcategory
+        console.log("itemssub2", this.itemsub2, this.itemsub2.length)
+      }
+    }
+    }
+
+    changesubcategory2(value: any){
+      console.log("event1", value )
+
+        this.itemsub3 = [];
+        this.itemsub4 = [];
+
+         if (value == 'All') {
+          this.subcategoryname2 = ''
+          this.subcategoryname3 = ''
+          this.subcategoryname4 = ''
+        }
+        else{
+      this.subcategoryname2 = this.item[0].subcategory[value].subcategory[value].categoryname
+
+      console.log("sub", this.subcategoryname2)
+
+      if(this.item[0].subcategory[value].subcategory[value].hassubcategory === true)
+      {
+      
+        this.itemsub3 = this.item[0].subcategory[value].subcategory[value].subcategory
+        console.log("itemssub2", this.itemsub3)
+      }
+    }
+    }
+
+    changesubcategory3(value: any){
+      console.log("event1", value )
+
+        this.itemsub4 = [];
+         if (value == 'All') {
+
+          this.subcategoryname3 = ''
+          this.subcategoryname4 = ''
+        }
+        else{
+      this.subcategoryname3 = this.item[0].subcategory[value].subcategory[value].subcategory[value].categoryname
+
+      console.log("sub", this.subcategoryname3)
+
+      if(this.item[0].subcategory[value].subcategory[value].subcategory[value].hassubcategory === true)
+      {
+       
+        this.itemsub4 = this.item[0].subcategory[value].subcategory[value].subcategory[value].subcategory
+        console.log("itemssub2", this.itemsub4)
+      }
+    }
+    }
+
+    changesubcategory4(value: any){
+      console.log("event1", value )
+       if (value == 'All') {
+
+          this.subcategoryname4 = ''
+        }
+else{
+      this.subcategoryname4 = this.item[0].subcategory[value].subcategory[value].subcategory[value].subcategory[value].categoryname
+
+      console.log("sub", this.subcategoryname4)
+    }
+    }
+
+  
 
   //Update an Product
   on_edit_product(){
-    let productData = { Product_name: this.productname,
-                		Brand: this.brands,
-                		created_at: this.created_at
+    let category = {
+      category: this.categoryname,
+      subcategorylvl1: this.subcategoryname1,
+      subcategorylvl2: this.subcategoryname2,
+      subcategorylvl3: this.subcategoryname3,
+      subcategorylvl4: this.subcategoryname4
+    }
+
+
+    let productData = { 
+                    category: category
                     }
+
+
+                    console.log("productdate", productData)
     this.firebaseservice.saveProduct(this.productkey, productData)
-    this.cancelProductModal();
+
+    this.categoryname = '';
+    this.subcategoryname1 = '';
+    this.subcategoryname2 = '';
+    this.subcategoryname3 = '';
+    this.subcategoryname4 = '';
   }
 
-  //Delete an Product
-  on_delete_product(productkey:string){
-  	//console.log("delete");
-  	this.firebaseservice.deleteProduct(productkey);
+  editProduct(product: any){
+    console.log("p", product)
+    this.productname = product.Product_name
+    this.brand = product.Brand
+    this.productkey = product.key
+
+    if(product.category != undefined){
+    this.categoryname = product.category.category
+    this.subcategoryname1 = product.category.subcategorylvl1
+    this.subcategoryname2 = product.category.subcategorylvl2
+    this.subcategoryname3 = product.category.subcategorylvl3
+    this.subcategoryname4 = product.category.subcategorylvl4
   }
 
-//START MODALS
-  //Add Product Modal
-  addProductModal(): void {
-    this.Product_name = '';
-    this.Brand = '';
-    this.addProductModal_flag = true;
-  }
 
-  //Edit Product Modal
-  editProductsModal():void {
-    this.editProductModal_flag = true;
+    console.log("cat", this.categoryname, this.subcategoryname1)
   }
-
-  editProductModal(productkey: string){
-    //console.log(productkey);
-    // this.firebaseservice.getProduct(productkey).snapshotChanges()
-    // .subscribe(product => {
-    // this.productname = product.Product_name;
-    // this.brands = product.Brand;
-    // this.productkey = product.productkey})
-
-    this.editProductsModal();
-  }
-
-  //Cancel Product Modal
-  cancelProductModal(): void {
-    this.addProductModal_flag = false;
-    this.editProductModal_flag = false;
-  }
-
-  //Type & Size of the Modal
-  setType(type: string): void {
-    this.modalOptions.type = type;
-    this.addProductModal();
-    this.editProductsModal();    
-  }
-
-  setSize(size: string): void {
-    this.modalOptions.size = size;
-    this.addProductModal();
-    this.editProductsModal();
-  }
-//END MODALS
 
 }

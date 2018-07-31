@@ -1,60 +1,4 @@
 <div align="center">
-  
-
-	<!--Modal for adding a new Product-->
-
-<div id="modal-add-product" uk-modal>
-              <br>
-              <br>
-              <div class="uk-modal-dialog uk-modal-body">
-                <h2 class="uk-modal-title">Add Product</h2>
-                <form class="ui form">
-                  <div class="field">
-                    <label>Product Name</label>
-                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upcatname">
-                  </div>
-                </form>
-                <br>
-                <br>
-                <p class="uk-text-right">
-                  <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="editcategory(item, upcatname)">Save</button>
-                </p>
-              </div>
-            </div>
-
-<!-- 	<lsu-modal [(ngModel)]="addProductModal_flag" [options]="modalOptions" align="center">
-  
-  		<div class="header">Create Product</div>
-  
-  		<div class="description">
-    	<br> -->
-    	<!--Product Name-->
-<!--     		<form class="ui mini form">
-      			<div class="field" style="padding: 20px;">
-        			<label style="font-weight: bold; font-size: 15px;">Product Name</label>
-        			<br>
-        			<input type="text"  name="Product_name" placeholder="Product Name" [(ngModel)]="Product_name"> 
-      			</div>
-    		</form> -->
-    	<!--Brand-->
-<!--     	    <form class="ui mini form">
-      			<div class="field" style="padding: 20px;">
-        			<label style="font-weight: bold; font-size: 15px;">Brand</label>
-        			<br>
-        			<input type="text"  name="Brand" placeholder="Brand" [(ngModel)]="Brand"> 
-      			</div>
-    		</form>
-  		</div>
-
-
-  		<div class="actions">
-    		<button class="ui black deny button" (click)="cancelProductModal()">Cancel</button>
-    		<button class="ui positive right labeled icon button" [disabled]="Product_name==''" (click)="on_add_product()">Add
-      			<i class="checkmark icon"></i>
-    		</button>
-  		</div>
-	</lsu-modal> -->
 
 	<div id="" style="overflow-y: scroll;height: 100%;width:95%;">
   	<br>
@@ -71,10 +15,7 @@
     </div>
   </div>
 
-  <!--Add Product Button on top right corner-->
-  <div style="float:right;padding: 5px;font-family: 'Marvel', sans-serif;">
-      <button class="ui inverted button" (click)="addProductModal()" uk-toggle="target: #modal-add-product">Add Product</button>
-  </div>
+
 
   <br>
   <br>
@@ -85,7 +26,8 @@
 		  		<tr>
 		    		<th>Product Name</th>
 		    		<th>Brand</th>
-		    		<th>Actions</th>
+            <th>Category and its Sub Categories</th>
+		    		<th>Action</th>
 		  		</tr>
 		  	</thead>
 
@@ -93,17 +35,30 @@
 		  		<tr *ngFor="let product of products| paginate: { itemsPerPage: 10, currentPage: p }">
 		    		<td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Product_name}}</td>
 		    		<td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Brand}}</td>
-		    		<td>
-		    			<!-- <a (click)="editProductModal(product.productkey)">
-		    				<i class="material-icons">edit</i>
-		    			</a> -->
+            <td class="mdl-data-table__cell--non-numeric" style="color:black" *ngIf="product.category != undefined">
 
-              <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-edit-product" uk-icon="pencil" (click)="editProductModal(product.productkey)"></span>
-		    			&nbsp;
-		    			<!-- <a (click)="on_delete_product(product.productkey)">
-		    				<i class="material-icons">delete</i>
-		    			</a> -->
-              <span class="uk-margin-small-right uk-icon" uk-icon="trash" uk-toggle="target: #modal-delete-product" (click)="on_delete_product(product.productkey)"></span>
+
+              <ol class="ui list">
+
+  <li value="*">{{product.category.category}}
+    <ol>
+      <li value="-" *ngIf="product.category.subcategorylvl1 != ''">{{product.category.subcategorylvl1}}</li>
+      <li value="-" *ngIf="product.category.subcategorylvl2 != ''">{{product.category.subcategorylvl2}}</li>
+      <li value="-" *ngIf="product.category.subcategorylvl3 != ''">{{product.category.subcategorylvl3}}</li>
+      <li value="-" *ngIf="product.category.subcategorylvl4 != ''">{{product.category.subcategorylvl4}}</li>
+    </ol>
+  </li>
+</ol>
+
+
+		    		</td>
+
+              <td class="mdl-data-table__cell--non-numeric"  *ngIf="product.category == undefined">
+              </td>
+
+              <td>
+              <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-edit-product" uk-icon="pencil" (click)="editProduct(product)"></span>
+		    			
 		    		</td>
 		  		</tr>
 		  	</tbody>
@@ -123,37 +78,6 @@
 
 
 	<!--Modal for Editing an Product -->
-<!-- 	<lsu-modal [(ngModel)]="editProductModal_flag" [options]="modalOptions">
-  
-  		<div class="header">Edit Product</div>
-  
-  		<div class="description">
-    	<br> -->
-    	<!--Product Name-->
-<!--     		<form class="ui mini form">
-      			<div class="field" style="padding: 20px;">
-        			<label style="font-weight: bold; font-size: 15px;">Product Name</label>
-        			<br>
-        			<input type="text"  name="productname" placeholder="Product Name" [(ngModel)]="productname" required> 
-      			</div>
-   			</form> -->
-    	<!--Brand-->
-<!--     		<form class="ui mini form">
-      			<div class="field" style="padding: 20px;">
-        			<label style="font-weight: bold; font-size: 15px;">Brand</label>
-        			<br>
-        			<input type="text"  name="brand" placeholder="brand" [(ngModel)]="brands" required> 
-      			</div>
-   			</form>
-  		</div>
-
-  		<div class="actions">
-    		<button class="ui black deny button" (click)="cancelProductModal()">Cancel</button>
-    		<button class="ui positive right labeled icon button" [disabled]="productname==''" (click)="on_edit_product()">Save changes
-      			<i class="checkmark icon"></i>
-    		</button>
-  		</div>
-	</lsu-modal> -->
 
 
   <div id="modal-edit-product" uk-modal>
@@ -164,14 +88,65 @@
                 <form class="ui form">
                   <div class="field">
                     <label>Product Name</label>
-                    <input type="text" name="categoryname" placeholder="Category Name" [(ngModel)]="upcatname">
+                    <input type="text" name="productname" placeholder="Product Name" [(ngModel)]="productname" readonly>
                   </div>
+
+                  <div class="field">
+                    <label>Brand</label>
+                    <input type="text" name="brand" placeholder="Brand" [(ngModel)]="brand" readonly>
+                  </div>
+
+                  <div class="form-group column">
+              <label for="exampleFormControlSelect1">Category: </label>
+              {{categoryname}}
+              <select class="form-control" id="exampleFormControlSelect1" (change)="changesubcategory($event.target.value)" name="categoryname"> 
+                <option [value]="'All'"> </option>
+              <option *ngFor="let p of items" [value]="p.id">{{p.categoryname}}</option>
+              </select>
+            </div>
+
+            <div class="form-group column" *ngIf="itemsub1.length > 0 || subcategoryname1 != ''">
+              <label  for="exampleFormControlSelect2">Sub Category Lvl1: </label>
+              {{subcategoryname1}}
+              <select class="form-control" id="exampleFormControlSelect2" name="subcategoryname1" (change)="changesubcategory1($event.target.value)">
+                <option [value]="'All'"> </option>
+              <option *ngFor="let q of itemsub1; index as i" [value]="i">{{q.categoryname}}</option>
+              </select>
+            </div>
+
+            <div class="form-group column" *ngIf="itemsub2.length > 0 || subcategoryname2 != ''">
+              <label  for="exampleFormControlSelect3">Sub Category Lvl2: </label>
+              {{subcategoryname2}}
+              <select class="form-control" id="exampleFormControlSelect3" name="subcategoryname2" (change)="changesubcategory2($event.target.value)">
+                <option [value]="'All'"> </option>
+              <option *ngFor="let r of itemsub2; index as j" [value]="j">{{r.categoryname}}</option>
+              </select>
+            </div>
+
+            <div class="form-group column" *ngIf="itemsub3.length > 0 || subcategoryname3 != ''">
+              <label  for="exampleFormControlSelect4">Sub Category Lvl3: </label>
+              {{subcategoryname3}}
+              <select class="form-control" id="exampleFormControlSelect4" name="subcategoryname3"  (change)="changesubcategory3($event.target.value)">
+              <option [value]="'All'"></option>
+              <option *ngFor="let s of itemsub3; index as k" [value]="k">{{s.categoryname}}</option>
+              </select>
+            </div>
+
+            <div class="form-group column" *ngIf="itemsub4.length > 0 || subcategoryname4 != ''">
+              {{subcategoryname4}}
+              <label  for="exampleFormControlSelect5">Sub Category Lvl4: </label>
+              <select class="form-control" id="exampleFormControlSelect5" name="subcategoryname4"  (change)="changesubcategory4($event.target.value)">
+              <option [value]="'All'"></option>
+              <option *ngFor="let t of itemsub4; index as l" [value]="l">{{t.categoryname}}</option>
+              </select>
+            </div>
+
                 </form>
                 <br>
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="editcategory(item, upcatname)">Save</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="on_edit_product()">Save</button>
                 </p>
               </div>
             </div>

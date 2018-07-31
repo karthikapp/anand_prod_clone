@@ -158,36 +158,13 @@ export class FirebaseserviceService {
   }
 
   //Update Product information
-  saveProduct(product_key, productObject: {Product_name: string,
-    Brand: string,
-    created_at: Date}){
+  saveProduct(product_key, productObject: {category: object}){
     var productURL = '/products/' + product_key
     var productData = this.af.object(productURL).update(productObject);
 
     return productData;
   }
 
-  //Add a new Product information 
-  addProduct(productsObject: {Product_name: string,
-    Brand: string,
-    productkey: string,
-    created_at: Date}){
-
-    //Pushing Product data and setting Product id with the generated key
-    var productsData = this.af.list('/products').push(productsObject);
-    var productskey = productsData.key;
-    var products_URL = '/products/' + productskey; 
-    var products1 = this.af.object(products_URL).update({'productkey': productskey});
-
-    return products1;
-
-  }
-
-  //Delete an Product
-  deleteProduct(productkey: string){
-    var product_URL = "/products/" + productkey
-    this.af.list(product_URL).remove();
-  }
 //END PRODUCTS
 
 }
