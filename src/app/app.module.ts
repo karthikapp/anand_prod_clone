@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Routes, RouterModule , RouterLink, RouterLinkActive } from '@angular/router';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AppComponent } from './app.component';
@@ -13,8 +14,12 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from '../environments/firebase.config'
 import { FirebaseserviceService } from '../app/firebaseservice.service';
 import { ProductSearchPipe } from './product-search.pipe';
-import { SortorderPipe } from './sortorder.pipe'
+import { SortorderPipe } from './sortorder.pipe';
+import { CompanyinfoComponent } from './companyinfo/companyinfo.component'
 
+const appRoutes: Routes = [
+ {path: 'Companyinfo', component: CompanyinfoComponent}
+ ]
 
 @NgModule({
   declarations: [
@@ -24,18 +29,25 @@ import { SortorderPipe } from './sortorder.pipe'
     CreateCustomerComponent,
     CategoryProductComponent,
     ProductSearchPipe,
-    SortorderPipe
+    SortorderPipe,
+    CompanyinfoComponent
   ],
   imports: [
     BrowserModule,
     NgxPaginationModule,
     AngularFireModule.initializeApp(firebaseConfig),
      AngularFirestoreModule,
-     FormsModule
+     FormsModule,
+     RouterModule.forRoot(appRoutes
+     ,{ enableTracing: true } // <-- debugging purposes only 
+     )
 
   ],
   providers: [FirebaseserviceService,
   AngularFireDatabase],
   bootstrap: [AppComponent]
 })
+
+
+
 export class AppModule { }

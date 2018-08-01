@@ -1,6 +1,5 @@
 import { Component, OnInit} from '@angular/core';
 import { FirebaseserviceService } from '../firebaseservice.service';
-import { Observable } from 'rxjs';
 
 
 @Component({
@@ -76,13 +75,14 @@ export class CategoryProductComponent implements OnInit {
     this.itemsub3 = [];
     this.itemsub4 = [];
 
-    if(value == 'All'){
-      this.categoryname = ''
+          this.categoryname = ''
       this.subcategoryname1 = ''
       this.subcategoryname2 = ''
       this.subcategoryname3 = ''
       this.subcategoryname4 = ''
-      this.item = []
+
+    if(value == 'All'){
+      
     }
     else
     {
@@ -101,12 +101,13 @@ export class CategoryProductComponent implements OnInit {
     this.itemsub2 = [];
     this.itemsub3 = [];
     this.itemsub4 = [];
-
-    if (value == 'All') {
-      this.subcategoryname1 = ''
+    this.subcategoryname1 = ''
       this.subcategoryname2 = ''
       this.subcategoryname3 = ''
       this.subcategoryname4 = ''
+
+    if (value == 'All') {
+     //do nothing
     }
     else {
       this.subcategoryname1 = this.item[0].subcategory[value].categoryname
@@ -120,11 +121,12 @@ export class CategoryProductComponent implements OnInit {
   changesubcategory2(value: any){
     this.itemsub3 = [];
     this.itemsub4 = [];
-
-    if (value == 'All') {
       this.subcategoryname2 = ''
       this.subcategoryname3 = ''
       this.subcategoryname4 = ''
+
+    if (value == 'All') {
+      //do nothing
     }
     else{
       this.subcategoryname2 = this.item[0].subcategory[value].subcategory[value].categoryname
@@ -139,10 +141,11 @@ export class CategoryProductComponent implements OnInit {
   changesubcategory3(value: any){
 
     this.itemsub4 = [];
-    if (value == 'All') {
 
       this.subcategoryname3 = ''
       this.subcategoryname4 = ''
+    if (value == 'All') {
+      //do nothing
     }
     else{
       this.subcategoryname3 = this.item[0].subcategory[value].subcategory[value].subcategory[value].categoryname
@@ -155,9 +158,11 @@ export class CategoryProductComponent implements OnInit {
   }
 
   changesubcategory4(value: any){
+
+      this.subcategoryname4 = ''
     if (value == 'All') 
     {
-      this.subcategoryname4 = ''
+      //do nothing
     }
     else{
       this.subcategoryname4 = this.item[0].subcategory[value].subcategory[value].subcategory[value].subcategory[value].categoryname
