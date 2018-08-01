@@ -87,12 +87,6 @@ export class FirebaseserviceService {
   }
 
 
-
-
-
-
-
-
    addsubcategory(id, subcategorylist)
   {
     
@@ -116,7 +110,7 @@ export class FirebaseserviceService {
     deletecategory(categoryid)
   {
     const updatesubcatgoryRef = this.db.collection('category').doc(categoryid)
-     return updatesubcatgoryRef.delete()
+      return updatesubcatgoryRef.delete()
   }
 
   updatesubcategoryname(id,item)

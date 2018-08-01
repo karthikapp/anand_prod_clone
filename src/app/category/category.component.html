@@ -22,7 +22,7 @@
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="editcategory(item, upcatname)">Save</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="editcategory(upcatname)">Save</button>
                 </p>
               </div>
             </div>
@@ -40,7 +40,7 @@
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="deletecategory(item)">Confirm</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletecategory()">Confirm</button>
                 </p>
               </div>
             </div>
@@ -53,7 +53,7 @@
         <ul uk-accordion style="padding-left: 20px;">
           <li *ngFor="let subcat of item.subcategory; index as i"  >
             <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getlevel1subcategorylist(subcat.subcategory)" > ❯ &nbsp; {{subcat.categoryname | uppercase}}  
-              <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategory(i, subcat.categoryname)" uk-toggle="target: #modal-edit-subcat"></span> 
+              <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategory(item.id, i, subcat.categoryname)" uk-toggle="target: #modal-edit-subcat"></span> 
               <!-- This is the modal for Updating category -->
             <div id="modal-edit-subcat" uk-modal>
               <br>
@@ -70,13 +70,13 @@
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="editsubcategory(item, upcategoryname)">Save</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="editsubcategory(upcategoryname)">Save</button>
                 </p>
               </div>
               <!--This is the modal for Updating category -->
             </div>
             
-             <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsubcategory(i, subcat.categoryname)" uk-toggle="target: #modal-delete-subcat" ></span>
+             <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsubcategory(item.id, i, subcat.categoryname)" uk-toggle="target: #modal-delete-subcat" ></span>
              <!-- This is the modal for Deleting category -->
              <div id="modal-delete-subcat" uk-modal>
               <br>
@@ -88,7 +88,7 @@
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="deletesubcategory(item)">Confirm</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletesubcategory()">Confirm</button>
                 </p>
               </div>
             </div>
@@ -101,7 +101,7 @@
             <ul uk-accordion style="padding-left: 20px;">
               <li *ngFor="let subsubcat of subcat.subcategory; index as j">
                 <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getlevel2subcategorylist(subsubcat.subcategory)"> ❯ &nbsp; {{subsubcat.categoryname | uppercase}}
-                <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl1(i, j, subsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl1"></span> 
+                <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl1(item.id,i, j, subsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl1"></span> 
               <!-- This is the modal for updating category -->
             <div id="modal-edit-subcatlvl1" uk-modal>
               <br>
@@ -118,12 +118,12 @@
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl1(item, upcategorylvl1name)">Save</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl1( upcategorylvl1name)">Save</button>
                 </p>
               </div>
             </div>
             <!-- This is the modal for updating category -->
-             <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl1category(i , j, subsubcat.categoryname)" uk-toggle="target: #modal-delete-subcat1"></span>
+             <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl1category(item.id, i , j, subsubcat.categoryname)" uk-toggle="target: #modal-delete-subcat1"></span>
              <!-- This is the modal for Deleting category -->
              <div id="modal-delete-subcat1" uk-modal>
               <br>
@@ -135,7 +135,7 @@
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl1category(item)">Confirm</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl1category()">Confirm</button>
                 </p>
               </div>
             </div>
@@ -149,7 +149,7 @@
                   <ul uk-accordion style="padding-left: 20px;">
                     <li *ngFor="let subsubsubcat of subsubcat.subcategory; index as k"  >
                       <a class="uk-accordion-title" href="#" style="font-size: 10pt;" (click)="getlevel3subcategorylist(subsubsubcat.subcategory)" > ❯ &nbsp; {{subsubsubcat.categoryname | uppercase}}  
-                        <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl2(i, j, k, subsubsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl2"></span> 
+                        <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl2(item.id,i, j, k, subsubsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl2"></span> 
                         <!-- This is the modal for updating category -->
                       <div id="modal-edit-subcatlvl2" uk-modal>
                         <br>
@@ -166,12 +166,12 @@
                           <br>
                           <p class="uk-text-right">
                             <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                            <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl2(item, upcategorylvl2name)">Save</button>
+                            <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl2( upcategorylvl2name)">Save</button>
                           </p>
                         </div>
                       </div>
                       <!-- This is the modal for updating category -->
-                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl2category(i, j, k, subsubsubcat.categoryname)"  uk-toggle="target: #modal-delete-subcat2"></span>
+                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl2category(item.id, i, j, k, subsubsubcat.categoryname)"  uk-toggle="target: #modal-delete-subcat2"></span>
                         <!-- This is the modal for Deleting category -->
              <div id="modal-delete-subcat2" uk-modal>
               <br>
@@ -183,7 +183,7 @@
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl2category(item)">Confirm</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl2category()">Confirm</button>
                 </p>
               </div>
             </div>
@@ -198,7 +198,7 @@
                   <ul uk-accordion style="padding-left: 20px;">
                     <li *ngFor="let subsubsubsubcat of subsubsubcat.subcategory; index as l"  >
                       <a class="uk-accordion-title" href="#" style="font-size: 10pt;"  (click)="getlevel4subcategorylist(subsubsubcat.subcategory)"> ❯ &nbsp; {{subsubsubsubcat.categoryname | uppercase}}  
-                        <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl3(i, j, k, l, subsubsubsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl3"></span> 
+                        <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl3(item.id,i, j, k, l, subsubsubsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl3"></span> 
                         <!-- This is the modal for updating category -->
                       <div id="modal-edit-subcatlvl3" uk-modal>
                         <br>
@@ -215,12 +215,12 @@
                           <br>
                           <p class="uk-text-right">
                             <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                            <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl3(item, upcategorylvl3name)">Save</button>
+                            <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl3( upcategorylvl3name)">Save</button>
                           </p>
                         </div>
                       </div>
                       <!-- This is the modal for updating category -->
-                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl3category(i, j, k, l, subsubsubsubcat.categoryname)"  uk-toggle="target: #modal-delete-subcat3"></span>
+                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl3category(item.id, i, j, k, l, subsubsubsubcat.categoryname)"  uk-toggle="target: #modal-delete-subcat3"></span>
                         <!-- This is the modal for Deleting category -->
              <div id="modal-delete-subcat3" uk-modal>
               <br>
@@ -232,7 +232,7 @@
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl3category(item)">Confirm</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl3category()">Confirm</button>
                 </p>
               </div>
             </div>
@@ -245,7 +245,7 @@
                   <ul uk-accordion style="padding-left: 20px;">
                     <li *ngFor="let subsubsubsubsubcat of subsubsubsubcat.subcategory; index as m"  >
                       <a class="uk-accordion-title" href="#" style="font-size: 10pt;"  > ❯ &nbsp; {{subsubsubsubsubcat.categoryname | uppercase}}  
-                        <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl4(i, j, k, l, m, subsubsubsubsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl4"></span> 
+                        <span class="uk-margin-small-right uk-icon" uk-icon="pencil" (click)="updateSubCategorylvl4(item.id,i, j, k, l, m, subsubsubsubsubcat.categoryname)" uk-toggle="target: #modal-edit-subcatlvl4"></span> 
                         <!-- This is the modal for updating category -->
                       <div id="modal-edit-subcatlvl4" uk-modal>
                         <br>
@@ -262,12 +262,12 @@
                           <br>
                           <p class="uk-text-right">
                             <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                            <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl4(item, upcategorylvl4name)">Save</button>
+                            <button class="uk-button uk-button-primary" type="button" (click)="editsubcategorylvl4( upcategorylvl4name)">Save</button>
                           </p>
                         </div>
                       </div>
                       <!-- This is the modal for updating category -->
-                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl4category(i, j, k ,l ,m, subsubsubsubsubcat.categoryname)"  uk-toggle="target: #modal-delete-subcat4"></span>
+                       <span class="uk-margin-small-right uk-icon" uk-icon="trash" (click)="delsublvl4category(item.id, i, j, k ,l ,m, subsubsubsubsubcat.categoryname)"  uk-toggle="target: #modal-delete-subcat4"></span>
  <!-- This is the modal for Deleting category -->
              <div id="modal-delete-subcat4" uk-modal>
               <br>
@@ -279,7 +279,7 @@
                 <br>
                 <p class="uk-text-right">
                   <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl4category(item)">Confirm</button>
+                  <button class="uk-button uk-button-primary" type="button" (click)="deletesublvl4category()">Confirm</button>
                 </p>
               </div>
             </div>

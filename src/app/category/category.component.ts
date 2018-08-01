@@ -86,6 +86,7 @@ export class CategoryComponent implements OnInit {
 
   public itemcat: any;
   public UTCseconds: any;
+  public itemsub: any;
 
 
 	constructor(public db: FirebaseserviceService) 
@@ -104,31 +105,31 @@ export class CategoryComponent implements OnInit {
 
   }
 
-   addsublev1categoryshow(toggle)
+  addsublev1categoryshow(toggle)
   {
     this.addsubcatlev1toggle = !toggle
 
   }
 
-    addsublev2categoryshow(toggle)
+  addsublev2categoryshow(toggle)
   {
     this.addsubcatlev2toggle = !toggle
 
   }
 
-      addsublev3categoryshow(toggle)
+  addsublev3categoryshow(toggle)
   {
     this.addsubcatlev3toggle = !toggle
 
   }
 
-        addsublev4categoryshow(toggle)
+  addsublev4categoryshow(toggle)
   {
     this.addsubcatlev4toggle = !toggle
 
   }
 
-          addsublev5categoryshow(toggle)
+  addsublev5categoryshow(toggle)
   {
     this.addsubcatlev5toggle = !toggle
 
@@ -152,59 +153,44 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-
   getsubcategorylist(list)
   {
     this.subcategorylist = list
-    //console.log("sublist", this.subcategorylist)
-   
   }
-
 
   getlevel1subcategorylist(list)
   {
-    this.sublevel1categorylist = list
-    //console.log("sublevel1", this.sublevel1categorylist)
-    
+    this.sublevel1categorylist = list 
   }
 
-    getlevel2subcategorylist(list)
+  getlevel2subcategorylist(list)
   {
     this.sublevel2categorylist = list
-    //console.log("sublevel1", this.sublevel1categorylist)
-    
   }
 
-      getlevel3subcategorylist(list)
+  getlevel3subcategorylist(list)
   {
     this.sublevel3categorylist = list
-    //console.log("sublevel1", this.sublevel1categorylist)
-    
   }
 
-        getlevel4subcategorylist(list)
+  getlevel4subcategorylist(list)
   {
     this.sublevel4categorylist = list
-    //console.log("sublevel1", this.sublevel1categorylist)
-    
   }
 
 
-// for subcategory 
+  // for subcategory 
   togglesubcategoryfalse()
   {
     this.subcattogglevalue = false
   }
 
-    togglesubcategorytrue()
+  togglesubcategorytrue()
   {
     this.subcattogglevalue = true
   }
 
-
-
-
-// for subcatlev1
+  // for subcatlev1
   togglesubcatlevel1false()
   {
     this.subcatlev1togglevalue = false
@@ -215,8 +201,7 @@ export class CategoryComponent implements OnInit {
     this.subcatlev1togglevalue = true
   }
 
-
-// for subcatlev2
+  // for subcatlev2
   togglesubcatlevel2false()
   {
     this.subcatlev2togglevalue = false
@@ -227,8 +212,7 @@ export class CategoryComponent implements OnInit {
     this.subcatlev2togglevalue = true
   }
 
-
-// for subcatlev3
+  // for subcatlev3
   togglesubcatlevel3false()
   {
     this.subcatlev3togglevalue = false
@@ -250,21 +234,8 @@ export class CategoryComponent implements OnInit {
     this.subcatlev4togglevalue = true
   }
 
-  //   // for subcatlev5
-  // togglesubcatlevel5false()
-  // {
-  //   this.subcatlev5togglevalue = false
-  // }
-
-  //   togglesubcatleve5true()
-  // {
-  //   this.subcatlev5togglevalue = true
-  // }
-
   addsublev1category(id)
-  {
-
-    
+  {   
     var subcatlev1object = 
     {
       "categoryname" : this.subcatlev1egoryname,
@@ -275,9 +246,8 @@ export class CategoryComponent implements OnInit {
 
     }
 
-
     this.subcategorylist.push(subcatlev1object)
-    //console.log("sublvl",this.subcategorylist)
+
     this.db.addsubcategory(id, this.subcategorylist).then(success => 
     {
       alert(" Sub category added successfully !!");
@@ -290,8 +260,7 @@ export class CategoryComponent implements OnInit {
 
 
    addsublev2category(id,subid,item)
-  {
-    
+  {   
     var subcatlev2object = 
     {
       "categoryname" : this.subcatlev2egoryname,
@@ -304,8 +273,7 @@ export class CategoryComponent implements OnInit {
     this.item = item
     this.sublevel1categorylist.push(subcatlev2object)
     this.item.subcategory[subid].subcategory = this.sublevel1categorylist
-    //console.log("sublvl2", this.sublevel1categorylist, this.item.subcategory[subid].subcategory, id,item)
-
+ 
     this.db.addlevel1subcategory(id, item).then(success => 
     {
       alert(" Sub category added successfully !!");
@@ -314,11 +282,8 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-     addsublev3category(id,subid,subid1,item)
+  addsublev3category(id,subid,subid1,item)
   {
-
-    //console.log("this", this.subcatlev3egoryname)
-    
     var subcatlev3object = 
     {
       "categoryname" : this.subcatlev3egoryname,
@@ -331,9 +296,6 @@ export class CategoryComponent implements OnInit {
     this.item = item
     this.sublevel2categorylist.push(subcatlev3object)
     this.item.subcategory[subid].subcategory[subid1].subcategory = this.sublevel2categorylist
-   // console.log("sublvl2", this.sublevel2categorylist,  id,item)
-
-
 
     this.db.addlevel1subcategory(id, item).then(success => 
     {
@@ -343,11 +305,8 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-       addsublev4category(id,subid,subid1,subid2,item)
-  {
-
-   // console.log("this", this.subcatlev3egoryname)
-    
+  addsublev4category(id,subid,subid1,subid2,item)
+  { 
     var subcatlev4object = 
     {
       "categoryname" : this.subcatlev4egoryname,
@@ -360,9 +319,6 @@ export class CategoryComponent implements OnInit {
     this.item = item
     this.sublevel3categorylist.push(subcatlev4object)
     this.item.subcategory[subid].subcategory[subid1].subcategory[subid2].subcategory = this.sublevel3categorylist
-   // console.log("sublvl2", this.sublevel3categorylist,  id,item)
-
-
 
     this.db.addlevel1subcategory(id, item).then(success => 
     {
@@ -372,11 +328,8 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-         addsublev5category(id,subid,subid1,subid2,subid3,item)
-  {
-
-   // console.log("this", this.subcatlev3egoryname)
-    
+  addsublev5category(id,subid,subid1,subid2,subid3,item)
+  {    
     var subcatlev5object = 
     {
       "categoryname" : this.subcatlev5egoryname,
@@ -389,9 +342,6 @@ export class CategoryComponent implements OnInit {
     this.item = item
     this.sublevel4categorylist.push(subcatlev5object)
     this.item.subcategory[subid].subcategory[subid1].subcategory[subid2].subcategory[subid3].subcategory = this.sublevel4categorylist
-  //  console.log("sublvl2", this.sublevel4categorylist,  id,item)
-
-
 
     this.db.addlevel1subcategory(id, item).then(success => 
     {
@@ -401,289 +351,387 @@ export class CategoryComponent implements OnInit {
     })
   }
 
-
-
-  assignname(name)
-  {
-      
-  }
-
   // Updating category and sub categories 
 
   updateCategory(catid, oldcatname){
     this.catid = ''
     this.upcatname = ''
+    this.itemsub = {}
     this.upcatname = oldcatname
     this.catid = catid
 
+    this.itemsub = this.items.filter(i => {return i.id === catid})
+
   }
 
-  updateSubCategory(subcatid, oldsubcatname)
+  updateSubCategory(catid, subcatid, oldsubcatname)
   {
+    this.catid = ''
     this.subcatid = ''
     this.upcategoryname = ''
+    this.itemsub = {}
+    this.catid = catid
     this.subcatid = subcatid
     this.upcategoryname = oldsubcatname
+
+    this.itemsub = this.items.filter(i => {return i.id === catid})
   }
 
-  updateSubCategorylvl1(subcatid, subcatid1, oldsubcatname)
+  updateSubCategorylvl1(catid, subcatid, subcatid1, oldsubcatname)
   { 
+    this.catid = ''
     this.subcatid = ''
     this.subcatlvl1id = ''
     this.upcategorylvl1name = ''
+    this.itemsub = []
+    this.catid = catid
     this.subcatid = subcatid
     this.subcatlvl1id = subcatid1
     this.upcategorylvl1name = oldsubcatname
-    //this.itemcat = item
+
+    this.itemsub = this.items.filter(i => {return i.id === catid})
   }
 
-    updateSubCategorylvl2(subcatid, subcatid1, subcatid2, oldsubcatname)
+    updateSubCategorylvl2(catid, subcatid, subcatid1, subcatid2, oldsubcatname)
   { 
+    this.catid = ''
     this.subcatid = ''
     this.subcatlvl1id = ''
     this.subcatlvl2id = ''
     this.upcategorylvl2name = ''
+    this.itemsub = []
+    this.catid = catid
     this.subcatid = subcatid
     this.subcatlvl1id = subcatid1
     this.subcatlvl2id = subcatid2
     this.upcategorylvl2name = oldsubcatname
-    //this.itemcat = item
+
+    this.itemsub = this.items.filter(i => {return i.id === catid})
   }
 
-    updateSubCategorylvl3(subcatid, subcatid1, subcatid2, subcatid3, oldsubcatname)
+    updateSubCategorylvl3(catid, subcatid, subcatid1, subcatid2, subcatid3, oldsubcatname)
   { 
+    this.catid = ''
     this.subcatid = ''
     this.subcatlvl1id = ''
     this.subcatlvl2id = ''
     this.subcatlvl3id = ''
     this.upcategorylvl3name = ''
+    this.itemsub = []
+    this.catid = catid
     this.subcatid = subcatid
     this.subcatlvl1id = subcatid1
     this.subcatlvl2id = subcatid2
     this.subcatlvl3id = subcatid3
     this.upcategorylvl3name = oldsubcatname
-    //this.itemcat = item
+
+    this.itemsub = this.items.filter(i => {return i.id === catid})
   }
 
-      updateSubCategorylvl4(subcatid, subcatid1, subcatid2, subcatid3, subcatid4, oldsubcatname)
+      updateSubCategorylvl4(catid, subcatid, subcatid1, subcatid2, subcatid3, subcatid4, oldsubcatname)
   { 
+    this.catid = ''
     this.subcatid = ''
     this.subcatlvl1id = ''
     this.subcatlvl2id = ''
     this.subcatlvl3id = ''
     this.subcatlvl4id = ''
     this.upcategorylvl4name = ''
+    this.itemsub = []
+    this.catid = catid
     this.subcatid = subcatid
     this.subcatlvl1id = subcatid1
     this.subcatlvl2id = subcatid2
     this.subcatlvl3id = subcatid3
     this.subcatlvl4id = subcatid4
     this.upcategorylvl4name = oldsubcatname
-    //this.itemcat = item
+
+    this.itemsub = this.items.filter(i => {return i.id === catid})
   }
 
- 
 
-  editcategory(item, categoryname)
+
+  editcategory(categoryname)
   {
-    this.db.updatecategoryname(item.id,categoryname).then(success => {
+    this.db.updatecategoryname(this.itemsub[0].id,categoryname).then(success => {
       alert("Category name successfully modified !!")
-      //UIkit.modal("#modal-edit-cat").hide();
     })
   }
 
-    editsubcategory(item,categoryname)
+    editsubcategory(categoryname)
   {
     this.itemcat = []
-    this.itemcat = item
-    this.itemcat.subcategory[this.subcatid].categoryname = categoryname
-    this.itemcat.subcategory[this.subcatid].edittime = this.UTCseconds
+    this.itemcat = this.itemsub
+    this.itemcat[0].subcategory[this.subcatid].categoryname = categoryname
+    this.itemcat[0].subcategory[this.subcatid].edittime = this.UTCseconds
 
-    this.db.updatesubcategoryname(item.id, item).then(success => {
+    var arrayToObject = {}
+
+    arrayToObject = 
+       this.itemcat.reduce((obj, item) => {
+         obj = item
+         return obj
+       }, {})
+
+    this.db.updatesubcategoryname(this.itemsub[0].id, arrayToObject).then(success => {
        alert(" Sub category name succesfully modified !!");
-       //UIkit.modal("#modal-edit-subcat").hide();
        })
   }
 
-  editsubcategorylvl1(item,categoryname)
+  editsubcategorylvl1(categoryname)
   {
     this.itemcat = []
-    this.itemcat = item
-    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].categoryname = categoryname
-    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].edittime = this.UTCseconds
+    this.itemcat = this.itemsub
+    this.itemcat[0].subcategory[this.subcatid].subcategory[this.subcatlvl1id].categoryname = categoryname
+    this.itemcat[0].subcategory[this.subcatid].subcategory[this.subcatlvl1id].edittime = this.UTCseconds
 
-    this.db.updatesubcategoryname(item.id, item).then(success => {
+    var arrayToObject1 = {}
+
+    arrayToObject1 = 
+       this.itemcat.reduce((obj, item) => {
+         obj = item
+         return obj
+       }, {})
+
+    this.db.updatesubcategoryname(this.itemsub[0].id, arrayToObject1).then(success => {
        alert(" Sub category name succesfully modified !!");
-       //UIkit.modal('#modal-edit-subcatlvl1').hide();
      })
   }
 
-    editsubcategorylvl2(item,categoryname)
+    editsubcategorylvl2(categoryname)
   {
-    //  console.log("lvl2", item, categoryname)
     this.itemcat = []
-    this.itemcat = item
-    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].categoryname = categoryname
-    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].edittime = this.UTCseconds
+    this.itemcat = this.itemsub
+    this.itemcat[0].subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].categoryname = categoryname
+    this.itemcat[0].subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].edittime = this.UTCseconds
 
-    this.db.updatesubcategoryname(item.id, item).then(success => {
+     var arrayToObject2 = {}
+
+    arrayToObject2 = 
+       this.itemcat.reduce((obj, item) => {
+         obj = item
+         return obj
+       }, {})
+
+    this.db.updatesubcategoryname(this.itemsub[0].id, arrayToObject2).then(success => {
        alert(" Sub category name succesfully modified !!");
-       //UIkit.modal('#modal-edit-subcatlvl2').hide();
      })
   }
 
-    editsubcategorylvl3(item,categoryname)
+    editsubcategorylvl3(categoryname)
   {
-    //console.log("lvl3", item, categoryname)
     this.itemcat = []
-    this.itemcat = item
-    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].categoryname = categoryname
-    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].edittime = this.UTCseconds
+    this.itemcat = this.itemsub
+    this.itemcat[0].subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].categoryname = categoryname
+    this.itemcat[0].subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].edittime = this.UTCseconds
 
-    this.db.updatesubcategoryname(item.id, item).then(success => {
+     var arrayToObject3 = {}
+
+    arrayToObject3 = 
+       this.itemcat.reduce((obj, item) => {
+         obj = item
+         return obj
+       }, {})
+
+    this.db.updatesubcategoryname(this.itemsub[0].id, arrayToObject3).then(success => {
        alert(" Sub category name succesfully modified !!");
-       //UIkit.modal('#modal-edit-subcatlvl3').hide();
      })
   }
 
-      editsubcategorylvl4(item,categoryname)
+  editsubcategorylvl4(categoryname)
   {
-    console.log("lvl3", item, categoryname, this.subcatid,this.subcatlvl1id, this.subcatlvl2id, this.subcatlvl3id, this.subcatlvl4id)
     this.itemcat = []
-    this.itemcat = item
-    //console.log("hello", this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].subcategory[this.subcatlvl4id].categoryname)
-    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].subcategory[this.subcatlvl4id].categoryname = categoryname
-    this.itemcat.subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].subcategory[this.subcatlvl4id].edittime = this.UTCseconds
+    this.itemcat = this.itemsub
+    this.itemcat[0].subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].subcategory[this.subcatlvl4id].categoryname = categoryname
+    this.itemcat[0].subcategory[this.subcatid].subcategory[this.subcatlvl1id].subcategory[this.subcatlvl2id].subcategory[this.subcatlvl3id].subcategory[this.subcatlvl4id].edittime = this.UTCseconds
 
-    console.log(item)
-    this.db.updatesubcategoryname(item.id, item).then(success => {
+    var arrayToObject4 = {}
+
+    arrayToObject4 = 
+       this.itemcat.reduce((obj, item) => {
+         obj = item
+         return obj
+       }, {})
+
+    this.db.updatesubcategoryname(this.itemsub[0].id, arrayToObject4).then(success => {
        alert(" Sub category name succesfully modified !!");
-       //UIkit.modal('#modal-edit-subcatlvl4').hide();
      })
   }
 
   //Deleting Category and Sub Category
   delcategory(itemid, oldcategoryname)
   {
+    this.itemsub = []
     this.delitemid = ''
     this.delcatname = ''
     this.delitemid = itemid
     this.delcatname = oldcategoryname
+    this.itemsub = this.items.filter(i => {return i.id === itemid}) 
   }
 
-   delsubcategory(subcatid, oldcategoryname)
+   delsubcategory(itemid, subcatid, oldcategoryname)
   {
+    this.delitemid = ''
     this.delsubcatid = ''
     this.delsubcatname = ''
+    this.delitemid = itemid
     this.delsubcatid = subcatid
     this.delsubcatname = oldcategoryname
+
+    this.itemsub = []
+    this.itemsub = this.items.filter(i => {return i.id === itemid}) 
   }
 
-  delsublvl1category(subcatid, subcatid1, oldcategoryname)
+  delsublvl1category(itemid, subcatid, subcatid1, oldcategoryname)
   {
+    this.delitemid = ''
     this.delsubcatid = ''
     this.delsubcatlvl1id = ''
     this.delcategorylvl1name = ''
+    this.delitemid = itemid
     this.delsubcatid = subcatid
     this.delsubcatlvl1id = subcatid1
     this.delcategorylvl1name = oldcategoryname
+
+    this.itemsub = []
+    this.itemsub = this.items.filter(i => {return i.id === itemid}) 
   }
 
-  delsublvl2category(subcatid, subcatid1, subcatid2, oldcategoryname)
+  delsublvl2category(itemid, subcatid, subcatid1, subcatid2, oldcategoryname)
   {
+    this.delitemid = ''
     this.delsubcatid = ''
     this.delsubcatlvl1id = ''
     this.delsubcatlvl2id = ''
     this.delcategorylvl2name = ''
+    this.delitemid = itemid
     this.delsubcatid = subcatid
     this.delsubcatlvl1id = subcatid1
     this.delsubcatlvl2id = subcatid2
     this.delcategorylvl2name = oldcategoryname
+
+    this.itemsub = []
+    this.itemsub = this.items.filter(i => {return i.id === itemid}) 
   }
 
-  delsublvl3category(subcatid, subcatid1, subcatid2, subcatid3, oldcategoryname)
+  delsublvl3category(itemid, subcatid, subcatid1, subcatid2, subcatid3, oldcategoryname)
   {
+    this.delitemid = ''
     this.delsubcatid = ''
     this.delsubcatlvl1id = ''
     this.delsubcatlvl2id = ''
     this.delsubcatlvl3id = ''
     this.delcategorylvl3name = ''
+    this.delitemid = itemid
     this.delsubcatid = subcatid
     this.delsubcatlvl1id = subcatid1
     this.delsubcatlvl2id = subcatid2
     this.delsubcatlvl3id = subcatid3
     this.delcategorylvl3name = oldcategoryname
+
+    this.itemsub = []
+    this.itemsub = this.items.filter(i => {return i.id === itemid}) 
   }
 
-  delsublvl4category(subcatid, subcatid1, subcatid2, subcatid3, subcatid4, oldcategoryname)
+  delsublvl4category(itemid, subcatid, subcatid1, subcatid2, subcatid3, subcatid4, oldcategoryname)
   {
+    this.delitemid = ''
     this.delsubcatid = ''
     this.delsubcatlvl1id = ''
     this.delsubcatlvl2id = ''
     this.delsubcatlvl3id = ''
     this.delsubcatlvl4id = ''
     this.delcategorylvl4name = ''
+    this.delitemid = itemid
     this.delsubcatid = subcatid
     this.delsubcatlvl1id = subcatid1
     this.delsubcatlvl2id = subcatid2
     this.delsubcatlvl3id = subcatid3
     this.delsubcatlvl4id = subcatid4
     this.delcategorylvl4name = oldcategoryname
+
+    this.itemsub = []
+    this.itemsub = this.items.filter(i => {return i.id === itemid}) 
   }
 
-  deletecategory(item)
+  deletecategory()
   {
-    this.db.deletecategory(item.id)
+    this.db.deletecategory(this.itemsub[0].id)
   }
 
-    deletesubcategory(item)
+    deletesubcategory()
   {
-       this.itemcat = []
-    this.itemcat = item
-    this.itemcat.subcategory.splice(this.delsubcatid,1)
-    //console.log("1", item)
+    this.itemcat = []
+    this.itemcat = this.itemsub
+    this.itemcat[0].subcategory.splice(this.delsubcatid,1)
 
-    this.db.updatesubcategoryname(item.id, item).then(success => {
+    var arrayToObject5 = {}
+
+    arrayToObject5 = 
+       this.itemcat.reduce((obj, item) => {
+         obj = item
+         return obj
+       }, {})
+
+    this.db.updatesubcategoryname(this.itemsub[0].id, arrayToObject5).then(success => {
        alert(" Deleted subcategory succesfully !!");
-       //UIkit.modal('#modal-edit-subcat').hide();
      })
   }
 
-    deletesublvl1category(item)
+    deletesublvl1category()
   {
-       this.itemcat = []
-    this.itemcat = item
-    this.itemcat.subcategory[this.delsubcatid].subcategory.splice(this.delsubcatlvl1id,1)
-//console.log("2", item, this.itemcat.subcategory[subid].subcategory)
+    this.itemcat = []
+    this.itemcat = this.itemsub
+    this.itemcat[0].subcategory[this.delsubcatid].subcategory.splice(this.delsubcatlvl1id,1)
 
+    var arrayToObject6 = {}
 
-    this.db.updatesubcategoryname(item.id, item).then(success => {
+    arrayToObject6 = 
+       this.itemcat.reduce((obj, item) => {
+         obj = item
+         return obj
+       }, {})
+
+    this.db.updatesubcategoryname(this.itemsub[0].id, arrayToObject6).then(success => {
        alert(" Deleted subcategory succesfully !!");
-       //UIkit.modal('#modal-edit-subcat').hide();
      })
   }
 
     deletesublvl2category(item)
   {
-       this.itemcat = []
+    this.itemcat = []
     this.itemcat = item
-    this.itemcat.subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory.splice(this.delsubcatlvl2id,1)
-//console.log("3", item)
-    this.db.updatesubcategoryname(item.id, item).then(success => {
+    this.itemcat[0].subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory.splice(this.delsubcatlvl2id,1)
+
+    var arrayToObject7 = {}
+
+    arrayToObject7 = 
+       this.itemcat.reduce((obj, item) => {
+         obj = item
+         return obj
+       }, {})
+
+    this.db.updatesubcategoryname(this.itemsub[0].id, arrayToObject7).then(success => {
        alert(" Deleted subcategory succesfully !!");
-       //UIkit.modal('#modal-edit-subcat').hide();
      })
   }
 
     deletesublvl3category(item)
   {
-       this.itemcat = []
+    this.itemcat = []
     this.itemcat = item
-    this.itemcat.subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory[this.delsubcatlvl2id].subcategory.splice(this.delsubcatlvl3id,1)
-//console.log("4", item)
-    this.db.updatesubcategoryname(item.id, item).then(success => {
+    this.itemcat[0].subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory[this.delsubcatlvl2id].subcategory.splice(this.delsubcatlvl3id,1)
+
+    var arrayToObject8 = {}
+
+    arrayToObject8 = 
+       this.itemcat.reduce((obj, item) => {
+         obj = item
+         return obj
+       }, {})
+
+    this.db.updatesubcategoryname(this.itemsub[0].id, arrayToObject8).then(success => {
        alert(" Deleted subcategory succesfully !!");
-       //UIkit.modal('#modal-edit-subcat').hide();
      })
   }
 
@@ -692,11 +740,18 @@ export class CategoryComponent implements OnInit {
 
     this.itemcat = []
     this.itemcat = item
-    this.itemcat.subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory[this.delsubcatlvl2id].subcategory[this.delsubcatlvl3id].subcategory.splice(this.delsubcatlvl4id,1)
-//console.log("5", item)
-    this.db.updatesubcategoryname(item.id, item).then(success => {
+    this.itemcat[0].subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory[this.delsubcatlvl2id].subcategory[this.delsubcatlvl3id].subcategory.splice(this.delsubcatlvl4id,1)
+
+    var arrayToObject9 = {}
+
+    arrayToObject9 = 
+       this.itemcat.reduce((obj, item) => {
+         obj = item
+         return obj
+       }, {})
+
+    this.db.updatesubcategoryname(this.itemsub[0].id, arrayToObject9).then(success => {
        alert(" Deleted subcategory succesfully !!");
-       //UIkit.modal('#modal-edit-subcat').hide();
      })
   }
 

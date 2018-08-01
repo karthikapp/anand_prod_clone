@@ -29,8 +29,13 @@ export class CategoryProductComponent implements OnInit {
   subcategoryname3: any;
   subcategoryname4: any;
 
+  selected: boolean = true;
 
-
+  value: any;
+  value1: any;
+  value2: any;
+  value3: any;
+  value4: any;
 
   //initializing p to one for pagination pipe
   p: number = 1;
@@ -75,14 +80,16 @@ export class CategoryProductComponent implements OnInit {
     this.itemsub3 = [];
     this.itemsub4 = [];
 
-          this.categoryname = ''
-      this.subcategoryname1 = ''
-      this.subcategoryname2 = ''
-      this.subcategoryname3 = ''
-      this.subcategoryname4 = ''
+    this.categoryname = ''
+    this.subcategoryname1 = ''
+    this.subcategoryname2 = ''
+    this.subcategoryname3 = ''
+    this.subcategoryname4 = ''
+    this.value = ''
+    this.value = value;
 
     if(value == 'All'){
-      
+
     }
     else
     {
@@ -102,9 +109,11 @@ export class CategoryProductComponent implements OnInit {
     this.itemsub3 = [];
     this.itemsub4 = [];
     this.subcategoryname1 = ''
-      this.subcategoryname2 = ''
-      this.subcategoryname3 = ''
-      this.subcategoryname4 = ''
+    this.subcategoryname2 = ''
+    this.subcategoryname3 = ''
+    this.subcategoryname4 = ''
+    this.value1 = ''
+    this.value1 = value;
 
     if (value == 'All') {
      //do nothing
@@ -124,16 +133,18 @@ export class CategoryProductComponent implements OnInit {
       this.subcategoryname2 = ''
       this.subcategoryname3 = ''
       this.subcategoryname4 = ''
+      this.value2 = ''
+      this.value2 = value
 
     if (value == 'All') {
       //do nothing
     }
     else{
-      this.subcategoryname2 = this.item[0].subcategory[value].subcategory[value].categoryname
+      this.subcategoryname2 = this.item[0].subcategory[this.value1].subcategory[this.value2].categoryname
 
-      if(this.item[0].subcategory[value].subcategory[value].hassubcategory === true)
+      if(this.item[0].subcategory[this.value1].subcategory[this.value2].hassubcategory === true)
       {
-        this.itemsub3 = this.item[0].subcategory[value].subcategory[value].subcategory
+        this.itemsub3 = this.item[0].subcategory[this.value1].subcategory[this.value2].subcategory
       }
     }
   }
@@ -144,20 +155,26 @@ export class CategoryProductComponent implements OnInit {
 
       this.subcategoryname3 = ''
       this.subcategoryname4 = ''
+      this.value3 = ''
+      this.value3 = value
+
     if (value == 'All') {
       //do nothing
     }
     else{
-      this.subcategoryname3 = this.item[0].subcategory[value].subcategory[value].subcategory[value].categoryname
+      this.subcategoryname3 = this.item[0].subcategory[this.value1].subcategory[this.value2].subcategory[this.value3].categoryname
 
-      if(this.item[0].subcategory[value].subcategory[value].subcategory[value].hassubcategory === true)
+      if(this.item[0].subcategory[this.value1].subcategory[this.value2].subcategory[this.value3].hassubcategory === true)
       {
-        this.itemsub4 = this.item[0].subcategory[value].subcategory[value].subcategory[value].subcategory
+        this.itemsub4 = this.item[0].subcategory[this.value1].subcategory[this.value2].subcategory[this.value3].subcategory
       }
     }
   }
 
   changesubcategory4(value: any){
+
+    this.value4 = ''
+    this.value4 = value
 
       this.subcategoryname4 = ''
     if (value == 'All') 
@@ -165,7 +182,7 @@ export class CategoryProductComponent implements OnInit {
       //do nothing
     }
     else{
-      this.subcategoryname4 = this.item[0].subcategory[value].subcategory[value].subcategory[value].subcategory[value].categoryname
+      this.subcategoryname4 = this.item[0].subcategory[this.value1].subcategory[this.value2].subcategory[this.value3].subcategory[this.value4].categoryname
     }
   }
 
@@ -185,11 +202,18 @@ export class CategoryProductComponent implements OnInit {
 
     this.firebaseservice.saveProduct(this.productkey, productData).then(success => {
       alert("Updated Successfully!!")
+      this.item = [];
       this.categoryname = '';
       this.subcategoryname1 = '';
       this.subcategoryname2 = '';
       this.subcategoryname3 = '';
       this.subcategoryname4 = '';
+      this.selected = true;
+      this.value = ''
+      this.value1 = ''
+      this.value2 = ''
+      this.value3 = ''
+      this.value4 = ''
     })
   }
 
@@ -198,6 +222,17 @@ export class CategoryProductComponent implements OnInit {
     this.productname = product.Product_name
     this.brand = product.Brand
     this.productkey = product.key
+
+      this.item = [];
+      this.itemsub1 = [];
+      this.itemsub2 = [];
+      this.itemsub3 = [];
+      this.itemsub4 = [];
+      this.categoryname = '';
+      this.subcategoryname1 = '';
+      this.subcategoryname2 = '';
+      this.subcategoryname3 = '';
+      this.subcategoryname4 = '';
 
     if(product.category != undefined)
     {
