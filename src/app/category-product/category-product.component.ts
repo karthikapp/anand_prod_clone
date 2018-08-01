@@ -29,7 +29,7 @@ export class CategoryProductComponent implements OnInit {
   subcategoryname3: any;
   subcategoryname4: any;
 
-  selected: boolean = true;
+  selected: boolean = false;
 
   value: any;
   value1: any;
@@ -74,6 +74,7 @@ export class CategoryProductComponent implements OnInit {
 
   changesubcategory(value: any)
   {
+    //console.log("hu")
     this.item = []
     this.itemsub1 = [];
     this.itemsub2 = [];
@@ -202,18 +203,7 @@ export class CategoryProductComponent implements OnInit {
 
     this.firebaseservice.saveProduct(this.productkey, productData).then(success => {
       alert("Updated Successfully!!")
-      this.item = [];
-      this.categoryname = '';
-      this.subcategoryname1 = '';
-      this.subcategoryname2 = '';
-      this.subcategoryname3 = '';
-      this.subcategoryname4 = '';
       this.selected = true;
-      this.value = ''
-      this.value1 = ''
-      this.value2 = ''
-      this.value3 = ''
-      this.value4 = ''
     })
   }
 
@@ -222,6 +212,8 @@ export class CategoryProductComponent implements OnInit {
     this.productname = product.Product_name
     this.brand = product.Brand
     this.productkey = product.key
+
+    this.selected = false
 
       this.item = [];
       this.itemsub1 = [];
@@ -233,6 +225,11 @@ export class CategoryProductComponent implements OnInit {
       this.subcategoryname2 = '';
       this.subcategoryname3 = '';
       this.subcategoryname4 = '';
+      this.value = ''
+      this.value1 = ''
+      this.value2 = ''
+      this.value3 = ''
+      this.value4 = ''
 
     if(product.category != undefined)
     {
@@ -242,6 +239,11 @@ export class CategoryProductComponent implements OnInit {
       this.subcategoryname3 = product.category.subcategorylvl3
       this.subcategoryname4 = product.category.subcategorylvl4
     }
+  }
+
+  resetvalues()
+  {
+    this.selected = true
   }
 
 }

@@ -697,10 +697,10 @@ export class CategoryComponent implements OnInit {
      })
   }
 
-    deletesublvl2category(item)
+    deletesublvl2category()
   {
     this.itemcat = []
-    this.itemcat = item
+    this.itemcat = this.itemsub
     this.itemcat[0].subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory.splice(this.delsubcatlvl2id,1)
 
     var arrayToObject7 = {}
@@ -716,10 +716,10 @@ export class CategoryComponent implements OnInit {
      })
   }
 
-    deletesublvl3category(item)
+    deletesublvl3category()
   {
     this.itemcat = []
-    this.itemcat = item
+    this.itemcat = this.itemsub
     this.itemcat[0].subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory[this.delsubcatlvl2id].subcategory.splice(this.delsubcatlvl3id,1)
 
     var arrayToObject8 = {}
@@ -735,11 +735,11 @@ export class CategoryComponent implements OnInit {
      })
   }
 
-    deletesublvl4category(item)
+    deletesublvl4category()
   {
 
     this.itemcat = []
-    this.itemcat = item
+    this.itemcat = this.itemsub
     this.itemcat[0].subcategory[this.delsubcatid].subcategory[this.delsubcatlvl1id].subcategory[this.delsubcatlvl2id].subcategory[this.delsubcatlvl3id].subcategory.splice(this.delsubcatlvl4id,1)
 
     var arrayToObject9 = {}
