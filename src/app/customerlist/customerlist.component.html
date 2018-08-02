@@ -2,14 +2,14 @@
   <div id="" style="overflow-y: scroll;height: 100vh; width:100%;">
     
     <!--Search button with expandable holder-->
-    <div  style="float:right; color: white; height:50px">
+    <div  appMzterialDesignLite style="float:right; color: black; height:50px">
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-        <label class="mdl-button mdl-js-button mdl-button--icon" for="site-search">
+        <label class="mdl-button mdl-js-button mdl-button--icon" for="site-search1">
           <i class="material-icons" style="top: 10px;">search</i>
         </label>
         <div class="mdl-textfield__expandable-holder">
-          <input class="mdl-textfield__input" type="search" id="site-search" name="site-search" placeholder="Company Name" [(ngModel)] ="querystring" />
-          <label class="mdl-textfield__label" for="site-search">Search</label>
+          <input class="mdl-textfield__input" type="search" id="site-search1" name="site-search1" placeholder="Company Name" [(ngModel)] ="querystring" />
+          <label class="mdl-textfield__label" for="site-search1">Search</label>
         </div>
       </div>
     </div>
@@ -23,11 +23,11 @@
     
     <div class="ui stackable two column grid" style="height:70vh">
       <div class="wide-card mdl-card mdl-shadow--2dp item-wr mdl-card--expand"
-      *ngFor="let acct of accounts | sortorder | paginate: { itemsPerPage: 4, currentPage: p }">
+      *ngFor="let acct of accounts | productSearch: querystring: 'accounts' |sortorder | paginate: { itemsPerPage: 4, currentPage: p }">
 
         <!--Company Name-->
         <div class="mdl-card__title">
-          <a style="padding-left: 0px;font-family: 'Marvel', sans-serif; text-transform: capitalize;color: #673AB7 ;font-size:1.8vw;font-weight: bold;" [routerLink]="['/Companyinfo', acct.companyid]"
+          <a style="padding-left: 0px;font-family: 'Marvel', sans-serif; text-transform: capitalize;color: #673AB7 ;font-size:1.8vw;font-weight: bold;" [routerLink]="['/companyinfo', acct.companyid]"
              >
             {{acct.companyname}}
           </a>

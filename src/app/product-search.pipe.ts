@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ProductSearchPipe implements PipeTransform {
 
-  transform(value: any, input:any, args?: any): any {
+  transform(value: any, input:any,division: any, args?: any): any {
 
     //When Input == search String is NULL or UNDEFINED, 
     //return ALL the accounts / oems/ events/ products/ distributors values
@@ -20,11 +20,15 @@ export class ProductSearchPipe implements PipeTransform {
     }
 
     //Filtering the records based on value(ALL records) and input(search String)
-     if ((value != null || value != undefined)){
+     if ((value != null || value != undefined) && division == 'products'){
       return value.filter( values => {
        return values.Product_name.toLowerCase().indexOf(input.toLowerCase()) > -1;
       })
-    } 
+    } else if ((value != null || value != undefined) && division == 'accounts'){
+      return value.filter( values => {
+       return values.companyname.toLowerCase().indexOf(input.toLowerCase()) > -1;
+      })
+    }
     
 
 

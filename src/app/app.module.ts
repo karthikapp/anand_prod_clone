@@ -7,7 +7,6 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AppComponent } from './app.component';
 import { CategoryComponent } from './category/category.component';
 import { CustomerComponent } from './customer/customer.component';
-import { CreateCustomerComponent } from './create-customer/create-customer.component';
 import { CategoryProductComponent } from './category-product/category-product.component'
 import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -15,12 +14,13 @@ import { firebaseConfig } from '../environments/firebase.config'
 import { FirebaseserviceService } from '../app/firebaseservice.service';
 import { ProductSearchPipe } from './product-search.pipe';
 import { SortorderPipe } from './sortorder.pipe';
-import { CompanyinfoComponent } from './companyinfo/companyinfo.component';
-import { HomeComponent } from './home/home.component'
+import { HomeComponent } from './home/home.component';
+import { CustomerlistComponent } from './customerlist/customerlist.component';
+import { MzterialDesignLiteDirective } from './mzterial-design-lite.directive'
 
 const appRoutes: Routes = [
 { path: '', component: HomeComponent},
-{ path: 'companyinfo', component: CompanyinfoComponent}
+{ path: 'companyinfo/:companyid', component: CustomerComponent}
 
 ]
 
@@ -29,12 +29,12 @@ const appRoutes: Routes = [
     AppComponent,
     CategoryComponent,
     CustomerComponent,
-    CreateCustomerComponent,
     CategoryProductComponent,
     ProductSearchPipe,
     SortorderPipe,
-    CompanyinfoComponent,
-    HomeComponent
+    HomeComponent,
+    CustomerlistComponent,
+    MzterialDesignLiteDirective
   ],
   imports: [
     BrowserModule,
