@@ -20,6 +20,8 @@ export class CompanyinfoComponent implements OnInit {
 
   constructor(private firebaseservice : FirebaseserviceService) {
 
+    console.log("from companies info")
+
   }
 
   ngOnInit() 

@@ -15,13 +15,14 @@ import { firebaseConfig } from '../environments/firebase.config'
 import { FirebaseserviceService } from '../app/firebaseservice.service';
 import { ProductSearchPipe } from './product-search.pipe';
 import { SortorderPipe } from './sortorder.pipe';
-import { CompanyinfoComponent } from './companyinfo/companyinfo.component'
+import { CompanyinfoComponent } from './companyinfo/companyinfo.component';
+import { HomeComponent } from './home/home.component'
 
 const appRoutes: Routes = [
-{ path: '', redirectTo: '', pathMatch: 'full' },
-  {path: '', component: CompanyinfoComponent},
- {path: 'Companyinfo/:companyid', component: CustomerComponent}
- ]
+{ path: '', component: HomeComponent},
+{ path: 'companyinfo', component: CompanyinfoComponent}
+
+]
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ const appRoutes: Routes = [
     CategoryProductComponent,
     ProductSearchPipe,
     SortorderPipe,
-    CompanyinfoComponent
+    CompanyinfoComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -40,9 +42,7 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(firebaseConfig),
      AngularFirestoreModule,
      FormsModule,
-     RouterModule.forRoot(appRoutes
-     ,{ enableTracing: true } // <-- debugging purposes only 
-     )
+     RouterModule.forRoot(appRoutes)
 
   ],
   providers: [FirebaseserviceService,

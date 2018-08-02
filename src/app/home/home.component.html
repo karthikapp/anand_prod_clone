@@ -1,0 +1,27 @@
+<!-- No header, and the drawer stays open on larger screens (fixed drawer). -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer" style="">
+  <div class="mdl-layout__drawer" style="background-image: linear-gradient(to top, #09203f 0%, #537895 100%);">
+    <br>
+    <br>
+    <div style="text-align: center;color: white; font-size: 50px;">   
+   <!--   <i class="fas fa-chart-pie">
+   </i> -->
+   <img src="https://image.flaticon.com/icons/svg/235/235183.svg" style="height: 70px;">
+ </div>
+ <span class="mdl-layout-title" style="font-family: 'Nunito', sans-serif;color: white;">Raksha Analytics</span>
+ <nav class="mdl-navigation" >
+ 
+  <a class="mdl-navigation__link"  style="font-family: 'Nunito', sans-serif;color: white;" (click)="toggle()">Product Master Update</a>
+  <a class="mdl-navigation__link"  style="font-family: 'Nunito', sans-serif;color: white;" (click)="togglechats()">Customer 360</a>
+  <a class="mdl-navigation__link"  style="font-family: 'Nunito', sans-serif;color: white;" (click)="togglechatscreate()">Product Category</a>
+
+</nav>
+</div>
+<main class="mdl-layout__content">
+  <div class="page-content" style="margin: 10px;padding-top: 100px;">
+   <app-category [hidden]="!isActive"></app-category>
+   <app-companyinfo [hidden]="!isActive_chats"></app-companyinfo>
+   <app-category-product [hidden]="!isActive_create"></app-category-product> 
+</div>
+</main>
+</div>
