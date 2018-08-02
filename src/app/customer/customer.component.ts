@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+//import { FirebaseserviceService } from '../firebaseservice.service';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-customer',
@@ -8,13 +11,17 @@ import { Component, OnInit } from '@angular/core';
 export class CustomerComponent implements OnInit {
 		public isActive: Boolean
 	public isActive_chats: Boolean
-  constructor() 
+  company_id: any;
+
+  constructor(private router: ActivatedRoute) 
   {
   this.isActive = true;
   this.isActive_chats = false;
   }
 
   ngOnInit() {
+    //Display the company detail based on company id on respective fields
+    this.company_id = this.router.snapshot.params['companyid'];
   }
 
 

@@ -159,6 +159,11 @@ export class FirebaseserviceService {
     return productData;
   }
 
+
+  getAccounts()
+  {
+    return this.af.list('/accounts', ref => ref.orderByChild('created_at'));
+  }
 //END PRODUCTS
 
 }

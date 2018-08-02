@@ -18,7 +18,9 @@ import { SortorderPipe } from './sortorder.pipe';
 import { CompanyinfoComponent } from './companyinfo/companyinfo.component'
 
 const appRoutes: Routes = [
- {path: 'Companyinfo', component: CompanyinfoComponent}
+{ path: '', redirectTo: '', pathMatch: 'full' },
+  {path: '', component: CompanyinfoComponent},
+ {path: 'Companyinfo/:companyid', component: CustomerComponent}
  ]
 
 @NgModule({
