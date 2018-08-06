@@ -36,6 +36,8 @@ export class CategoryComponent implements OnInit {
   public subcategoryname?: string;
   public subcathassubcategory?: boolean;
 
+  public boptogglevalue?: boolean;
+
   public subcategorylist : any[];
   public subcatlev1egoryname: any;
   public subcatlev1togglevalue: boolean;
@@ -141,6 +143,7 @@ export class CategoryComponent implements OnInit {
   	{
       "categoryname" : this.categoryname,
       "hassubcategory" : this.subcattogglevalue,
+      "bundleofproducts": this.boptogglevalue,
       "createtime": this.datetime,
       "edittime" : this.datetime,
       "subcategory": []
@@ -178,6 +181,16 @@ export class CategoryComponent implements OnInit {
     this.sublevel4categorylist = list
   }
 
+  //for bundle of products
+  toggleboptrue()
+  {
+    this.boptogglevalue = true
+  }
+
+  togglebopfalse()
+  {
+    this.boptogglevalue = false
+  }
 
   // for subcategory 
   togglesubcategoryfalse()
@@ -777,6 +790,8 @@ export class CategoryComponent implements OnInit {
     this.subcatlev3togglevalue = true;
         this.subcatlev4togglevalue = true;
          this.subcatlev5togglevalue = false;
+
+         this.boptogglevalue = true;
 
 
   }

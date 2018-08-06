@@ -509,6 +509,15 @@
         </div>
       </fieldset>
     </form>
+    <form>
+      <fieldset class="uk-fieldset">
+        <label>Includes Bundle of Products ? </label>
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" >
+          <label><input class="uk-radio" type="radio" name="radio2" checked (click)="toggleboptrue()"> Yes</label>
+          <label><input class="uk-radio" type="radio" name="radio2" (click)="togglebopfalse()"> No </label>
+        </div>
+      </fieldset>
+    </form>
     <!-- Accent-colored raised button with ripple -->
     <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" (click)="addcategoryobject()">
       Add Category

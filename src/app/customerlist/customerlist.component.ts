@@ -15,7 +15,7 @@ export class CustomerlistComponent implements OnInit {
   val: any;
 
   //initializing p to one for pagination pipe
-  p: number = 1;
+  q: number = 1;
 
 
   constructor(private firebaseservice : FirebaseserviceService) {
