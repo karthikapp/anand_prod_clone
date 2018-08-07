@@ -16,3 +16,16 @@ td{
 .main{
 	padding:5px 30px 10px 30px;
 }
+
+.example-chip-list {
+  width: 100%;
+}
+
+/*::ng-deep .cdk-overlay-container, .cdk-overlay-wrapper, .cdk-overlay-pane, .cdk-overlay-backdrop {
+    z-index: 9999 !important;
+}*/
+
+
+#example-chip-list .cdk-overlay-container {
+	position: inherit;
+}

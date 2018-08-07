@@ -1,156 +1,206 @@
 <div class ="main">
 
 	<div id="" style="overflow-y: scroll;height: 100vh; width:100%;">
-  <!--Search button with expandable holder-->
-  <div appMzterialDesignLite style="float:right; color: black;height: 50px">
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-      <label class="mdl-button mdl-js-button mdl-button--icon" for="site-search">
-        <i class="material-icons" style="top: 10px">search</i>
-      </label>
-      <div class="mdl-textfield__expandable-holder">
-        <input class="mdl-textfield__input" type="search" id="site-search" name="site-search" placeholder ="Product Name" [(ngModel)] ="querystring" />
-        <label class="mdl-textfield__label" for="site-search">Search</label>
+    <!--Search button with expandable holder-->
+    <div appMzterialDesignLite style="float:right; color: black;height: 50px">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+        <label class="mdl-button mdl-js-button mdl-button--icon" for="site-search">
+          <i class="material-icons" style="top: 10px">search</i>
+        </label>
+        <div class="mdl-textfield__expandable-holder">
+          <input class="mdl-textfield__input" type="search" id="site-search" name="site-search" placeholder ="Product Name" [(ngModel)] ="querystring" />
+          <label class="mdl-textfield__label" for="site-search">Search</label>
+        </div>
       </div>
     </div>
-  </div>
 
-  <br>
-  <br>
-  <br>
-  <br>
-  
+    <br>
+    <br>
+    <br>
+    <br>
+    
 		<!--List Product in a table with fields product name, brand and actions (Edit/ Delete)-->
 		<table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp" style="width: 95%;background-color: white;height:50vh">
-		  	<thead>
-		  		<tr>
-		    		<th>Product Name</th>
-		    		<th>Brand</th>
-            <th>Category and its Sub Categories</th>
-		    		<th>Action</th>
-		  		</tr>
-		  	</thead>
+       <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Brand</th>
+          <th>Category and its Sub Categories</th>
+          <th>Action</th>
+        </tr>
+      </thead>
 
-		  	<tbody>
-		  		<tr *ngFor="let product of products| productSearch: querystring: 'products' | sortorder | paginate: { itemsPerPage: 10, currentPage: p }">
-		    		<td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Product_name}}</td>
-		    		<td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Brand}}</td>
-            <td class="mdl-data-table__cell--non-numeric" style="color:black" *ngIf="product.category != undefined">
-              <ol class="ui list">
-                <li value="*" *ngIf="product.category.category != ''"><b>{{product.category.category}}</b>
-                  <ol>
-                    <li value="-" *ngIf="product.category.subcategorylvl1 != ''">{{product.category.subcategorylvl1}}</li>
-                    <li value="-" *ngIf="product.category.subcategorylvl2 != ''">{{product.category.subcategorylvl2}}</li>
-                    <li value="-" *ngIf="product.category.subcategorylvl3 != ''">{{product.category.subcategorylvl3}}</li>
-                    <li value="-" *ngIf="product.category.subcategorylvl4 != ''">{{product.category.subcategorylvl4}}</li>
-                  </ol>
-                </li>
-              </ol>
-		    		</td>
+      <tbody>
+        <tr *ngFor="let product of products| productSearch: querystring: 'products' | sortorder | paginate: { itemsPerPage: 10, currentPage: p }">
+          <td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Product_name}}</td>
+          <td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Brand}}</td>
+          <td class="mdl-data-table__cell--non-numeric" style="color:black" *ngIf="product.category != undefined">
+            <ol class="ui list">
+              <li value="*" *ngIf="product.category.category != ''"><b>{{product.category.category}}</b>
+                <ol>
+                  <li value="-" *ngIf="product.category.subcategorylvl1 != ''">{{product.category.subcategorylvl1}}</li>
+                  <li value="-" *ngIf="product.category.subcategorylvl2 != ''">{{product.category.subcategorylvl2}}</li>
+                  <li value="-" *ngIf="product.category.subcategorylvl3 != ''">{{product.category.subcategorylvl3}}</li>
+                  <li value="-" *ngIf="product.category.subcategorylvl4 != ''">{{product.category.subcategorylvl4}}</li>
+                </ol>
+              </li>
+            </ol>
+          </td>
 
-              <td class="mdl-data-table__cell--non-numeric"  *ngIf="product.category == undefined">
-              </td>
+          <td class="mdl-data-table__cell--non-numeric"  *ngIf="product.category == undefined">
+          </td>
 
-              <td>
-              <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-edit-product" uk-icon="pencil" (click)="editProduct(product)"></span>
-		    			
-		    		</td>
-		  		</tr>
-		  	</tbody>
+          <td>
+            <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-edit-product" uk-icon="pencil" (click)="editProduct(product)"></span> 
+          </td>
+        </tr>
+      </tbody>
 		</table>
+    <br>
 
-
-  <br>
-
-   <pagination-controls (pageChange)="p = $event"></pagination-controls>
-
-  <!--Pagination-->
-<!--   <div class="ui item" style="color: white; background-color: #eee; float:right; border-radius: 5px;">
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
-  </div> -->
 	</div>
-
-
-
-	<!--Modal for Editing an Product -->
-
-
-  <div id="modal-edit-product" uk-modal>
-              <br>
-              <br>
-              <div class="uk-modal-dialog uk-modal-body">
-                <h2 class="uk-modal-title">Update Product</h2>
-                <form class="ui form">
-                  <div class="field">
-                    <label>Product Name</label>
-                    <input type="text" name="productname" placeholder="Product Name" [(ngModel)]="productname" readonly>
-                  </div>
-
-                  <div class="field">
-                    <label>Brand</label>
-                    <input type="text" name="brand" placeholder="Brand" [(ngModel)]="brand" readonly>
-                  </div>
-
-                  <div class="form-group column" >
-              <label for="exampleFormControlSelect1">Category: </label>
-              {{categoryname}} 
-              <select class="form-control" id="exampleFormControlSelect1" (input)="changesubcategory($event.target.value)" name="categoryname"> 
-                <option [value]="'All'" [selected]="selected">Select an option </option>
-                <option [value]="'All'">No Category</option>
-                <option *ngFor="let p of items" [value]="p.id">{{p.categoryname}}</option>
-              </select>
-            </div>
-
-            <div class="form-group column" *ngIf="itemsub1.length > 0 || subcategoryname1 != ''">
-              <label  for="exampleFormControlSelect2">Sub Category Lvl1: </label>
-              {{subcategoryname1}}
-              <select class="form-control" id="exampleFormControlSelect2" name="subcategoryname1" (change)="changesubcategory1($event.target.value)">
-                <option [value]="'All'" [selected]="selected">Select an option </option>
-                <option [value]="'All'">No Sub Category</option>
-              <option *ngFor="let q of itemsub1; index as i" [value]="i">{{q.categoryname}}</option>
-              </select>
-            </div>
-
-            <div class="form-group column" *ngIf="itemsub2.length > 0 || subcategoryname2 != ''">
-              <label  for="exampleFormControlSelect3">Sub Category Lvl2: </label>
-              {{subcategoryname2}}
-              <select class="form-control" id="exampleFormControlSelect3" name="subcategoryname2" (change)="changesubcategory2($event.target.value)">
-                <option [value]="'All'" [selected]="selected" >Select an option </option>
-                <option [value]="'All'">No Sub Category</option>
-              <option *ngFor="let r of itemsub2; index as j" [value]="j">{{r.categoryname}}</option>
-              </select>
-            </div>
-
-            <div class="form-group column" *ngIf="itemsub3.length > 0 || subcategoryname3 != ''">
-              <label  for="exampleFormControlSelect4">Sub Category Lvl3: </label>
-              {{subcategoryname3}}
-              <select class="form-control" id="exampleFormControlSelect4" name="subcategoryname3"  (change)="changesubcategory3($event.target.value)">
-              <option [value]="'All'" [selected]="selected">Select an option</option>
-              <option [value]="'All'">No Sub Category</option>
-              <option *ngFor="let s of itemsub3; index as k" [value]="k">{{s.categoryname}}</option>
-              </select>
-            </div>
-
-            <div class="form-group column" *ngIf="itemsub4.length > 0 || subcategoryname4 != ''">
-              {{subcategoryname4}}
-              <label  for="exampleFormControlSelect5">Sub Category Lvl4: </label>
-              <select class="form-control" id="exampleFormControlSelect5" name="subcategoryname4"  (change)="changesubcategory4($event.target.value)">
-              <option [value]="'All'" [selected]="selected">Select an option</option>
-              <option [value]="'All'">No Sub Category</option>
-              <option *ngFor="let t of itemsub4; index as l" [value]="l">{{t.categoryname}}</option>
-              </select>
-            </div>
-
-                </form>
-                <br>
-                <br>
-                <p class="uk-text-right">
-                  <button class="uk-button uk-button-default uk-modal-close" type="button" (click)="resetvalues()">Cancel</button>
-                  <button class="uk-button uk-button-primary" type="button" (click)="on_edit_product()">Save</button>
-                </p>
-              </div>
-            </div>
-
  </div>
+
+<!--Modal for Editing an Product -->
+
+<div id="modal-edit-product" uk-modal>
+  <br>
+  <br>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h2 class="uk-modal-title">Update Product</h2>
+    <form class="ui form">
+      <div class="field">
+        <label>Product Name</label>
+        <input type="text" name="productname" placeholder="Product Name" [(ngModel)]="productname" readonly>
+      </div>
+
+      <div class="field">
+        <label>Brand</label>
+        <input type="text" name="brand" placeholder="Brand" [(ngModel)]="brand" readonly>
+      </div>
+
+      <div class="form-group column" >
+        <label for="exampleFormControlSelect1">Category: </label>
+        {{categoryname}} 
+        <select class="form-control" id="exampleFormControlSelect1" (input)="changesubcategory($event.target.value)" name="categoryname"> 
+          <option [value]="'All'" [selected]="selected">Select an option </option>
+          <option [value]="'All'">No Category</option>
+          <option *ngFor="let p of items" [value]="p.id">{{p.categoryname}}</option>
+        </select>
+      </div>
+
+      <div class="form-group column" *ngIf="itemsub1.length > 0 || subcategoryname1 != ''">
+        <label  for="exampleFormControlSelect2">Sub Category Lvl1: </label>
+        {{subcategoryname1}}
+        <select class="form-control" id="exampleFormControlSelect2" name="subcategoryname1" (change)="changesubcategory1($event.target.value)">
+          <option [value]="'All'" [selected]="selected">Select an option </option>
+          <option [value]="'All'">No Sub Category</option>
+          <option *ngFor="let q of itemsub1; index as i" [value]="i">{{q.categoryname}}</option>
+        </select>
+      </div>
+
+      <div class="form-group column" *ngIf="itemsub2.length > 0 || subcategoryname2 != ''">
+        <label  for="exampleFormControlSelect3">Sub Category Lvl2: </label>
+        {{subcategoryname2}}
+        <select class="form-control" id="exampleFormControlSelect3" name="subcategoryname2" (change)="changesubcategory2($event.target.value)">
+          <option [value]="'All'" [selected]="selected" >Select an option </option>
+          <option [value]="'All'">No Sub Category</option>
+          <option *ngFor="let r of itemsub2; index as j" [value]="j">{{r.categoryname}}</option>
+        </select>
+      </div>
+
+      <div class="form-group column" *ngIf="itemsub3.length > 0 || subcategoryname3 != ''">
+        <label  for="exampleFormControlSelect4">Sub Category Lvl3: </label>
+        {{subcategoryname3}}
+        <select class="form-control" id="exampleFormControlSelect4" name="subcategoryname3"  (change)="changesubcategory3($event.target.value)">
+          <option [value]="'All'" [selected]="selected">Select an option</option>
+          <option [value]="'All'">No Sub Category</option>
+          <option *ngFor="let s of itemsub3; index as k" [value]="k">{{s.categoryname}}</option>
+        </select>
+      </div>
+
+      <div class="form-group column" *ngIf="itemsub4.length > 0 || subcategoryname4 != ''">
+        {{subcategoryname4}}
+        <label  for="exampleFormControlSelect5">Sub Category Lvl4: </label>
+        <select class="form-control" id="exampleFormControlSelect5" name="subcategoryname4"  (change)="changesubcategory4($event.target.value)">
+          <option [value]="'All'" [selected]="selected">Select an option</option>
+          <option [value]="'All'">No Sub Category</option>
+          <option *ngFor="let t of itemsub4; index as l" [value]="l">{{t.categoryname}}</option>
+        </select>
+      </div>
+    </form>
+
+    <form>
+    <mat-form-field class="example-chip-list">
+      <mat-chip-list #chipList>
+        <mat-chip
+        *ngFor="let fruit of fruits"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(fruit)">
+        {{fruit}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+        type = "text"
+        placeholder="New fruit..."
+        #fruitInput
+        matInput
+        [formControl]="fruitCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event)">
+         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedFruit($event)">
+        <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+          {{fruit}}
+        </mat-option>
+      </mat-autocomplete>
+      </mat-chip-list>
+     
+    </mat-form-field>
+  </form>
+
+<!--         <mat-form-field class="example-chip-list">
+      <mat-chip-list #chipList>
+        <mat-chip
+        *ngFor="let prod of products"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(fruit)">
+        {{fruit}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+        matInput
+        placeholder="New fruit..."
+        #fruitInput
+        [formControl]="fruitCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedFruit($event)">
+        <mat-option *ngFor="let prod of filteredProducts | async" [value]="prod.id">
+          {{prod.Product_name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field> -->
+
+    <br>
+    <br>
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button" (click)="resetvalues()">Cancel</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="on_edit_product()">Save</button>
+    </p>
+  </div>
+</div>
+
+
 	
 
 

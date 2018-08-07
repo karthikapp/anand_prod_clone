@@ -16,7 +16,17 @@ import { ProductSearchPipe } from './product-search.pipe';
 import { SortorderPipe } from './sortorder.pipe';
 import { HomeComponent } from './home/home.component';
 import { CustomerlistComponent } from './customerlist/customerlist.component';
-import { MzterialDesignLiteDirective } from './mzterial-design-lite.directive'
+import { MzterialDesignLiteDirective } from './mzterial-design-lite.directive';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {OverlayModule} from '@angular/cdk/overlay';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import 'hammerjs';
+
 
 const appRoutes: Routes = [
 { path: '', component: HomeComponent},
@@ -39,11 +49,19 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     NgxPaginationModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
-     AngularFirestoreModule,
-     FormsModule,
-     RouterModule.forRoot(appRoutes)
-
+    AngularFirestoreModule,
+    RouterModule.forRoot(appRoutes),
+    MatChipsModule,
+    MatIconModule, 
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule,
+    OverlayModule
   ],
   providers: [FirebaseserviceService,
   AngularFireDatabase],
