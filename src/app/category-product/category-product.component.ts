@@ -22,11 +22,8 @@ export class CategoryProductComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
-  fruits: string[] = ['Lemon'];
+  fruits: string[];
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-
-
-
 
   products: any;
   productname: string;
@@ -59,6 +56,10 @@ export class CategoryProductComponent implements OnInit {
   //initializing p to one for pagination pipe
   p: number = 1;
 
+  showItems: boolean = false;
+@ViewChild('itemFilterInput') itemFilterInput: ElementRef;
+
+
   @ViewChild('fruitInput') fruitInput: ElementRef;
 
  
@@ -83,6 +84,7 @@ export class CategoryProductComponent implements OnInit {
     this.subcategoryname2 = '';
     this.subcategoryname3 = '';
     this.subcategoryname4 = '';
+    this.fruits = []
 
     this.firebaseservice.getProducts().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
@@ -94,6 +96,13 @@ export class CategoryProductComponent implements OnInit {
       this.items = val
     })
   }
+
+  selectItem(item) {
+    console.log("item", item);
+    this.itemFilterInput.nativeElement.value = item.Product_name;
+    this.showItems = false;
+    console.log("item1", this.itemFilterInput.nativeElement.value, this.showItems )
+}
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -122,7 +131,12 @@ export class CategoryProductComponent implements OnInit {
 
   selectedFruit(event: MatAutocompleteSelectedEvent): void {
     this.fruits.push(event.option.viewValue);
+    //console.log("event", event)
+
+    //this.fruits.push(event)
     this.fruitInput.nativeElement.value = '';
+
+    this.showItems = false;
     this.fruitCtrl.setValue(null);
   }
 

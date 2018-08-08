@@ -131,8 +131,9 @@
       </div>
     </form>
 
-    <form>
-    <mat-form-field class="example-chip-list">
+<br>
+<!--   <form>
+    <mat-form-field class="example-chip-list" floatLabel="always">
       <mat-chip-list #chipList>
         <mat-chip
         *ngFor="let fruit of fruits"
@@ -144,29 +145,28 @@
         </mat-chip>
         <input
         type = "text"
-        placeholder="New fruit..."
         #fruitInput
         matInput
+        placeholder="Select any fruit..."
         [formControl]="fruitCtrl"
-        [matAutocomplete]="auto"
         [matChipInputFor]="chipList"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="add($event)">
-         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedFruit($event)">
-        <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-          {{fruit}}
+        (matChipInputTokenEnd)="add($event)"
+        (click)="showItems = true">
+    <mat-card [hidden]="!showItems" class="autocomplete">
+        <mat-option *ngFor="let item of filteredFruits| async" [value]="item" (click)="selectedFruit(item)">
+            {{ item }}
         </mat-option>
-      </mat-autocomplete>
-      </mat-chip-list>
-     
-    </mat-form-field>
-  </form>
+    </mat-card>
+  </mat-chip-list>
+</mat-form-field>
+</form> -->
 
-<!--         <mat-form-field class="example-chip-list">
+        <mat-form-field class="example-chip-list">
       <mat-chip-list #chipList>
         <mat-chip
-        *ngFor="let prod of products"
+        *ngFor="let fruit of fruits"
         [selectable]="selectable"
         [removable]="removable"
         (removed)="remove(fruit)">
@@ -185,11 +185,11 @@
         (matChipInputTokenEnd)="add($event)">
       </mat-chip-list>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedFruit($event)">
-        <mat-option *ngFor="let prod of filteredProducts | async" [value]="prod.id">
-          {{prod.Product_name}}
+        <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+          {{fruit}}
         </mat-option>
       </mat-autocomplete>
-    </mat-form-field> -->
+    </mat-form-field>
 
     <br>
     <br>

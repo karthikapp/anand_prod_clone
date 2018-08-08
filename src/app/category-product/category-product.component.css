@@ -26,6 +26,23 @@ td{
 }*/
 
 
-#example-chip-list .cdk-overlay-container {
-	position: inherit;
+::ng-deep .cdk-overlay-container , .cdk-overlay-wrapper, .cdk-overlay-pane, .cdk-overlay-backdrop
+ {
+	z-index: 1020 !important;
+	position: absolute;
+	
+
 }
+
+
+/*.autocomplete {
+    max-height: 150px; 
+    overflow:auto; 
+    position: absolute !important; 
+    padding: 0 !important;
+    z-index:1000;
+}
+
+.mat-form-field-placeholder {
+    display:block !important;
+}*/

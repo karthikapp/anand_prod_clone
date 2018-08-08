@@ -22,9 +22,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {CdkTableModule} from '@angular/cdk/table';
+import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+
 import 'hammerjs';
 
 
@@ -61,7 +66,11 @@ const appRoutes: Routes = [
     MatAutocompleteModule,
     MatInputModule,
     MatFormFieldModule,
-    OverlayModule
+    MatTooltipModule,
+    MatCardModule,
+    MatDividerModule,
+    OverlayModule,
+    CdkTableModule
   ],
   providers: [FirebaseserviceService,
   AngularFireDatabase],
