@@ -31,20 +31,33 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let product of products| productSearch: querystring: 'products' | sortorder | paginate: { itemsPerPage: 10, currentPage: p }">
+        <tr *ngFor="let product of products| productSearch: querystring: 'products' | sortorder | paginate: { id: 'prod', itemsPerPage: 10, currentPage: p }">
           <td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Product_name}}</td>
           <td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Brand}}</td>
           <td class="mdl-data-table__cell--non-numeric" style="color:black" *ngIf="product.category != undefined">
-            <ol class="ui list">
-              <li value="*" *ngIf="product.category.category != ''"><b>{{product.category.category}}</b>
-                <ol>
-                  <li value="-" *ngIf="product.category.subcategorylvl1 != ''">{{product.category.subcategorylvl1}}</li>
-                  <li value="-" *ngIf="product.category.subcategorylvl2 != ''">{{product.category.subcategorylvl2}}</li>
-                  <li value="-" *ngIf="product.category.subcategorylvl3 != ''">{{product.category.subcategorylvl3}}</li>
-                  <li value="-" *ngIf="product.category.subcategorylvl4 != ''">{{product.category.subcategorylvl4}}</li>
-                </ol>
-              </li>
-            </ol>
+            <div class="ui grid">
+
+         <a class="ui red label" *ngIf="product.category.category != ''" style="font-size: 10px; margin: 2px;">{{product.category.category| uppercase}}</a>
+
+         <div *ngIf="product.category.subcategorylvl1 != ''" style="padding: 1px;">&#8250;</div>
+
+         <a class="ui blue label" *ngIf="product.category.subcategorylvl1 != ''"  style="font-size: 10px;margin: 2px;">{{product.category.subcategorylvl1| uppercase}}</a>
+
+         <div *ngIf="product.category.subcategorylvl2 != ''" style="padding: 1px;">&#8250;</div>
+
+         <a class="ui teal label" *ngIf="product.category.subcategorylvl2 != ''" style="font-size: 10px;margin: 2px;" >{{product.category.subcategorylvl2| uppercase}}</a>
+
+         <div *ngIf="product.category.subcategorylvl3 != ''" style="padding: 1px;">&#8250;</div>
+
+         <a class="ui orange label" *ngIf="product.category.subcategorylvl3 != ''" style="font-size: 10px;margin: 2px;">{{product.category.subcategorylvl3| uppercase}}</a>
+
+         <div *ngIf="product.category.subcategorylvl4 != ''" style="padding: 1px;">&#8250;</div>
+
+         <a class="ui orange label" *ngIf="product.category.subcategorylvl4 != ''" style="font-size: 10px;margin: 2px;">{{product.category.subcategorylvl4| uppercase}}</a>
+
+
+
+       </div>
           </td>
 
           <td class="mdl-data-table__cell--non-numeric"  *ngIf="product.category == undefined">
@@ -58,7 +71,7 @@
 		</table>
     <br>
 
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <pagination-controls id="prod" (pageChange)="p = $event"></pagination-controls>
 	</div>
  </div>
 
@@ -166,27 +179,27 @@
         <mat-form-field class="example-chip-list">
       <mat-chip-list #chipList>
         <mat-chip
-        *ngFor="let fruit of fruits"
+        *ngFor="let prod of listProducts"
         [selectable]="selectable"
         [removable]="removable"
-        (removed)="remove(fruit)">
-        {{fruit}}
+        (removed)="remove(prod)">
+        {{prod.Product_name}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
         <input
         matInput
-        placeholder="New fruit..."
-        #fruitInput
-        [formControl]="fruitCtrl"
+        placeholder="Add Product..."
+        #prodInput
+        [formControl]="prodCtrl"
         [matAutocomplete]="auto"
         [matChipInputFor]="chipList"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="add($event)">
       </mat-chip-list>
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedFruit($event)">
-        <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-          {{fruit}}
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedProduct($event)">
+        <mat-option *ngFor="let prod of filteredProducts | async" [value]="prod">
+          {{prod.Product_name}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

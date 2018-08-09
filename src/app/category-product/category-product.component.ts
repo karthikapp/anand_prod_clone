@@ -15,15 +15,23 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 })
 export class CategoryProductComponent implements OnInit {
 
- visible = true;
+  visible = true;
   selectable = true;
   removable = true;
   addOnBlur = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: string[];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  
+
+  // fruitCtrl = new FormControl();
+  // filteredFruits: Observable<string[]>;
+  // fruits: string[];
+  // allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+
+  prodCtrl = new FormControl();
+  filteredProducts: Observable<Object>;
+  listProducts: any;
+  copyofproducts: any;
 
   products: any;
   productname: string;
@@ -57,17 +65,19 @@ export class CategoryProductComponent implements OnInit {
   p: number = 1;
 
   showItems: boolean = false;
-@ViewChild('itemFilterInput') itemFilterInput: ElementRef;
+// @ViewChild('itemFilterInput') itemFilterInput: ElementRef;
 
 
-  @ViewChild('fruitInput') fruitInput: ElementRef;
+  @ViewChild('prodInput') prodInput: ElementRef;
 
  
   constructor(private firebaseservice : FirebaseserviceService) 
   { 
-     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+     this.filteredProducts = this.prodCtrl.valueChanges.pipe(
         startWith(null),
-        map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+        map((product: string | null) => product ? this._filter(product) : this.copyofproducts.slice()));
+
+     console.log("fp", this.filteredProducts, this.copyofproducts)
   }
 
   ngOnInit() 
@@ -84,12 +94,20 @@ export class CategoryProductComponent implements OnInit {
     this.subcategoryname2 = '';
     this.subcategoryname3 = '';
     this.subcategoryname4 = '';
-    this.fruits = []
+    this.products = []
+    this.copyofproducts = []
+    this.listProducts = []
 
     this.firebaseservice.getProducts().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(products => {
       this.products = products;
+      this.copyofproducts = products;
+     // console.log("prod", this.products, this.copyofproducts)
+
+      this.filteredProducts = this.prodCtrl.valueChanges.pipe(
+        startWith(null),
+        map((product: string | null) => product ? this._filter(product) : this.copyofproducts.slice()));
     });
         
     this.firebaseservice.showcollectios().subscribe((val: any) => {
@@ -97,20 +115,20 @@ export class CategoryProductComponent implements OnInit {
     })
   }
 
-  selectItem(item) {
-    console.log("item", item);
-    this.itemFilterInput.nativeElement.value = item.Product_name;
-    this.showItems = false;
-    console.log("item1", this.itemFilterInput.nativeElement.value, this.showItems )
-}
+//   selectItem(item) {
+//     //console.log("item", item);
+//     this.itemFilterInput.nativeElement.value = item.Product_name;
+//     this.showItems = false;
+//     console.log("item1", this.itemFilterInput.nativeElement.value, this.showItems )
+// }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
+    // Add our Product
     if ((value || '').trim()) {
-      this.fruits.push(value.trim());
+      this.listProducts.push(value.trim());
     }
 
     // Reset the input value
@@ -118,36 +136,38 @@ export class CategoryProductComponent implements OnInit {
       input.value = '';
     }
 
-    this.fruitCtrl.setValue(null);
+    this.prodCtrl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+  remove(prod): void {
+    const index = this.listProducts.indexOf(prod);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.listProducts.splice(index, 1);
     }
   }
 
-  selectedFruit(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
+  selectedProduct(event: MatAutocompleteSelectedEvent): void {
+    console.log("event", event)
+    this.listProducts.push(event.option.value);
     //console.log("event", event)
 
     //this.fruits.push(event)
-    this.fruitInput.nativeElement.value = '';
+    this.prodInput.nativeElement.value = '';
 
     this.showItems = false;
-    this.fruitCtrl.setValue(null);
+    this.prodCtrl.setValue(null);
   }
 
-  displayFn(fruit) {
-  return fruit.name;
-}
+//   displayFn(fruit) {
+//   return fruit.name;
+// }
 
   private _filter(value: string): string[] {
+    console.log(value)
     const filterValue = value.toLowerCase();
 
-    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+    return this.copyofproducts.filter(prod => prod.Product_name.toLowerCase().indexOf(filterValue) === 0);
   }
 
   changesubcategory(value: any)
