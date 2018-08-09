@@ -31,6 +31,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 
 import 'hammerjs';
+import { GetproductnameComponent } from './getproductname/getproductname.component';
 
 
 const appRoutes: Routes = [
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
     SortorderPipe,
     HomeComponent,
     CustomerlistComponent,
-    MzterialDesignLiteDirective
+    MzterialDesignLiteDirective,
+    GetproductnameComponent
   ],
   imports: [
     BrowserModule,

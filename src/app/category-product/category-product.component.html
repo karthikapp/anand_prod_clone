@@ -19,61 +19,61 @@
     <br>
     <br>
     
-		<!--List Product in a table with fields product name, brand and actions (Edit/ Delete)-->
-		<table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp" style="width: 95%;background-color: white;height:50vh">
-       <thead>
-        <tr>
-          <th>Product Name</th>
-          <th>Brand</th>
-          <th>Category and its Sub Categories</th>
-          <th>Action</th>
-        </tr>
-      </thead>
+    <!--List Product in a table with fields product name, brand and actions (Edit/ Delete)-->
+    <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp" style="width: 95%;background-color: white;height:50vh">
+     <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Brand</th>
+        <th>Category and its Sub Categories</th>
+        <th>Action</th>
+      </tr>
+    </thead>
 
-      <tbody>
-        <tr *ngFor="let product of products| productSearch: querystring: 'products' | sortorder | paginate: { id: 'prod', itemsPerPage: 10, currentPage: p }">
-          <td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Product_name}}</td>
-          <td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Brand}}</td>
-          <td class="mdl-data-table__cell--non-numeric" style="color:black" *ngIf="product.category != undefined">
-            <div class="ui grid">
+    <tbody>
+      <tr *ngFor="let product of products| productSearch: querystring: 'products' | sortorder | paginate: { id: 'prod', itemsPerPage: 10, currentPage: p }">
+        <td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Product_name}}</td>
+        <td class="mdl-data-table__cell--non-numeric" style="color:black">{{product.Brand}}</td>
+        <td class="mdl-data-table__cell--non-numeric" style="color:black" *ngIf="product.category != undefined">
+          <div class="ui grid">
 
-         <a class="ui red label" *ngIf="product.category.category != ''" style="font-size: 10px; margin: 2px;">{{product.category.category| uppercase}}</a>
+           <a class="ui red label" *ngIf="product.category.category != ''" style="font-size: 10px; margin: 2px;">{{product.category.category| uppercase}}</a>
 
-         <div *ngIf="product.category.subcategorylvl1 != ''" style="padding: 1px;">&#8250;</div>
+           <div *ngIf="product.category.subcategorylvl1 != ''" style="padding: 1px;">&#8250;</div>
 
-         <a class="ui blue label" *ngIf="product.category.subcategorylvl1 != ''"  style="font-size: 10px;margin: 2px;">{{product.category.subcategorylvl1| uppercase}}</a>
+           <a class="ui blue label" *ngIf="product.category.subcategorylvl1 != ''"  style="font-size: 10px;margin: 2px;">{{product.category.subcategorylvl1| uppercase}}</a>
 
-         <div *ngIf="product.category.subcategorylvl2 != ''" style="padding: 1px;">&#8250;</div>
+           <div *ngIf="product.category.subcategorylvl2 != ''" style="padding: 1px;">&#8250;</div>
 
-         <a class="ui teal label" *ngIf="product.category.subcategorylvl2 != ''" style="font-size: 10px;margin: 2px;" >{{product.category.subcategorylvl2| uppercase}}</a>
+           <a class="ui teal label" *ngIf="product.category.subcategorylvl2 != ''" style="font-size: 10px;margin: 2px;" >{{product.category.subcategorylvl2| uppercase}}</a>
 
-         <div *ngIf="product.category.subcategorylvl3 != ''" style="padding: 1px;">&#8250;</div>
+           <div *ngIf="product.category.subcategorylvl3 != ''" style="padding: 1px;">&#8250;</div>
 
-         <a class="ui orange label" *ngIf="product.category.subcategorylvl3 != ''" style="font-size: 10px;margin: 2px;">{{product.category.subcategorylvl3| uppercase}}</a>
+           <a class="ui orange label" *ngIf="product.category.subcategorylvl3 != ''" style="font-size: 10px;margin: 2px;">{{product.category.subcategorylvl3| uppercase}}</a>
 
-         <div *ngIf="product.category.subcategorylvl4 != ''" style="padding: 1px;">&#8250;</div>
+           <div *ngIf="product.category.subcategorylvl4 != ''" style="padding: 1px;">&#8250;</div>
 
-         <a class="ui orange label" *ngIf="product.category.subcategorylvl4 != ''" style="font-size: 10px;margin: 2px;">{{product.category.subcategorylvl4| uppercase}}</a>
+           <a class="ui orange label" *ngIf="product.category.subcategorylvl4 != ''" style="font-size: 10px;margin: 2px;">{{product.category.subcategorylvl4| uppercase}}</a>
 
 
 
-       </div>
-          </td>
+         </div>
+       </td>
 
-          <td class="mdl-data-table__cell--non-numeric"  *ngIf="product.category == undefined">
-          </td>
+       <td class="mdl-data-table__cell--non-numeric"  *ngIf="product.category == undefined">
+       </td>
 
-          <td>
-            <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-edit-product" uk-icon="pencil" (click)="editProduct(product)"></span> 
-          </td>
-        </tr>
-      </tbody>
-		</table>
-    <br>
+       <td>
+        <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-edit-product" uk-icon="pencil" (click)="editProduct(product)"></span> 
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
 
-    <pagination-controls id="prod" (pageChange)="p = $event"></pagination-controls>
-	</div>
- </div>
+<pagination-controls id="prod" (pageChange)="p = $event"></pagination-controls>
+</div>
+</div>
 
 <!--Modal for Editing an Product -->
 
@@ -142,9 +142,35 @@
           <option *ngFor="let t of itemsub4; index as l" [value]="l">{{t.categoryname}}</option>
         </select>
       </div>
-    </form>
 
-<br>
+      <span style="font-weight: bold;">Bundle: </span>
+      <div class="ui segment" *ngIf="productbundle?.length>0">
+       <a class="ui blue label" *ngFor="let bundleproduct of productbundle" style="margin: 1px;"> <app-getproductname [id]="bundleproduct"></app-getproductname>&nbsp; <span><i class="fas fa-times-circle" (click)="removeproduct(bundleproduct)"></i></span></a>
+     </div>
+
+   </form>
+
+   <br>
+
+   <fieldset class="uk-fieldset">
+    <div class="uk-margin">
+      <input class="uk-input" type="text" placeholder="Search Products" [(ngModel)] ="querystring1">
+    </div>
+  </fieldset>
+  <br>
+  <br>
+
+  <ul class="uk-list" style="padding-left: 4px;" *ngIf="querystring1">
+    <li style="width: 100%;" *ngFor="let product of searchprods| productSearch: querystring1: 'products' | sortorder | slice:0:5; let i=index">
+      <div class="ui grid">
+        <div class="twelve wide column">
+         {{product.Product_name}}
+       </div>
+       <div class="four wide column"> <i class="fas fa-plus-circle fa-lg" (click)="addproduct(product.key)"></i></div>
+     </div>
+   </li>
+
+ </ul>
 <!--   <form>
     <mat-form-field class="example-chip-list" floatLabel="always">
       <mat-chip-list #chipList>
@@ -176,7 +202,7 @@
 </mat-form-field>
 </form> -->
 
-        <mat-form-field class="example-chip-list">
+      <!--   <mat-form-field class="example-chip-list">
       <mat-chip-list #chipList>
         <mat-chip
         *ngFor="let prod of listProducts"
@@ -202,7 +228,7 @@
           {{prod.Product_name}}
         </mat-option>
       </mat-autocomplete>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <br>
     <br>
@@ -214,7 +240,7 @@
 </div>
 
 
-	
+
 
 
 

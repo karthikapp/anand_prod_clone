@@ -22,57 +22,41 @@
     <!-- Wide card with Edit and Delete button -->
     
     <div class="ui stackable two column grid" style="height:70vh">
-      <div class="wide-card mdl-card mdl-shadow--2dp item-wr mdl-card--expand"
-      *ngFor="let acct of accounts | productSearch: querystring: 'accounts' |sortorder | paginate: { id: 'cust', itemsPerPage: 4, currentPage: q }">
+ 
 
-        <!--Company Name-->
-        <div class="mdl-card__title">
-          <a style="padding-left: 0px;font-family: 'Marvel', sans-serif; text-transform: capitalize;color: #673AB7 ;font-size:1.8vw;font-weight: bold;" [routerLink]="['/companyinfo', acct.companyid]"
-             >
-            {{acct.companyname}}
-          </a>
-        </div>
-
-        <!--Company Address-->
-        <p style="font-size: 12px;">  
+        <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp" style="width: 95%;height:50vh" >
+       <thead style="background-color: #1e88e5;">
+        <tr>
+          <th style="color: white;text-align: left;font-size: 14px;">Company Name</th>
+          <th style="color: white;text-align: left;font-size: 14px;">Company Address</th>
+          <th style="color: white;text-align: left;font-size: 14px;">Company Type</th>
+          <th style="color: white;text-align: left;font-size: 14px;">Industry Type</th>
+          <th style="color: white;text-align: left;font-size: 14px;">Employee Count</th>
+            <th style="color: white;text-align: left;font-size: 14px;">Contacts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  *ngFor="let acct of accounts | productSearch: querystring: 'accounts' |sortorder | paginate: { id: 'cust', itemsPerPage: 6, currentPage: q }">
+          <td [routerLink]="['/companyinfo', acct.companyid]" style="text-align: left;">  {{acct.companyname}}</td>
+          <td style="text-align: left;"> <p style="font-size: 12px;">  
             {{getAddressline1(acct.company_address_line1)}}
-          <br>
-          {{getAddress(acct.company_address_line2, acct.company_address_area, acct.company_address_state, acct.company_address_pincode)}}
-        </p>
-
-        <!--Company type, Industry type, Employee Count, Contact Person Count -->
-        <div class = "ui stackable four column grid">
-
-          <div class = "column">
-            <a class="ui blue label">{{getStringValue(acct.companytype)}}</a><br>
-            <span class="labelspec" style="color: black; font-size: 10px;font-weight: bold">COMPANY TYPE</span>
-          </div>
-
-          <div class = "column">
-            <a class="ui black label">{{getStringValue(acct.industrytype) }} </a><br>
-            <span class="labelspec" style="color: black; font-size: 10px;">INDUSTRY TYPE</span>
-          </div>
-
-          <div class = "column">
-            <div class="ui mini blue statistic">
-              <div class="value" style=" font-weight: bold;">
-                {{getStringValue(acct.employee_count)}}
-              </div>
-              <div class="labelspec" style="color: black; font-size: 10px;">EMPLOYEES</div>
-            </div>
-          </div>
-
-          <div class = "column">
-            <div class="ui mini blue statistic">
-              <div class="value" style="font-weight: bold;">
-                {{countContactPerson(acct.contact_persons)}}
-              </div>
-              <div class="labelspec" style="color: black; font-size: 10px;">CONTACTS</div>
-            </div>
-          </div>
-        </div>
+            <br>
+            {{getAddress(acct.company_address_line2, acct.company_address_area, acct.company_address_state, acct.company_address_pincode)}}
+          </p></td>
+          <td style="text-align: left;">{{getStringValue(acct.companytype)}}
+          </td>
+          <td style="text-align: left;">{{getStringValue(acct.industrytype)}}
+          </td>
+             <td style="text-align: left;"> {{getStringValue(acct.employee_count)}}
+          </td>
+                <td style="text-align: left;">  {{countContactPerson(acct.contact_persons)}}
+          </td>
+        </tr>
+ 
+      </tbody>
+    </table>
        
-     </div>
+   
     </div>
 
 

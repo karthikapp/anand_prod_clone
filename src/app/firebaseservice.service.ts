@@ -33,7 +33,14 @@ export class FirebaseserviceService {
     this.edittime = firebase.firestore.FieldValue.serverTimestamp();
     this.created_at = firebase.database.ServerValue.TIMESTAMP;
     this.fireAuth = firebase.auth();
-   }
+  }
+
+
+   getproductname(productkey){
+    //console.log(productkey);
+    var productURLs = '/products/' + productkey
+   return this.af.object(productURLs)
+  }
 
 
   showcollectios()

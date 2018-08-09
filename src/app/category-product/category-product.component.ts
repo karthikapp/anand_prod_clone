@@ -5,6 +5,8 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { FirebaseserviceService } from '../firebaseservice.service';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {GetproductnameComponent} from "../getproductname/getproductname.component"
+
 
 
 
@@ -20,6 +22,7 @@ export class CategoryProductComponent implements OnInit {
   removable = true;
   addOnBlur = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
+  querystring1: string;
   
 
   // fruitCtrl = new FormControl();
@@ -30,13 +33,14 @@ export class CategoryProductComponent implements OnInit {
 
   prodCtrl = new FormControl();
   filteredProducts: Observable<Object>;
-  listProducts: any;
-  copyofproducts: any;
+  productbundle : any[];
 
   products: any;
   productname: string;
   brand: string
   productkey: string;
+  hasbundle: boolean;
+  searchprods: any;
 
   querystring: string;
 
@@ -73,11 +77,11 @@ export class CategoryProductComponent implements OnInit {
  
   constructor(private firebaseservice : FirebaseserviceService) 
   { 
-     this.filteredProducts = this.prodCtrl.valueChanges.pipe(
-        startWith(null),
-        map((product: string | null) => product ? this._filter(product) : this.copyofproducts.slice()));
+     // this.filteredProducts = this.prodCtrl.valueChanges.pipe(
+     //    startWith(null),
+     //    map((product: string | null) => product ? this._filter(product) : this.copyofproducts.slice()));
 
-     console.log("fp", this.filteredProducts, this.copyofproducts)
+     // console.log("fp", this.filteredProducts, this.copyofproducts)
   }
 
   ngOnInit() 
@@ -95,19 +99,21 @@ export class CategoryProductComponent implements OnInit {
     this.subcategoryname3 = '';
     this.subcategoryname4 = '';
     this.products = []
-    this.copyofproducts = []
-    this.listProducts = []
+    this.querystring1 = ''
+
 
     this.firebaseservice.getProducts().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(products => {
       this.products = products;
-      this.copyofproducts = products;
+       this.searchprods = products
+       // console.log(products)
+
      // console.log("prod", this.products, this.copyofproducts)
 
-      this.filteredProducts = this.prodCtrl.valueChanges.pipe(
-        startWith(null),
-        map((product: string | null) => product ? this._filter(product) : this.copyofproducts.slice()));
+      // this.filteredProducts = this.prodCtrl.valueChanges.pipe(
+      //   startWith(null),
+      //   map((product: string | null) => product ? this._filter(product) : this.copyofproducts.slice()));
     });
         
     this.firebaseservice.showcollectios().subscribe((val: any) => {
@@ -122,53 +128,65 @@ export class CategoryProductComponent implements OnInit {
 //     console.log("item1", this.itemFilterInput.nativeElement.value, this.showItems )
 // }
 
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
+  // add(event: MatChipInputEvent): void {
+  //   const input = event.input;
+  //   const value = event.value;
 
-    // Add our Product
-    if ((value || '').trim()) {
-      this.listProducts.push(value.trim());
-    }
+  //   // Add our Product
+  //   if ((value || '').trim()) {
+  //     this.listProducts.push(value.trim());
+  //   }
 
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
+  //   // Reset the input value
+  //   if (input) {
+  //     input.value = '';
+  //   }
 
-    this.prodCtrl.setValue(null);
+  //   this.prodCtrl.setValue(null);
+  // }
+
+  // remove(prod): void {
+  //   const index = this.listProducts.indexOf(prod);
+
+  //   if (index >= 0) {
+  //     this.listProducts.splice(index, 1);
+  //   }
+  // }
+
+
+  addproduct(key)
+  {
+    this.productbundle.push(key)
+    console.log(key)
+    this.productbundle = this.productbundle.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
   }
 
-  remove(prod): void {
-    const index = this.listProducts.indexOf(prod);
-
-    if (index >= 0) {
-      this.listProducts.splice(index, 1);
-    }
+  removeproduct(product)
+  {
+    this.productbundle = this.productbundle.filter(e => e !== product)
   }
+  // selectedProduct(event: MatAutocompleteSelectedEvent): void {
+  //   console.log("event", event)
+  //   this.listProducts.push(event.option.value);
+  //   //console.log("event", event)
 
-  selectedProduct(event: MatAutocompleteSelectedEvent): void {
-    console.log("event", event)
-    this.listProducts.push(event.option.value);
-    //console.log("event", event)
+  //   //this.fruits.push(event)
+  //   this.prodInput.nativeElement.value = '';
 
-    //this.fruits.push(event)
-    this.prodInput.nativeElement.value = '';
-
-    this.showItems = false;
-    this.prodCtrl.setValue(null);
-  }
+  //   this.showItems = false;
+  //   this.prodCtrl.setValue(null);
+  // }
 
 //   displayFn(fruit) {
 //   return fruit.name;
 // }
 
-  private _filter(value: string): string[] {
-    console.log(value)
-    const filterValue = value.toLowerCase();
+  // private _filter(value: string): string[] {
+  //   console.log(value)
+  //   const filterValue = value.toLowerCase();
 
-    return this.copyofproducts.filter(prod => prod.Product_name.toLowerCase().indexOf(filterValue) === 0);
-  }
+  //   return this.copyofproducts.filter(prod => prod.Product_name.toLowerCase().indexOf(filterValue) === 0);
+  // }
 
   changesubcategory(value: any)
   {
@@ -286,7 +304,9 @@ export class CategoryProductComponent implements OnInit {
   }
 
   //Update a Product
-  on_edit_product(){
+  on_edit_product()
+  {
+
     let category = {
       category: this.categoryname,
       subcategorylvl1: this.subcategoryname1,
@@ -305,8 +325,11 @@ export class CategoryProductComponent implements OnInit {
     })
   }
 
+
+
   //Modal Call
   editProduct(product: any){
+    this.productbundle = []
     this.productname = product.Product_name
     this.brand = product.Brand
     this.productkey = product.key
