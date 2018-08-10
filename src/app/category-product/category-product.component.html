@@ -171,64 +171,6 @@
    </li>
 
  </ul>
-<!--   <form>
-    <mat-form-field class="example-chip-list" floatLabel="always">
-      <mat-chip-list #chipList>
-        <mat-chip
-        *ngFor="let fruit of fruits"
-        [selectable]="selectable"
-        [removable]="removable"
-        (removed)="remove(fruit)">
-        {{fruit}}
-        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-        </mat-chip>
-        <input
-        type = "text"
-        #fruitInput
-        matInput
-        placeholder="Select any fruit..."
-        [formControl]="fruitCtrl"
-        [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="add($event)"
-        (click)="showItems = true">
-    <mat-card [hidden]="!showItems" class="autocomplete">
-        <mat-option *ngFor="let item of filteredFruits| async" [value]="item" (click)="selectedFruit(item)">
-            {{ item }}
-        </mat-option>
-    </mat-card>
-  </mat-chip-list>
-</mat-form-field>
-</form> -->
-
-      <!--   <mat-form-field class="example-chip-list">
-      <mat-chip-list #chipList>
-        <mat-chip
-        *ngFor="let prod of listProducts"
-        [selectable]="selectable"
-        [removable]="removable"
-        (removed)="remove(prod)">
-        {{prod.Product_name}}
-        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-        </mat-chip>
-        <input
-        matInput
-        placeholder="Add Product..."
-        #prodInput
-        [formControl]="prodCtrl"
-        [matAutocomplete]="auto"
-        [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="add($event)">
-      </mat-chip-list>
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedProduct($event)">
-        <mat-option *ngFor="let prod of filteredProducts | async" [value]="prod">
-          {{prod.Product_name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field> -->
 
     <br>
     <br>

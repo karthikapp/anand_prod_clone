@@ -10,8 +10,8 @@
       <div class="uk-child-width-2-2@s uk-grid-match" uk-grid style="width: 100%;padding-left: 10px;padding-top: 20px;">
         <div>
           <div class="uk-card uk-card-default uk-card-hover uk-card-body">
-           <h4 class="uk-heading-bullet" style="color: #303f9f;">Customer Name &nbsp;</h4>
-           <p> <a class="ui green label">BFSI</a> <a class="ui brown label">LIMITED</a></p>
+           <h4 class="uk-heading-bullet" style="color: #303f9f;">{{account_name}} &nbsp;</h4>
+           <p> <a class="ui green label" *ngIf="!(industry_type == '-' || industry_type == '' || industry_type == undefined)">{{industry_type}}</a> <a class="ui brown label" *ngIf="!(company_type == '-' || company_type == '' || company_type == undefined)" >{{company_type}}</a></p>
 
            <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
             <div>
@@ -57,25 +57,28 @@
               <th>Brand</th>
               <th>License Qty</th>
               <th>License Expires In</th>
+              <th>Assigned To</th>
               <th>Serviced by </th>
               <th>Competitor </th>
-            </tr></thead><tbody>
+            </tr></thead>
+            <tbody *ngFor="let r of oppoaccounts">
               <tr>
-                <td>Client Server Messaging Security for SMB</td>
-                <td>Trend</td>
-                <td>1000</td>
+                <td>{{r.product_name | titlecase}}</td>
+                <td><app-getbrandname [id]="r.product_key"></app-getbrandname></td>
+                <td>{{r.quantity}}</td>
                 <td>June 2020</td>
+                <td><app-getassignedtoname [id]="r.opportunity_assignedto"></app-getassignedtoname></td>
                 <th>Self </th>
                 <th>Self</th>
               </tr>
-              <tr>
+<!--               <tr>
                 <td>Client Server Security for SMB - Worry-Free</td>
                 <td>Trend</td>
                 <td>100</td>
                 <td>August 2020</td>
                 <th> Other </th>
                 <th> XYZ PVT LTD</th>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
         </div>

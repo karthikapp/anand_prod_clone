@@ -1,14 +1,8 @@
-import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { FirebaseserviceService } from '../firebaseservice.service';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {GetproductnameComponent} from "../getproductname/getproductname.component"
-
-
-
 
 @Component({
   selector: 'app-category-product',
@@ -17,22 +11,6 @@ import {GetproductnameComponent} from "../getproductname/getproductname.componen
 })
 export class CategoryProductComponent implements OnInit {
 
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = false;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  querystring1: string;
-  
-
-  // fruitCtrl = new FormControl();
-  // filteredFruits: Observable<string[]>;
-  // fruits: string[];
-  // allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-
-
-  prodCtrl = new FormControl();
-  filteredProducts: Observable<Object>;
   productbundle : any[];
 
   products: any;
@@ -43,6 +21,7 @@ export class CategoryProductComponent implements OnInit {
   searchprods: any;
 
   querystring: string;
+  querystring1: any;
 
   items: any;
   item: any;
@@ -67,21 +46,10 @@ export class CategoryProductComponent implements OnInit {
 
   //initializing p to one for pagination pipe
   p: number = 1;
-
-  showItems: boolean = false;
-// @ViewChild('itemFilterInput') itemFilterInput: ElementRef;
-
-
-  @ViewChild('prodInput') prodInput: ElementRef;
-
  
   constructor(private firebaseservice : FirebaseserviceService) 
   { 
-     // this.filteredProducts = this.prodCtrl.valueChanges.pipe(
-     //    startWith(null),
-     //    map((product: string | null) => product ? this._filter(product) : this.copyofproducts.slice()));
 
-     // console.log("fp", this.filteredProducts, this.copyofproducts)
   }
 
   ngOnInit() 
@@ -107,13 +75,6 @@ export class CategoryProductComponent implements OnInit {
     }).subscribe(products => {
       this.products = products;
        this.searchprods = products
-       // console.log(products)
-
-     // console.log("prod", this.products, this.copyofproducts)
-
-      // this.filteredProducts = this.prodCtrl.valueChanges.pipe(
-      //   startWith(null),
-      //   map((product: string | null) => product ? this._filter(product) : this.copyofproducts.slice()));
     });
         
     this.firebaseservice.showcollectios().subscribe((val: any) => {
@@ -121,72 +82,18 @@ export class CategoryProductComponent implements OnInit {
     })
   }
 
-//   selectItem(item) {
-//     //console.log("item", item);
-//     this.itemFilterInput.nativeElement.value = item.Product_name;
-//     this.showItems = false;
-//     console.log("item1", this.itemFilterInput.nativeElement.value, this.showItems )
-// }
-
-  // add(event: MatChipInputEvent): void {
-  //   const input = event.input;
-  //   const value = event.value;
-
-  //   // Add our Product
-  //   if ((value || '').trim()) {
-  //     this.listProducts.push(value.trim());
-  //   }
-
-  //   // Reset the input value
-  //   if (input) {
-  //     input.value = '';
-  //   }
-
-  //   this.prodCtrl.setValue(null);
-  // }
-
-  // remove(prod): void {
-  //   const index = this.listProducts.indexOf(prod);
-
-  //   if (index >= 0) {
-  //     this.listProducts.splice(index, 1);
-  //   }
-  // }
-
 
   addproduct(key)
   {
     this.productbundle.push(key)
-    console.log(key)
-    this.productbundle = this.productbundle.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+    this.productbundle = this.productbundle.filter(function(item, i, ar){
+     return ar.indexOf(item) === i; });
   }
 
   removeproduct(product)
   {
     this.productbundle = this.productbundle.filter(e => e !== product)
   }
-  // selectedProduct(event: MatAutocompleteSelectedEvent): void {
-  //   console.log("event", event)
-  //   this.listProducts.push(event.option.value);
-  //   //console.log("event", event)
-
-  //   //this.fruits.push(event)
-  //   this.prodInput.nativeElement.value = '';
-
-  //   this.showItems = false;
-  //   this.prodCtrl.setValue(null);
-  // }
-
-//   displayFn(fruit) {
-//   return fruit.name;
-// }
-
-  // private _filter(value: string): string[] {
-  //   console.log(value)
-  //   const filterValue = value.toLowerCase();
-
-  //   return this.copyofproducts.filter(prod => prod.Product_name.toLowerCase().indexOf(filterValue) === 0);
-  // }
 
   changesubcategory(value: any)
   {
@@ -316,12 +223,16 @@ export class CategoryProductComponent implements OnInit {
     }
 
     let productData = { 
-      category: category
+      category: category,
+      bundles: this.productbundle
     }
+
+    //console.log("productData", productData)
 
     this.firebaseservice.saveProduct(this.productkey, productData).then(success => {
       alert("Updated Successfully!!")
       this.selected = true;
+      this.productbundle = [];
     })
   }
 
@@ -359,6 +270,11 @@ export class CategoryProductComponent implements OnInit {
       this.subcategoryname2 = product.category.subcategorylvl2
       this.subcategoryname3 = product.category.subcategorylvl3
       this.subcategoryname4 = product.category.subcategorylvl4
+    }
+
+    if(product.bundles != undefined)
+    {
+      this.productbundle = product.bundles
     }
   }
 

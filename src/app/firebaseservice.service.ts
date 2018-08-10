@@ -42,6 +42,18 @@ export class FirebaseserviceService {
    return this.af.object(productURLs)
   }
 
+     getbrandname(productkey){
+    //console.log(productkey);
+    var brandURLs = '/products/' + productkey
+   return this.af.object(brandURLs)
+  }
+
+       getassignedtoname(userid){
+    //console.log(productkey);
+    var userURLs = '/user/' + userid
+   return this.af.object(userURLs)
+  }
+
 
   showcollectios()
   {
@@ -143,34 +155,36 @@ export class FirebaseserviceService {
   }
 
 
-
-  //START PRODUCTS
-
   //Fetch list of Products
   getProducts(){
     return this.af.list('/products', ref => ref.orderByChild('created_at'));
   }
 
-  //Fetch single Product information
-  getProduct(productkey){
-    //console.log(productkey);
-    var productURLs = '/products/' + productkey
-    return this.af.object(productURLs).valueChanges();
-  }
 
   //Update Product information
-  saveProduct(product_key, productObject: {category: object}){
+  saveProduct(product_key, productObject: {category: object, bundles: any}){
     var productURL = '/products/' + product_key
     var productData = this.af.object(productURL).update(productObject);
 
     return productData;
   }
 
+  //Get single company information
+  getAccount(companyid: string){
+    var account_URL = '/accounts/' + String(companyid)
+    return this.af.object(account_URL);
+  }
 
+  //Get all company information
   getAccounts()
   {
     return this.af.list('/accounts', ref => ref.orderByChild('created_at'));
   }
-//END PRODUCTS
+
+  //Get opportunties based on company
+  getOpportunitiesbycmpnyid(companyid: string){
+    return this.af.list('/opportunities', ref => ref.orderByChild('company_id').equalTo(String(companyid)));
+
+  }
 
 }

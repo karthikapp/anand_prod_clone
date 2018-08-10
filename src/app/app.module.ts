@@ -17,21 +17,11 @@ import { SortorderPipe } from './sortorder.pipe';
 import { HomeComponent } from './home/home.component';
 import { CustomerlistComponent } from './customerlist/customerlist.component';
 import { MzterialDesignLiteDirective } from './mzterial-design-lite.directive';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import {OverlayModule} from '@angular/cdk/overlay';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {CdkTableModule} from '@angular/cdk/table';
-import {MatCardModule} from '@angular/material/card';
-import {MatDividerModule} from '@angular/material/divider';
-
 import 'hammerjs';
 import { GetproductnameComponent } from './getproductname/getproductname.component';
+import { GetbrandnameComponent } from './getbrandname/getbrandname.component';
+import { GetassignedtonameComponent } from './getassignedtoname/getassignedtoname.component';
 
 
 const appRoutes: Routes = [
@@ -51,7 +41,9 @@ const appRoutes: Routes = [
     HomeComponent,
     CustomerlistComponent,
     MzterialDesignLiteDirective,
-    GetproductnameComponent
+    GetproductnameComponent,
+    GetbrandnameComponent,
+    GetassignedtonameComponent
   ],
   imports: [
     BrowserModule,
@@ -61,18 +53,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
-    RouterModule.forRoot(appRoutes),
-    MatChipsModule,
-    MatIconModule, 
-    MatSelectModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatTooltipModule,
-    MatCardModule,
-    MatDividerModule,
-    OverlayModule,
-    CdkTableModule
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [FirebaseserviceService,
   AngularFireDatabase],
