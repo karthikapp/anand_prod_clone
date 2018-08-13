@@ -22,6 +22,7 @@ import 'hammerjs';
 import { GetproductnameComponent } from './getproductname/getproductname.component';
 import { GetbrandnameComponent } from './getbrandname/getbrandname.component';
 import { GetassignedtonameComponent } from './getassignedtoname/getassignedtoname.component';
+import { GetcatsubcatComponent } from './getcatsubcat/getcatsubcat.component';
 
 
 const appRoutes: Routes = [
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
     MzterialDesignLiteDirective,
     GetproductnameComponent,
     GetbrandnameComponent,
-    GetassignedtonameComponent
+    GetassignedtonameComponent,
+    GetcatsubcatComponent
   ],
   imports: [
     BrowserModule,

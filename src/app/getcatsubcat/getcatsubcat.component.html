@@ -1,0 +1,23 @@
+<div class="ui grid" *ngIf="category != ''">
+
+           <a class="ui red label" *ngIf="category.category != ''" style="font-size: 10px; margin: 2px;">{{category.category| uppercase}}</a>
+
+           <div *ngIf="category.subcategorylvl1 != ''" style="padding: 1px;">&#8250;</div>
+
+           <a class="ui blue label" *ngIf="category.subcategorylvl1 != ''"  style="font-size: 10px;margin: 2px;">{{category.subcategorylvl1| uppercase}}</a>
+
+           <div *ngIf="category.subcategorylvl2 != ''" style="padding: 1px;">&#8250;</div>
+
+           <a class="ui teal label" *ngIf="category.subcategorylvl2 != ''" style="font-size: 10px;margin: 2px;" >{{category.subcategorylvl2| uppercase}}</a>
+
+           <div *ngIf="category.subcategorylvl3 != ''" style="padding: 1px;">&#8250;</div>
+
+           <a class="ui orange label" *ngIf="category.subcategorylvl3 != ''" style="font-size: 10px;margin: 2px;">{{category.subcategorylvl3| uppercase}}</a>
+
+           <div *ngIf="category.subcategorylvl4 != ''" style="padding: 1px;">&#8250;</div>
+
+           <a class="ui orange label" *ngIf="category.subcategorylvl4 != ''" style="font-size: 10px;margin: 2px;">{{category.subcategorylvl4| uppercase}}</a>
+
+
+
+         </div>

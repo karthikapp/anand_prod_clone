@@ -55,6 +55,7 @@
           <thead>
             <tr><th>Product</th>
               <th>Brand</th>
+              <th>Category and its SubCategories</th>
               <th>License Qty</th>
               <th>License Expires In</th>
               <th>Assigned To</th>
@@ -65,6 +66,7 @@
               <tr>
                 <td>{{r.product_name | titlecase}}</td>
                 <td><app-getbrandname [id]="r.product_key"></app-getbrandname></td>
+                <td><app-getcatsubcat [id]="r.product_key"></app-getcatsubcat></td>
                 <td>{{r.quantity}}</td>
                 <td>June 2020</td>
                 <td><app-getassignedtoname [id]="r.opportunity_assignedto"></app-getassignedtoname></td>

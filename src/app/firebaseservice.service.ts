@@ -42,11 +42,6 @@ export class FirebaseserviceService {
    return this.af.object(productURLs)
   }
 
-     getbrandname(productkey){
-    //console.log(productkey);
-    var brandURLs = '/products/' + productkey
-   return this.af.object(brandURLs)
-  }
 
        getassignedtoname(userid){
     //console.log(productkey);

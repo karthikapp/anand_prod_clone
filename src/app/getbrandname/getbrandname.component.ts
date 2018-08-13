@@ -14,7 +14,7 @@ export class GetbrandnameComponent implements OnInit {
 
   ngOnInit() 
   {
-  	this.firebaseservice.getbrandname(this.id).snapshotChanges().subscribe((val: any) => {
+  	this.firebaseservice.getproductname(this.id).snapshotChanges().subscribe((val: any) => {
   		// console.log("from comp", val.payload.val())
   		this.brandname = val.payload.val().Brand
   	})
