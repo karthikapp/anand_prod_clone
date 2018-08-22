@@ -36,17 +36,52 @@ export class FirebaseserviceService {
   }
 
 
-   getproductname(productkey){
+  getproductname(productkey){
     //console.log(productkey);
     var productURLs = '/products/' + productkey
    return this.af.object(productURLs)
   }
 
+  getcompetitorname(compkey){
+    //console.log(productkey);
+    var compURLs = '/competitors/' + compkey
+   return this.af.object(compURLs)
+  }
 
-       getassignedtoname(userid){
+
+  getassignedtoname(userid){
     //console.log(productkey);
     var userURLs = '/user/' + userid
    return this.af.object(userURLs)
+  }
+
+  updateAccountName(ecompanyname, ecompanyid){
+    var accountURLs = '/accounts/' + ecompanyid
+    return this.af.object(accountURLs).update({companyname: ecompanyname})
+  }
+
+  updateIndustryType(eindustrytype, ecompanyid){
+    var indURLs = '/accounts/' + ecompanyid
+    return this.af.object(indURLs).update({industrytype: eindustrytype})
+  }
+
+  updateCompanyType(ecompanytype, ecompanyid){
+    var comURLs = '/accounts/' + ecompanyid
+    return this.af.object(comURLs).update({companytype: ecompanytype})
+  }
+
+  updateEmpCount(eempcount, ecompanyid){
+    var empURLs = '/accounts/' + ecompanyid
+    return this.af.object(empURLs).update({employee_count: eempcount})
+  }
+
+  updateCompproducts(ecompanyid, compprodObject)
+  {
+    var comprod = this.af.list('/accounts/' + ecompanyid + '/competitor_products' ).push(compprodObject)
+    var comprodkey = comprod.key;
+    var compprodURLs = '/accounts/'+ ecompanyid + '/competitor_products/' + comprodkey; 
+    return this.af.object(compprodURLs).update({'comprodkey': comprodkey});
+
   }
 
 
@@ -153,6 +188,11 @@ export class FirebaseserviceService {
   //Fetch list of Products
   getProducts(){
     return this.af.list('/products', ref => ref.orderByChild('created_at'));
+  }
+
+    //Fetch list of Products
+  getCompetitors(){
+    return this.af.list('/competitors');
   }
 
 

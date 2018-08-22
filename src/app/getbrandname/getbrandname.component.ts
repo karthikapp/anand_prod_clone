@@ -19,5 +19,6 @@ export class GetbrandnameComponent implements OnInit {
   		this.brandname = val.payload.val().Brand
   	})
   }
+  
 
 }

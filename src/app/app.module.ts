@@ -23,6 +23,8 @@ import { GetproductnameComponent } from './getproductname/getproductname.compone
 import { GetbrandnameComponent } from './getbrandname/getbrandname.component';
 import { GetassignedtonameComponent } from './getassignedtoname/getassignedtoname.component';
 import { GetcatsubcatComponent } from './getcatsubcat/getcatsubcat.component';
+import { GetcompetitornameComponent } from './getcompetitorname/getcompetitorname.component';
+import {SelectModule} from 'ng2-select';
 
 
 const appRoutes: Routes = [
@@ -45,7 +47,8 @@ const appRoutes: Routes = [
     GetproductnameComponent,
     GetbrandnameComponent,
     GetassignedtonameComponent,
-    GetcatsubcatComponent
+    GetcatsubcatComponent,
+    GetcompetitornameComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    SelectModule
   ],
   providers: [FirebaseserviceService,
   AngularFireDatabase],

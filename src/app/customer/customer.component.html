@@ -13,8 +13,13 @@
       <div class="uk-child-width-2-2@s uk-grid-match" uk-grid style="width: 100%;padding-left: 10px;padding-top: 20px;">
         <div>
           <div class="uk-card uk-card-default uk-card-hover uk-card-body">
-           <h4 class="uk-heading-bullet" style="color: #303f9f;">{{account_name | uppercase}} &nbsp; <i class="edit outline icon"></i> </h4>
-           <p> <a class="ui green label">{{returnindustrytype(industry_type)}}</a>  <i class="edit outline icon"></i> <a class="ui brown label">{{returncompanytype(company_type)}} </a>  <i class="edit outline icon"></i> </p>
+            <h4 class="uk-heading-bullet" style="color: #303f9f;">{{account_name | uppercase}} &nbsp;<i class="edit outline icon" uk-toggle="target: #modal-edit-account" (click)="editAccountName(account_name, company_id)"></i> </h4>
+            <p> 
+              <a class="ui green label">{{returnindustrytype(industry_type)}}</a>  
+              <i class="edit outline icon" uk-toggle="target: #modal-edit-industrytype" (click)="editIndustryType(industry_type, company_id)"></i> 
+              <a class="ui brown label">{{returncompanytype(company_type)}} </a>  
+              <i class="edit outline icon" uk-toggle="target: #modal-edit-companytype" (click)="editCompanyType(company_type, company_id)"></i> 
+            </p>
            {{customerlandscape}}
            <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
             <div>
@@ -33,15 +38,126 @@
           </div>
           <div>
             <div class="uk-background-muted uk-padding">
-              <span style="font-weight: bold;">NUMBER OF EMPLOYEES :</span>
-              <h4 style="color: red"> <i class="fas fa-times"></i></h4>
-              <span class="uk-margin-small-right uk-icon" uk-icon="pencil"></span>
+              <span style="font-weight: bold;">NUMBER OF EMPLOYEES :</span> 
+              <h4 *ngIf="employee_count > 0">{{employee_count}}</h4>
+              <h4 style="color: red" *ngIf="employee_count < 0 || employee_count == 0 || employee_count == '-' || employee_count == ''"> <i class="fas fa-times"></i></h4>
+              <span class="uk-margin-small-right uk-icon" uk-icon="pencil"  uk-toggle="target: #modal-edit-empcount" (click)="editEmpCount(employee_count, company_id)"></span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+
+  <!--Modal for Editing an Account Name-->
+
+<div id="modal-edit-account" uk-modal>
+  <br>
+  <br>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h2 class="uk-modal-title">Update Company Name</h2> 
+    <form class="ui form">
+
+      <div class="field">
+        <label>Company Name</label>
+        <input type="text" name="ecompanyname" placeholder="Company Name" [(ngModel)]="ecompanyname">
+      </div>
+   </form>
+
+   <br>
+    <br>
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="on_edit_accountname()">Save</button>
+    </p>
+  </div>
+</div>
+
+  <!--Modal for Editing an Industry Type -->
+
+<div id="modal-edit-industrytype" uk-modal>
+  <br>
+  <br>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h2 class="uk-modal-title">Update Industry Type</h2>
+    <form class="ui form">
+
+
+      <div class="field">
+        <label>Industry Type</label>
+        <input type="text" name="eindustrytype" placeholder="Industry Type" [(ngModel)]="eindustrytype">
+      </div>
+
+   </form>
+
+   <br>
+    <br>
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="on_edit_industrytype()">Save</button>
+    </p>
+  </div>
+</div>
+
+  <!--Modal for Editing an Company Type -->
+
+<div id="modal-edit-companytype" uk-modal>
+  <br>
+  <br>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h2 class="uk-modal-title">Update Company Type</h2>
+    <form class="ui form">
+
+      <div class="form-group column" >
+        <label for="exampleFormControlSelect2">Company Type: </label> {{ecompanytype}}
+        <select class="form-control" id="exampleFormControlSelect2" (change)="changeCompanyType($event.target.value)" name="ecompanytype"> 
+          <option>Pvt</option>
+          <option>Inc</option>
+          <option>Ltd</option>
+        </select>
+      </div>
+
+   </form>
+
+   <br>
+    <br>
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="on_edit_companytype()">Save</button>
+    </p>
+  </div>
+</div>
+
+
+  <!--Modal for Editing a Employee Count -->
+
+<div id="modal-edit-empcount" uk-modal>
+  <br>
+  <br>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h2 class="uk-modal-title">Update Employee Count</h2>
+    <form class="ui form">
+
+     <div class="field">
+        <label>Employee Count</label>
+        <input type="text" name="eempcount" placeholder="Employee Count" [(ngModel)]="eempcount">
+      </div>
+
+   </form>
+
+   <br>
+    <br>
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="on_edit_empcount()">Save</button>
+    </p>
+  </div>
+</div>
+
+
+
+
 
 
   <div class="uk-child-width-2-2@s uk-grid-match" uk-grid style="width: 100%;padding-left: 10px;padding-top: 20px;">
@@ -107,7 +223,35 @@
         </div>
         <div [hidden]="!compprods" class="container" style="padding-left: 10px;padding-top: 10px;">
          List of Products Sold by others
+         <table class="ui inverted grey table">
+          <thead>
+            <tr><th class="uppercase">PRODUCT</th>
+              <th>BRAND</th>
+              <th>CATEGORY AND SUB CATEGORIES</th>
+              <th>LICENSE EXPIRY DATE</th>
+              <th>COMPETITIOR NAME</th>
+
+            </tr></thead>
+            <tbody *ngFor="let cp of compproducts">
+              <tr>
+                <td><app-getproductname [id]="cp.productid"></app-getproductname></td>
+                <td><app-getbrandname [id]="cp.productid"></app-getbrandname></td>
+                <td><app-getcatsubcat [id]="cp.productid"></app-getcatsubcat></td>
+                <td>June 2020  &nbsp; <i class="edit outline icon"></i> 
+                </td>
+                <td><app-getcompetitorname [id]="cp.competitor_id"></app-getcompetitorname></td>
+
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Accent-colored raised button with ripple -->
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"  uk-toggle="target: #modal-edit-addcompprod">
+      Add Product
+    </button>
+
        </div>
+
        <div [hidden]="!contactshow" class="container" style="padding-left: 10px;padding-top: 10px;">
         <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m" *ngFor="let contact of contacts">
 
@@ -139,6 +283,69 @@
 </div>
 </div>
 <br>
+
+<!--Modal for Editing a Competitor Product -->
+
+<div id="modal-edit-addcompprod" uk-modal>
+  <br>
+  <br>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h2 class="uk-modal-title">Add Competitor Product</h2>
+    <form class="ui form">
+
+      <div class="form-group column" >
+        <label for="exampleFormControlSelect1">Product: </label>
+        {{Product_name}} 
+        <select class="form-control" id="exampleFormControlSelect1" (change)="changeprod($event.target.value)"> 
+          <option [value]="'All'" [selected]="selected">Select an option </option>
+          <option *ngFor="let p of products" [value]="p.productkey">{{p.Product_name}}</option>
+        </select>
+      </div>
+
+<!--       <div class="form-group column">
+        <label  for="exampleFormControlSelect2">Sub Category Lvl1: </label>
+        {{subcategoryname1}}
+        <select class="form-control" id="exampleFormControlSelect2" name="subcategoryname1" (change)="changesubcategory1($event.target.value)">
+          <option [value]="'All'" [selected]="selected">Select an option </option>
+          <option [value]="'All'">No Sub Category</option>
+          <option *ngFor="let q of itemsub1; index as i" [value]="i">{{q.categoryname}}</option>
+        </select>
+      </div> -->
+
+      <div class="form-group column">
+        <label  for="exampleFormControlSelect3">Competitior Name: </label>
+        {{competitor_name}}
+        <select class="form-control" id="exampleFormControlSelect3" name="subcategoryname2" (change)="changecompname($event.target.value)">
+          <option [value]="'All'" [selected]="selected" >Select an option </option>
+          <option *ngFor="let r of competitors" [value]="r.competitor_id">{{r.competitor_name}}</option>
+        </select>
+      </div>
+
+     
+   </form>
+
+   <br>
+
+<!--    <div style="width: 300px; margin-bottom: 20px;">
+  <h6>Select a Product</h6>
+  <ng-select [allowClear]="true"
+              [items]="items"
+              (data)="refreshValue($event)"
+              (selected)="selected_prod($event)"
+              (removed)="removed($event)"
+              (typed)="typed($event)"
+              placeholder="No product selected">
+  </ng-select>
+</div>
+ -->
+    <br>
+    <br>
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="on_edit_product()">Save</button>
+    </p>
+  </div>
+</div>
 
 <div style="width: 100%;padding-left: 10px;padding-top: 20px;padding-right: 35px;">
   <div class="uk-card-secondary uk-card-default uk-card-small uk-card-body">

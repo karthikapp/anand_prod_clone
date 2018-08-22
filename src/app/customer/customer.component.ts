@@ -16,6 +16,7 @@ export class CustomerComponent implements OnInit {
   account_name: any;
   industry_type: any;
   company_type: any;
+  employee_count: any;
   oppoaccounts: any;
   totalamount: any;
   rakprods: Boolean;
@@ -23,7 +24,23 @@ export class CustomerComponent implements OnInit {
   contactshow: Boolean;
   contacts: any;
   customerlandscape: any;
+  ecompanyname: any;
+  ecompanyid: any;
+  eindustrytype: any;
+  ecompanytype: any;
+  eempcount: any;
+ 
+  selected: Boolean = false;
+  compproducts: any;
+  products: any;
+  items: any;
+  competitors: any;
+  Product_name: any;
+  competitor_name: any;
+  productkey: any;
+  competitorid: any;
 
+     private value:any = {};
 
   constructor(private router: ActivatedRoute, private firebaseservice : FirebaseserviceService) 
   {
@@ -37,11 +54,19 @@ export class CustomerComponent implements OnInit {
     this.account_name = '';
     this.company_type = '';
     this.industry_type = '';
+    this.employee_count = '';
     this.rakprods = true
     this.customerlandscape = []
+    this.compproducts = []
+    this.competitor_name = ''
+    this.Product_name = ''
+    this.productkey = ''
+    this.competitorid = ''
+    this.oppoaccounts = []
 
     //Display the company detail based on company id on respective fields
     this.company_id = this.router.snapshot.params['companyid'];
+    console.log("companyid", this.company_id)
     
     this.firebaseservice.getAccount(this.company_id).snapshotChanges().subscribe(value => {
       this.account = value.payload.val()
@@ -49,8 +74,13 @@ export class CustomerComponent implements OnInit {
        this.account_name = this.account.companyname
        this.industry_type = this.account.industrytype
        this.company_type = this.account.companytype
+       this.employee_count = this.account.employee_count
        this.contacts = Object.values(this.account.contact_persons)
-       console.log(this.contacts)
+       if(this.account.competitor_products != undefined)
+       {
+        this.compproducts = this.account.competitor_products
+        }
+       //console.log(this.contacts)
      })
 
     this.firebaseservice.getOpportunitiesbycmpnyid(this.company_id).snapshotChanges().map(changes => {
@@ -81,8 +111,138 @@ export class CustomerComponent implements OnInit {
 
     });
 
+    this.firebaseservice.getProducts().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(products => {
+      this.products = products;
+
+    this.items = [];
+
+    this.products.forEach( a =>
+      this.items.push({
+        id: a.productkey,
+        text: `${a.Product_name}`
+      })
+      )
+    });
+
+    this.firebaseservice.getCompetitors().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(competitor => {
+      this.competitors = competitor;
+    });
+
+
   }
 
+
+
+ 
+  public selected_prod(value:any):void {
+    console.log('Selected value is: ', value);
+  }
+ 
+  public removed(value:any):void {
+    console.log('Removed value is: ', value);
+  }
+ 
+  public typed(value:any):void {
+    console.log('New search input: ', value);
+  }
+ 
+  public refreshValue(value:any):void {
+    this.value = value;
+  }
+
+
+  on_edit_accountname()
+  {
+    this.firebaseservice.updateAccountName(this.ecompanyname, this.ecompanyid).then(success => {
+      alert("Updated Successfully!!")
+    })
+  }
+
+  on_edit_industrytype()
+  {
+    this.firebaseservice.updateIndustryType(this.eindustrytype, this.ecompanyid).then(success => {
+      alert("Updated Successfully!!")
+    })
+  }
+
+  on_edit_companytype()
+  {
+    this.firebaseservice.updateCompanyType(this.ecompanytype, this.ecompanyid).then(success => {
+      alert("Updated Successfully!!")
+    })
+  }
+
+  on_edit_empcount()
+  {
+    this.firebaseservice.updateEmpCount(this.eempcount, this.ecompanyid).then(success => {
+      alert("Updated Successfully!!")
+    })
+  }
+
+  on_edit_product()
+  {
+    let comprod = {
+      comprodkey: '',
+      competitorid: this.competitorid,
+      productid: this.productkey
+    }
+
+    this.firebaseservice.updateCompproducts(this.company_id, comprod ).then(success => {
+      alert("Updated Successfully!!")
+    })
+  }
+
+
+changeprod(value)
+{
+  console.log(value)
+  this.productkey = value
+}
+
+changecompname(value){
+  console.log(value)
+  this.competitorid = value
+}
+
+  editAccountName(companyname, companyid)
+  {
+    this.ecompanyname = ''
+    this.ecompanyid = ''
+    this.ecompanyname = companyname
+    this.ecompanyid = companyid
+  }
+
+  editIndustryType(industrytype, companyid)
+  {
+    this.eindustrytype = ''
+    this.ecompanyid = ''
+    this.eindustrytype = industrytype
+    this.ecompanyid = companyid
+  }
+
+  editCompanyType(companytype, companyid)
+  {
+    this.ecompanytype = ''
+    this.ecompanyid = ''
+    this.ecompanytype = companytype
+    this.ecompanyid = companyid
+  }
+
+  editEmpCount(empcount, companyid)
+  {
+    this.eempcount = ''
+    this.ecompanyid = ''
+    this.eempcount = empcount
+    this.ecompanyid = companyid
+  }
+
+  changeCompanyType(value){
+    this.ecompanytype = value;
+  }
 
   removenull(customerlandscape)
   {
