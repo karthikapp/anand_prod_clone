@@ -84,6 +84,11 @@ export class FirebaseserviceService {
 
   }
 
+  updateEndpoints(ecompanyid, endpoints){
+    var endURLs = '/accounts/' + ecompanyid
+    return this.af.object(endURLs).update({endpoints: endpoints})
+  }
+
 
   showcollectios()
   {

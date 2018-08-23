@@ -39,8 +39,17 @@ export class CustomerComponent implements OnInit {
   competitor_name: any;
   productkey: any;
   competitorid: any;
+  license_expiry_dt: any;
 
-     private value:any = {};
+  elaptops: any;
+  emobiles: any;
+  edesktops: any;
+  ecloud: any;
+  eonprem: any;
+  endpoints: any;
+  totalendpoints: any;
+
+  private value:any = {};
 
   constructor(private router: ActivatedRoute, private firebaseservice : FirebaseserviceService) 
   {
@@ -63,31 +72,25 @@ export class CustomerComponent implements OnInit {
     this.productkey = ''
     this.competitorid = ''
     this.oppoaccounts = []
+    this.license_expiry_dt = null;
+    this.endpoints = []
+    this.totalendpoints = 0;
+    this.elaptops = 0
+    this.emobiles = 0
+    this.eonprem = 0
+    this.ecloud = 0
+    this.edesktops = 0
 
     //Display the company detail based on company id on respective fields
     this.company_id = this.router.snapshot.params['companyid'];
     console.log("companyid", this.company_id)
-    
-    this.firebaseservice.getAccount(this.company_id).snapshotChanges().subscribe(value => {
-      this.account = value.payload.val()
-       // console.log(this.account)
-       this.account_name = this.account.companyname
-       this.industry_type = this.account.industrytype
-       this.company_type = this.account.companytype
-       this.employee_count = this.account.employee_count
-       this.contacts = Object.values(this.account.contact_persons)
-       if(this.account.competitor_products != undefined)
-       {
-        this.compproducts = this.account.competitor_products
-        }
-       //console.log(this.contacts)
-     })
+
 
     this.firebaseservice.getOpportunitiesbycmpnyid(this.company_id).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(companies => {
       this.oppoaccounts = companies;
-      console.log(this.oppoaccounts)
+      //console.log(this.oppoaccounts)
       companies.forEach((el: any) => 
       {
         this.firebaseservice.getproductname(el.product_key).snapshotChanges().subscribe((val: any)=>
@@ -111,6 +114,42 @@ export class CustomerComponent implements OnInit {
 
     });
 
+    
+    this.firebaseservice.getAccount(this.company_id).snapshotChanges().subscribe(value => {
+      this.account = value.payload.val()
+       // console.log(this.account)
+       this.account_name = this.account.companyname
+       this.industry_type = this.account.industrytype
+       this.company_type = this.account.companytype
+       this.employee_count = this.account.employee_count
+       this.contacts = Object.values(this.account.contact_persons)
+       if(this.account.competitor_products != undefined)
+       {
+        this.compproducts = Object.values(this.account.competitor_products)
+        }
+        else
+      {
+        this.compproducts = []
+       //console.log(this.contacts)
+      }
+
+      if(this.account.endpoints != undefined){
+        this.endpoints = this.account.endpoints
+      }
+      else
+      {
+        this.endpoints = []
+      }
+
+      //console.log(this.endpoints, this.totalendpoints)
+      this.totalendpoints = Number(this.endpoints.laptop) + Number(this.endpoints.desktop) 
+                          + Number(this.endpoints.mobile) + Number(this.endpoints.servers.onprem) + Number(this.endpoints.servers.cloud)
+      //console.log(this.endpoints, this.totalendpoints)
+     })
+
+
+
+
     this.firebaseservice.getProducts().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(products => {
@@ -131,13 +170,8 @@ export class CustomerComponent implements OnInit {
     }).subscribe(competitor => {
       this.competitors = competitor;
     });
-
-
   }
 
-
-
- 
   public selected_prod(value:any):void {
     console.log('Selected value is: ', value);
   }
@@ -188,7 +222,8 @@ export class CustomerComponent implements OnInit {
     let comprod = {
       comprodkey: '',
       competitorid: this.competitorid,
-      productid: this.productkey
+      productid: this.productkey,
+      license_expiry_dt: this.license_expiry_dt
     }
 
     this.firebaseservice.updateCompproducts(this.company_id, comprod ).then(success => {
@@ -196,16 +231,72 @@ export class CustomerComponent implements OnInit {
     })
   }
 
+    on_edit_endpoints()
+  {
+    let endpoints = {
+      servers:
+      {
+        cloud: this.ecloud,
+        onprem: this.eonprem
+      },
+      desktop: this.edesktops,
+      mobile: this.emobiles,
+      laptop: this.elaptops
+    }
+
+    console.log("end", endpoints)
+
+    this.firebaseservice.updateEndpoints(this.ecompanyid, endpoints ).then(success => {
+      alert("Updated Successfully!!")
+    })
+  }
+
+  editEndpoints(companyid){
+    this.ecompanyid = ''
+    this.elaptops = 0
+    this.emobiles = 0
+    this.eonprem = 0
+    this.ecloud = 0
+    this.edesktops = 0
+
+    this.ecompanyid = companyid
+    console.log("endoi", this.endpoints)
+    if(this.endpoints.laptop != undefined){
+      this.elaptops = this.endpoints.laptop
+    }
+
+    if(this.endpoints.desktop != undefined){
+      this.edesktops = this.endpoints.desktop
+    }
+
+    if(this.endpoints.mobile != undefined){
+      this.emobiles = this.endpoints.mobile
+    }
+
+    if(this.endpoints.servers.cloud != undefined){
+      this.ecloud = this.endpoints.servers.cloud
+    }
+
+    if(this.endpoints.servers.onprem != undefined){
+      this.eonprem = this.endpoints.servers.onprem
+    }
+
+  }
+
 
 changeprod(value)
 {
-  console.log(value)
+  //console.log(value)
   this.productkey = value
 }
 
 changecompname(value){
-  console.log(value)
+  //console.log(value)
   this.competitorid = value
+}
+
+onlicdtChange(value){
+  this.license_expiry_dt = value
 }
 
   editAccountName(companyname, companyid)
@@ -321,10 +412,6 @@ changecompname(value){
         this.contactshow = false
         // console.log(this.isActive)
       }
-
-
-
-
 
       togglechats() 
       {
