@@ -141,9 +141,39 @@ export class CustomerComponent implements OnInit {
         this.endpoints = []
       }
 
-      //console.log(this.endpoints, this.totalendpoints)
-      this.totalendpoints = Number(this.endpoints.laptop) + Number(this.endpoints.desktop) 
-                          + Number(this.endpoints.mobile) + Number(this.endpoints.servers.onprem) + Number(this.endpoints.servers.cloud)
+     // console.log(this.endpoints, this.totalendpoints)
+
+
+    if(this.endpoints.length > 0){
+      if(this.endpoints.laptop == undefined){
+        this.endpoints.laptop = 0
+      }
+
+      if(this.endpoints.desktop == undefined){
+        this.endpoints.desktop = 0
+      }
+
+      if(this.endpoints.mobile == undefined){
+        this.endpoints.mobile = 0
+      }
+
+      if(this.endpoints.servers.cloud == undefined){
+        this.endpoints.servers.cloud = 0
+      }
+
+      if(this.endpoints.servers.onprem == undefined){
+        this.endpoints.servers.onprem = 0
+      }
+    }
+
+      if(this.endpoints.length == 0)
+      {
+        this.totalendpoints = 0
+      }
+      else {
+      this.totalendpoints = Number(this.endpoints.laptop) + Number(this.endpoints.desktop) + Number(this.endpoints.mobile) + Number(this.endpoints.servers.onprem) + Number(this.endpoints.servers.cloud)
+      }
+
       //console.log(this.endpoints, this.totalendpoints)
      })
 
