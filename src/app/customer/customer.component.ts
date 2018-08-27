@@ -53,8 +53,6 @@ export class CustomerComponent implements OnInit {
   upd_license_expiry_dt: any;
   upd_comprodkey: any;
 
-  private value:any = {};
-
   constructor(private router: ActivatedRoute, private firebaseservice : FirebaseserviceService) 
   {
     this.isActive = true;
@@ -94,7 +92,7 @@ export class CustomerComponent implements OnInit {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(companies => {
       this.oppoaccounts = companies;
-      //console.log(this.oppoaccounts)
+      console.log(this.oppoaccounts)
       companies.forEach((el: any) => 
       {
         this.firebaseservice.getproductname(el.product_key).snapshotChanges().subscribe((val: any)=>
@@ -137,6 +135,8 @@ export class CustomerComponent implements OnInit {
        //console.log(this.contacts)
       }
 
+      console.log("hello", this.compproducts)
+
       if(this.account.endpoints != undefined){
         this.endpoints = this.account.endpoints
       }
@@ -145,7 +145,7 @@ export class CustomerComponent implements OnInit {
         this.endpoints = []
       }
 
-     // console.log(this.endpoints, this.totalendpoints)
+     console.log(this.endpoints, this.totalendpoints)
 
 
     if(this.endpoints.length > 0){
@@ -178,7 +178,7 @@ export class CustomerComponent implements OnInit {
         this.totalendpoints = Number(this.endpoints.laptop) + Number(this.endpoints.desktop) + Number(this.endpoints.mobile) + Number(this.endpoints.servers.onprem) + Number(this.endpoints.servers.cloud)
       }
 
-      //console.log(this.endpoints, this.totalendpoints)
+      console.log(this.endpoints, this.totalendpoints)
      })
 
 
@@ -186,41 +186,21 @@ export class CustomerComponent implements OnInit {
 
     this.firebaseservice.getProducts().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    }).subscribe(products => {
-      this.products = products;
+    }).subscribe(product => {
+      this.products = product;
 
-    this.items = [];
-
-    this.products.forEach( a =>
-      this.items.push({
-        id: a.productkey,
-        text: `${a.Product_name}`
-      })
-      )
+    console.log("log",this.products )
     });
 
     this.firebaseservice.getCompetitors().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(competitor => {
       this.competitors = competitor;
+      console.log("com", this.competitors)
     });
+
   }
 
-  public selected_prod(value:any):void {
-    console.log('Selected value is: ', value);
-  }
- 
-  public removed(value:any):void {
-    console.log('Removed value is: ', value);
-  }
- 
-  public typed(value:any):void {
-    console.log('New search input: ', value);
-  }
- 
-  public refreshValue(value:any):void {
-    this.value = value;
-  }
 
 
   on_edit_accountname()
@@ -278,7 +258,7 @@ export class CustomerComponent implements OnInit {
       laptop: this.elaptops
     }
 
-    console.log("end", endpoints)
+    //console.log("end", endpoints)
 
     this.firebaseservice.updateEndpoints(this.ecompanyid, endpoints ).then(success => {
       alert("Updated Successfully!!")
@@ -465,25 +445,25 @@ onlicdtChange(value){
     this.rakprods = true
     this.compprods = false
     this.contactshow = false
-        console.log("toggle", this.rakprods, this.compprods, this.contactshow)
-      }
+    console.log("toggle", this.rakprods, this.compprods, this.contactshow)
+  }
 
-      togglecompprods() 
-      {
-        this.rakprods = false
-        this.compprods = true
-        this.contactshow = false
-        // console.log(this.isActive)
-        console.log("toggle1", this.rakprods, this.compprods, this.contactshow)
-      }
+  togglecompprods() 
+  {
+    this.rakprods = false
+    this.compprods = true
+    this.contactshow = false
+    // console.log(this.isActive)
+    console.log("toggle1", this.rakprods, this.compprods, this.contactshow)
+  }
 
-      togglechats() 
-      {
-        this.rakprods = false
-        this.compprods = false
-        this.contactshow = true
-        // console.log(this.isActive_chats)
-        console.log("toggle2", this.rakprods, this.compprods, this.contactshow)
-      }
+  togglechats() 
+  {
+    this.rakprods = false
+    this.compprods = false
+    this.contactshow = true
+    // console.log(this.isActive_chats)
+    console.log("toggle2", this.rakprods, this.compprods, this.contactshow)
+  }
 
-    }
+}

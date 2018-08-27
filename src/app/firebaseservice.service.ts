@@ -201,7 +201,7 @@ export class FirebaseserviceService {
 
   //Fetch list of Products
   getProducts(){
-    return this.af.list('/products', ref => ref.orderByChild('created_at'));
+    return this.af.list('/products');
   }
 
     //Fetch list of Products
