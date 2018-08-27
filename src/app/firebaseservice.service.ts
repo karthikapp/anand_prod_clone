@@ -94,6 +94,11 @@ export class FirebaseserviceService {
     return this.af.list(delCPURLs).remove();
   }
 
+  updLicExpDt(val, val1, val2){
+    var updLicExpDtURLs = '/accounts/' + val1 + '/competitor_products/' + val
+    return this.af.object(updLicExpDtURLs).update({'license_expiry_dt': val2})
+  }
+
   showcollectios()
   {
 

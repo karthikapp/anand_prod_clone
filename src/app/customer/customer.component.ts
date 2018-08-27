@@ -50,6 +50,9 @@ export class CustomerComponent implements OnInit {
   totalendpoints: any;
   delCP: any;
 
+  upd_license_expiry_dt: any;
+  upd_comprodkey: any;
+
   private value:any = {};
 
   constructor(private router: ActivatedRoute, private firebaseservice : FirebaseserviceService) 
@@ -324,6 +327,23 @@ export class CustomerComponent implements OnInit {
     this.firebaseservice.delCP(this.delCP, this.company_id).then(success => {
       alert("Deleted successfully")
     })
+  }
+
+  editLicExpDt(license_expiry_dt, comprodkey){
+    this.upd_license_expiry_dt = ''
+    this.upd_comprodkey = ''
+    this.upd_license_expiry_dt = license_expiry_dt
+    this.upd_comprodkey = comprodkey
+  }
+
+  updateLicExpDt(){
+    this.firebaseservice.updLicExpDt(this.upd_comprodkey,this.company_id, this.upd_license_expiry_dt).then(success => {
+      alert("Updated Successfully")
+    })
+  }
+
+  onupdlicdtChange(value){
+    this.upd_license_expiry_dt = value
   }
 
 
