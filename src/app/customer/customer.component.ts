@@ -48,6 +48,7 @@ export class CustomerComponent implements OnInit {
   eonprem: any;
   endpoints: any;
   totalendpoints: any;
+  delCP: any;
 
   private value:any = {};
 
@@ -171,7 +172,7 @@ export class CustomerComponent implements OnInit {
         this.totalendpoints = 0
       }
       else {
-      this.totalendpoints = Number(this.endpoints.laptop) + Number(this.endpoints.desktop) + Number(this.endpoints.mobile) + Number(this.endpoints.servers.onprem) + Number(this.endpoints.servers.cloud)
+        this.totalendpoints = Number(this.endpoints.laptop) + Number(this.endpoints.desktop) + Number(this.endpoints.mobile) + Number(this.endpoints.servers.onprem) + Number(this.endpoints.servers.cloud)
       }
 
       //console.log(this.endpoints, this.totalendpoints)
@@ -313,6 +314,18 @@ export class CustomerComponent implements OnInit {
 
   }
 
+  deletecomProduct(value){
+    this.delCP = ''
+    this.delCP = value
+  }
+
+  deleteCP()
+  {
+    this.firebaseservice.delCP(this.delCP, this.company_id).then(success => {
+      alert("Deleted successfully")
+    })
+  }
+
 
 changeprod(value)
 {
@@ -432,7 +445,7 @@ onlicdtChange(value){
     this.rakprods = true
     this.compprods = false
     this.contactshow = false
-        // console.log(this.isActive)
+        console.log("toggle", this.rakprods, this.compprods, this.contactshow)
       }
 
       togglecompprods() 
@@ -441,6 +454,7 @@ onlicdtChange(value){
         this.compprods = true
         this.contactshow = false
         // console.log(this.isActive)
+        console.log("toggle1", this.rakprods, this.compprods, this.contactshow)
       }
 
       togglechats() 
@@ -449,6 +463,7 @@ onlicdtChange(value){
         this.compprods = false
         this.contactshow = true
         // console.log(this.isActive_chats)
+        console.log("toggle2", this.rakprods, this.compprods, this.contactshow)
       }
 
     }

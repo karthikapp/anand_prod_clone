@@ -89,6 +89,10 @@ export class FirebaseserviceService {
     return this.af.object(endURLs).update({endpoints: endpoints})
   }
 
+  delCP(val, val1){
+    var delCPURLs = '/accounts/' + val1 + '/competitor_products/' + val
+    return this.af.list(delCPURLs).remove();
+  }
 
   showcollectios()
   {
