@@ -194,13 +194,6 @@ export class CustomerComponent implements OnInit {
 
       console.log(this.endpoints, this.totalendpoints)
      })
-
-
-
-
-
-
-
   }
 
 

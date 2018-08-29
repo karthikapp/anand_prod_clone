@@ -107,7 +107,7 @@ export class FirebaseserviceService {
   showcollectios()
   {
 
-     this.CategoryCollection = this.db.collection<CategoryItem>('category');
+     this.CategoryCollection = this.db.collection<CategoryItem>('category', ref => ref.orderBy('categoryname'));
     // .snapshotChanges() returns a DocumentChangeAction[], which contains
     // a lot of information about "what happened" with each change. If you want to
     // get the data and the id use the map operator.
