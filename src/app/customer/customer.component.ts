@@ -52,6 +52,7 @@ export class CustomerComponent implements OnInit {
 
   upd_license_expiry_dt: any;
   upd_comprodkey: any;
+  value_toggle: any;
 
   constructor(private router: ActivatedRoute, private firebaseservice : FirebaseserviceService) 
   {
@@ -87,6 +88,19 @@ export class CustomerComponent implements OnInit {
     this.company_id = this.router.snapshot.params['companyid'];
     console.log("companyid", this.company_id)
 
+    this.firebaseservice.getProducts().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(product => {
+      this.products = product;
+    //console.log("log",this.products )
+    });
+
+    this.firebaseservice.getCompetitors().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(competitor => {
+      this.competitors = competitor;
+      //console.log("com", this.competitors)
+    });
 
     this.firebaseservice.getOpportunitiesbycmpnyid(this.company_id).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
@@ -116,7 +130,7 @@ export class CustomerComponent implements OnInit {
 
     });
 
-    
+
     this.firebaseservice.getAccount(this.company_id).snapshotChanges().subscribe(value => {
       this.account = value.payload.val()
        // console.log(this.account)
@@ -184,20 +198,8 @@ export class CustomerComponent implements OnInit {
 
 
 
-    this.firebaseservice.getProducts().snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    }).subscribe(product => {
-      this.products = product;
 
-    console.log("log",this.products )
-    });
 
-    this.firebaseservice.getCompetitors().snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    }).subscribe(competitor => {
-      this.competitors = competitor;
-      console.log("com", this.competitors)
-    });
 
   }
 
@@ -309,17 +311,30 @@ export class CustomerComponent implements OnInit {
     })
   }
 
-  editLicExpDt(license_expiry_dt, comprodkey){
+  editLicExpDt(license_expiry_dt, comprodkey, value){
     this.upd_license_expiry_dt = ''
     this.upd_comprodkey = ''
+    this.value_toggle = ''
     this.upd_license_expiry_dt = license_expiry_dt
     this.upd_comprodkey = comprodkey
+    this.value_toggle = value
   }
 
   updateLicExpDt(){
-    this.firebaseservice.updLicExpDt(this.upd_comprodkey,this.company_id, this.upd_license_expiry_dt).then(success => {
-      alert("Updated Successfully")
-    })
+
+    if(this.value_toggle == 'competitor')
+    {
+      this.firebaseservice.updLicExpDt(this.upd_comprodkey,this.company_id, this.upd_license_expiry_dt).then(success => {
+        alert("Updated Successfully")
+      })
+    }
+
+    if(this.value_toggle == 'raksha')
+    {
+      this.firebaseservice.updLicExpDtR(this.upd_comprodkey, this.upd_license_expiry_dt).then(success => {
+        alert("Updated Successfully")
+      })
+    }
   }
 
   onupdlicdtChange(value){

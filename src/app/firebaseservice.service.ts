@@ -99,6 +99,11 @@ export class FirebaseserviceService {
     return this.af.object(updLicExpDtURLs).update({'license_expiry_dt': val2})
   }
 
+  updLicExpDtR(val, val1){
+    var updLicExpDtRURLs = '/opportunities/' + val 
+    return this.af.object(updLicExpDtRURLs).update({'prod_license_expiry_dt': val1})
+  }
+
   showcollectios()
   {
 

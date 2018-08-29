@@ -228,7 +228,7 @@
               <td><app-getbrandname [id]="r.product_key"></app-getbrandname></td>
               <td><app-getcatsubcat [id]="r.product_key"></app-getcatsubcat></td>
               <td>{{r.quantity }}</td>
-              <td>June 2020  &nbsp; <i class="edit outline icon"></i> 
+              <td>{{r.prod_license_expiry_dt | date}}  &nbsp; <i class="edit outline icon" uk-toggle="target: #modal-edit-licexpdt" (click)="editLicExpDt(r.prod_license_expiry_dt, r.key, 'raksha')"></i> 
               </td>
               <td><app-getassignedtoname [id]="r.opportunity_assignedto"></app-getassignedtoname></td> 
             </tr>
@@ -260,7 +260,7 @@
                 <td><app-getproductname [id]="cp.productid"></app-getproductname></td>
                 <td><app-getbrandname [id]="cp.productid"></app-getbrandname></td>
                 <td><app-getcatsubcat [id]="cp.productid"></app-getcatsubcat></td>
-                <td>{{cp.license_expiry_dt | date}}  &nbsp; <i class="edit outline icon" uk-toggle="target: #modal-edit-licexpdt" (click)="editLicExpDt(cp.license_expiry_dt, cp.comprodkey)"></i></td>
+                <td>{{cp.license_expiry_dt | date}}  &nbsp; <i class="edit outline icon" uk-toggle="target: #modal-edit-licexpdt" (click)="editLicExpDt(cp.license_expiry_dt, cp.comprodkey, 'competitor')"></i></td>
                 <td><app-getcompetitorname [id]="cp.competitorid"></app-getcompetitorname></td>
                 <td>
                   <span class="uk-margin-small-right uk-icon" uk-toggle="target: #modal-delete-comproduct" uk-icon="trash" (click)="deletecomProduct(cp.comprodkey)"></span> 
@@ -332,7 +332,7 @@
       <label>License Expiry Date: </label>
       <br>
       <div class="ui input" style="width: 140px;">
-        <input [ngModel]="upd_license_expiry_dt | date:'yyyy-MM-dd'" (ngModelChange)="onupdlicdtChange($event)" type="date" name="license_expiry_dt" style="height: 29px;width: 135px;padding-left: 2px;padding-right: 2px;"/>
+        <input [ngModel]="upd_license_expiry_dt | date:'yyyy-MM-dd'" (ngModelChange)="onupdlicdtChange($event)" type="date" name="upd_license_expiry_dt" style="height: 29px;width: 135px;padding-left: 2px;padding-right: 2px;"/>
       </div>
     </div>
     <br>
