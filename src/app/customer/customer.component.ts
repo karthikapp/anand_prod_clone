@@ -53,12 +53,16 @@ export class CustomerComponent implements OnInit {
   upd_comprodkey: any;
   value_toggle: any;
   customerlandscapeComp: any;
-  customerlandscapeInter: any;
+  employee_count_his: any;
+  endpoints_his: any;
+
+
 
   constructor(private router: ActivatedRoute, private firebaseservice : FirebaseserviceService) 
   {
     this.isActive = true;
     this.isActive_chats = false;
+    this.endpoints = []
     
   }
 
@@ -72,7 +76,6 @@ export class CustomerComponent implements OnInit {
     this.rakprods = true
     this.customerlandscape = [];
     this.customerlandscapeComp = [];
-    this.customerlandscapeInter = [];
     this.compproducts = []
     this.competitor_name = ''
     this.Product_name = ''
@@ -80,37 +83,40 @@ export class CustomerComponent implements OnInit {
     this.competitorid = ''
     this.oppoaccounts = []
     this.license_expiry_dt = null;
-    this.endpoints = []
+    //this.endpoints = []
     this.totalendpoints = 0;
     this.elaptops = 0
     this.emobiles = 0
     this.eonprem = 0
     this.ecloud = 0
     this.edesktops = 0
+    this.endpoints = []
+    this.endpoints_his = []
+    this.employee_count_his = []
 
     //Display the company detail based on company id on respective fields
     this.company_id = this.router.snapshot.params['companyid'];
-    console.log("companyid", this.company_id)
+    //console.log("companyid", this.company_id)
 
     this.firebaseservice.getProducts().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(product => {
       this.products = product;
-    console.log("log",this.products )
+    //console.log("log",this.products )
     });
 
     this.firebaseservice.getCompetitors().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(competitor => {
       this.competitors = competitor;
-      console.log("com", this.competitors)
+      //console.log("com", this.competitors)
     });
 
     this.firebaseservice.getOpportunitiesbycmpnyid(this.company_id).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(companies => {
       this.oppoaccounts = companies;
-      console.log(this.oppoaccounts)
+      //console.log(this.oppoaccounts)
       companies.forEach((el: any) => 
       {
         this.firebaseservice.getproductname(el.product_key).snapshotChanges().subscribe((val: any)=>
@@ -119,11 +125,11 @@ export class CustomerComponent implements OnInit {
           // console.log(categorylist)
           if (categorylist == undefined)
           {
-            console.log("found none")
+            //console.log("found none")
           }
           else 
           {
-            console.log(categorylist.category)
+            //console.log(categorylist.category)
             this.customerlandscape.push(categorylist.category)
           }
         
@@ -131,7 +137,7 @@ export class CustomerComponent implements OnInit {
       })
 
       this.customerlandscape = this.customerlandscape
-      console.log("this.customerlandscape", this.customerlandscape)
+      //console.log("this.customerlandscape", this.customerlandscape)
 
     });
 
@@ -143,6 +149,14 @@ export class CustomerComponent implements OnInit {
        this.industry_type = this.account.industrytype
        this.company_type = this.account.companytype
        this.employee_count = this.account.employee_count
+       if(this.account.employee_count_his != undefined) {
+         this.employee_count_his = this.account.employee_count_his
+      }
+      if(this.account.endpoints_his != undefined){
+       this.endpoints_his = this.account.endpoints_his
+     }
+
+       console.log("his", this.endpoints_his, this.employee_count_his)
        this.contacts = Object.values(this.account.contact_persons)
        if(this.account.competitor_products != undefined)
        {
@@ -151,7 +165,7 @@ export class CustomerComponent implements OnInit {
         else
       {
         this.compproducts = []
-       console.log(this.contacts)
+       //console.log(this.contacts)
       }
 
       this.compproducts.forEach((el: any) => 
@@ -166,7 +180,6 @@ export class CustomerComponent implements OnInit {
           }
           else 
           {
-            console.log(categorylistComp.category)
             this.customerlandscapeComp.push(categorylistComp.category)
           }
         
@@ -175,22 +188,16 @@ export class CustomerComponent implements OnInit {
 
       this.customerlandscapeComp = this.customerlandscapeComp
 
-      console.log("this.customerlandscapeComp", this.customerlandscapeComp)
-
-      console.log("hello", this.compproducts)
-
       if(this.account.endpoints != undefined){
         this.endpoints = this.account.endpoints
       }
       else
       {
-        this.endpoints = []
+         this.endpoints = []
       }
 
-     //console.log(this.endpoints, this.totalendpoints)
-
-
-    if(this.endpoints.length > 0){
+    if(this.endpoints.length != 0){
+ 
       if(this.endpoints.laptop == undefined){
         this.endpoints.laptop = 0
       }
@@ -220,7 +227,7 @@ export class CustomerComponent implements OnInit {
         this.totalendpoints = Number(this.endpoints.laptop) + Number(this.endpoints.desktop) + Number(this.endpoints.mobile) + Number(this.endpoints.servers.onprem) + Number(this.endpoints.servers.cloud)
       }
 
-      console.log(this.endpoints, this.totalendpoints)
+      //console.log("endpointd",this.endpoints, this.totalendpoints)
      })
 
 
@@ -287,12 +294,13 @@ export class CustomerComponent implements OnInit {
       },
       desktop: this.edesktops,
       mobile: this.emobiles,
-      laptop: this.elaptops
+      laptop: this.elaptops,
+      create_date: this.firebaseservice.created_at
     }
 
     //console.log("end", endpoints)
 
-    this.firebaseservice.updateEndpoints(this.ecompanyid, endpoints ).then(success => {
+    this.firebaseservice.updateEndpoints(this.ecompanyid, endpoints).then(success => {
       alert("Updated Successfully!!")
     })
   }
@@ -306,27 +314,31 @@ export class CustomerComponent implements OnInit {
     this.edesktops = 0
 
     this.ecompanyid = companyid
-    console.log("endoi", this.endpoints)
-    if(this.endpoints.laptop != undefined){
-      this.elaptops = this.endpoints.laptop
-    }
 
-    if(this.endpoints.desktop != undefined){
-      this.edesktops = this.endpoints.desktop
-    }
+    //console.log("endpoints", this.endpoints.length, this.endpoints)
 
-    if(this.endpoints.mobile != undefined){
-      this.emobiles = this.endpoints.mobile
-    }
+    if(this.endpoints.length != 0)
+    {
+      if(this.endpoints.laptop != undefined){
+        this.elaptops = this.endpoints.laptop
+      }
 
-    if(this.endpoints.servers.cloud != undefined){
-      this.ecloud = this.endpoints.servers.cloud
-    }
+      if(this.endpoints.desktop != undefined){
+        this.edesktops = this.endpoints.desktop
+      }
 
-    if(this.endpoints.servers.onprem != undefined){
-      this.eonprem = this.endpoints.servers.onprem
-    }
+      if(this.endpoints.mobile != undefined){
+        this.emobiles = this.endpoints.mobile
+      }
 
+      if(this.endpoints.servers.cloud != undefined){
+        this.ecloud = this.endpoints.servers.cloud
+      }
+
+      if(this.endpoints.servers.onprem != undefined){
+        this.eonprem = this.endpoints.servers.onprem
+      }
+    }
   }
 
   deletecomProduct(value){

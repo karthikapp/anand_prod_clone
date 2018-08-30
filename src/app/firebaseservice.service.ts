@@ -57,22 +57,29 @@ export class FirebaseserviceService {
 
   updateAccountName(ecompanyname, ecompanyid){
     var accountURLs = '/accounts/' + ecompanyid
-    return this.af.object(accountURLs).update({companyname: ecompanyname})
+    return this.af.object(accountURLs).update({'companyname': ecompanyname})
   }
 
   updateIndustryType(eindustrytype, ecompanyid){
     var indURLs = '/accounts/' + ecompanyid
-    return this.af.object(indURLs).update({industrytype: eindustrytype})
+    return this.af.object(indURLs).update({'industrytype': eindustrytype})
   }
 
   updateCompanyType(ecompanytype, ecompanyid){
     var comURLs = '/accounts/' + ecompanyid
-    return this.af.object(comURLs).update({companytype: ecompanytype})
+    return this.af.object(comURLs).update({'companytype': ecompanytype})
   }
 
   updateEmpCount(eempcount, ecompanyid){
+    var empcountURLs = '/accounts/' + ecompanyid + '/employee_count_his'
+    var empcount = {
+      emp_count: eempcount,
+      create_date: this.created_at
+    }
+    this.af.list(empcountURLs).push(empcount)
+
     var empURLs = '/accounts/' + ecompanyid
-    return this.af.object(empURLs).update({employee_count: eempcount})
+    return this.af.object(empURLs).update({'employee_count': eempcount})
   }
 
   updateCompproducts(ecompanyid, compprodObject)
@@ -85,8 +92,11 @@ export class FirebaseserviceService {
   }
 
   updateEndpoints(ecompanyid, endpoints){
-    var endURLs = '/accounts/' + ecompanyid
-    return this.af.object(endURLs).update({endpoints: endpoints})
+    var endURLs = '/accounts/' + ecompanyid + '/endpoints_his'
+    this.af.list(endURLs).push(endpoints)
+
+    var endpointURLs = '/accounts/' + ecompanyid
+    return this.af.object(endpointURLs).update({'endpoints': endpoints})
   }
 
   delCP(val, val1){

@@ -191,19 +191,19 @@
 
       <div style="padding-left: 20px;padding-bottom: 5px;">
         <div class="uk-text uk-text-bold uk-text-uppercase" style="text-decoration: underline;color: #303f9f;">By Raksha</div>
-        <a class="ui red label" *ngFor="let landscapecategory of removenull(customerlandscape)">{{landscapecategory}}</a>
+        <a class="ui red label" *ngFor="let landscapecategory of removenull(customerlandscape) | unique">{{landscapecategory}}</a>
       </div>
       <br>
 
       <div style="padding-left: 20px;padding-bottom: 5px">
         <div class="uk-text uk-text-bold uk-text-uppercase" style="text-decoration: underline;color: #303f9f;">By Competitor</div>
-        <a class="ui orange label" *ngFor="let landscapecategoryComp of removenull(customerlandscapeComp)">{{landscapecategoryComp}}</a>
+        <a class="ui orange label" *ngFor="let landscapecategoryComp of removenull(customerlandscapeComp) | unique">{{landscapecategoryComp}}</a>
       </div>
       <br>
 
       <div style="padding-left: 20px;">
         <div class="uk-text uk-text-bold uk-text-uppercase" style="text-decoration: underline;color: #303f9f;">Intersection / Conflict</div>
-        <a class="ui yellow label" *ngFor="let landscapecategoryInter of removenull(customerlandscape) | intersection: removenull(customerlandscape): removenull(customerlandscapeComp)">{{landscapecategoryInter}}</a>
+        <a class="ui yellow label" *ngFor="let landscapecategoryInter of removenull(customerlandscape) | intersection: removenull(customerlandscape): removenull(customerlandscapeComp) | unique">{{landscapecategoryInter}}</a>
       </div>
       
 
