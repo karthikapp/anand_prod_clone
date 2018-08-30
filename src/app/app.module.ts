@@ -25,6 +25,9 @@ import { GetassignedtonameComponent } from './getassignedtoname/getassignedtonam
 import { GetcatsubcatComponent } from './getcatsubcat/getcatsubcat.component';
 import { GetcompetitornameComponent } from './getcompetitorname/getcompetitorname.component';
 import {SelectModule} from 'ng2-select';
+import {NgPipesModule} from 'ngx-pipes';
+
+
 
 
 const appRoutes: Routes = [
@@ -59,7 +62,8 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     RouterModule.forRoot(appRoutes),
-    SelectModule
+    SelectModule,
+    NgPipesModule
   ],
   providers: [FirebaseserviceService,
   AngularFireDatabase],

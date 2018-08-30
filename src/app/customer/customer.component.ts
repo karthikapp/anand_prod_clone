@@ -2,7 +2,6 @@ import { Component, OnInit} from '@angular/core';
 import { FirebaseserviceService } from '../firebaseservice.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
-
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
@@ -53,11 +52,14 @@ export class CustomerComponent implements OnInit {
   upd_license_expiry_dt: any;
   upd_comprodkey: any;
   value_toggle: any;
+  customerlandscapeComp: any;
+  customerlandscapeInter: any;
 
   constructor(private router: ActivatedRoute, private firebaseservice : FirebaseserviceService) 
   {
     this.isActive = true;
     this.isActive_chats = false;
+    
   }
 
   ngOnInit() {
@@ -68,7 +70,9 @@ export class CustomerComponent implements OnInit {
     this.industry_type = '';
     this.employee_count = '';
     this.rakprods = true
-    this.customerlandscape = []
+    this.customerlandscape = [];
+    this.customerlandscapeComp = [];
+    this.customerlandscapeInter = [];
     this.compproducts = []
     this.competitor_name = ''
     this.Product_name = ''
@@ -92,14 +96,14 @@ export class CustomerComponent implements OnInit {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(product => {
       this.products = product;
-    //console.log("log",this.products )
+    console.log("log",this.products )
     });
 
     this.firebaseservice.getCompetitors().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(competitor => {
       this.competitors = competitor;
-      //console.log("com", this.competitors)
+      console.log("com", this.competitors)
     });
 
     this.firebaseservice.getOpportunitiesbycmpnyid(this.company_id).snapshotChanges().map(changes => {
@@ -127,6 +131,7 @@ export class CustomerComponent implements OnInit {
       })
 
       this.customerlandscape = this.customerlandscape
+      console.log("this.customerlandscape", this.customerlandscape)
 
     });
 
@@ -146,8 +151,31 @@ export class CustomerComponent implements OnInit {
         else
       {
         this.compproducts = []
-       //console.log(this.contacts)
+       console.log(this.contacts)
       }
+
+      this.compproducts.forEach((el: any) => 
+      {
+        this.firebaseservice.getproductname(el.productid).snapshotChanges().subscribe((val: any)=>
+        {
+          var categorylistComp = val.payload.val().category
+          // console.log(categorylist)
+          if (categorylistComp == undefined)
+          {
+            console.log("found none")
+          }
+          else 
+          {
+            console.log(categorylistComp.category)
+            this.customerlandscapeComp.push(categorylistComp.category)
+          }
+        
+        })
+      })
+
+      this.customerlandscapeComp = this.customerlandscapeComp
+
+      console.log("this.customerlandscapeComp", this.customerlandscapeComp)
 
       console.log("hello", this.compproducts)
 
@@ -159,7 +187,7 @@ export class CustomerComponent implements OnInit {
         this.endpoints = []
       }
 
-     console.log(this.endpoints, this.totalendpoints)
+     //console.log(this.endpoints, this.totalendpoints)
 
 
     if(this.endpoints.length > 0){
@@ -194,9 +222,18 @@ export class CustomerComponent implements OnInit {
 
       console.log(this.endpoints, this.totalendpoints)
      })
+
+
   }
 
+  // intersectFunction()
+  // {
 
+  //   console.log("categ",  this.customerlandscape, this.customerlandscapeComp)
+  //   this.customerlandscapeInter = this.interPipe.transform(this.customerlandscape, this.customerlandscapeComp)
+  //   console.log("this.customerlandscapeInter", this.customerlandscapeInter)
+
+  // }
 
   on_edit_accountname()
   {
