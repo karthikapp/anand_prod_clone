@@ -26,7 +26,9 @@ import { GetcatsubcatComponent } from './getcatsubcat/getcatsubcat.component';
 import { GetcompetitornameComponent } from './getcompetitorname/getcompetitorname.component';
 import {SelectModule} from 'ng2-select';
 import {NgPipesModule} from 'ngx-pipes';
-
+import Chart from 'chart.js';
+import { ChartsModule } from 'ng2-charts';
+import { MomentModule } from 'angular2-moment';
 
 
 
@@ -63,7 +65,9 @@ const appRoutes: Routes = [
     AngularFirestoreModule,
     RouterModule.forRoot(appRoutes),
     SelectModule,
-    NgPipesModule
+    NgPipesModule,
+    ChartsModule,
+    MomentModule
   ],
   providers: [FirebaseserviceService,
   AngularFireDatabase],

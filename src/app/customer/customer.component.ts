@@ -1,6 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import { FirebaseserviceService } from '../firebaseservice.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-customer',
@@ -55,6 +57,39 @@ export class CustomerComponent implements OnInit {
   customerlandscapeComp: any;
   employee_count_his: any;
   endpoints_his: any;
+  dateConv: any;
+  dataConv: any;
+
+  // lineChart
+  public lineChartDataEnd:Array<any> = [{ data: [], label: 'Endpoints' }];
+  public lineChartLabelsEnd:Array<any> = [];
+
+    // lineChart
+  public lineChartDataEm:Array<any> = [{ data: [], label: 'Employee Count' }];
+  public lineChartLabelsEm:Array<any> = [];
+
+  public dataEmp: Array<any>;
+  public dateEmp: Array<any>;
+  public dataEnd: Array<any>;
+  public dateEnd: Array<any>;
+
+  public lineChartOptions:any = {
+    responsive: true
+  };
+  public lineChartColors:Array<any> = [
+
+    { // dark grey
+      backgroundColor: 'rgba(77,83,96,0.2)',
+      borderColor: 'rgba(77,83,96,1)',
+      pointBackgroundColor: 'rgba(77,83,96,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    }
+  ];
+  public lineChartLegend:boolean = true;
+  public lineChartType:string = 'line';
+
 
 
 
@@ -66,172 +101,7 @@ export class CustomerComponent implements OnInit {
     
   }
 
-  ngOnInit() {
-    this.company_id = ''
-    this.account = [];
-    this.account_name = '';
-    this.company_type = '';
-    this.industry_type = '';
-    this.employee_count = '';
-    this.rakprods = true
-    this.customerlandscape = [];
-    this.customerlandscapeComp = [];
-    this.compproducts = []
-    this.competitor_name = ''
-    this.Product_name = ''
-    this.productkey = ''
-    this.competitorid = ''
-    this.oppoaccounts = []
-    this.license_expiry_dt = null;
-    //this.endpoints = []
-    this.totalendpoints = 0;
-    this.elaptops = 0
-    this.emobiles = 0
-    this.eonprem = 0
-    this.ecloud = 0
-    this.edesktops = 0
-    this.endpoints = []
-    this.endpoints_his = []
-    this.employee_count_his = []
 
-    //Display the company detail based on company id on respective fields
-    this.company_id = this.router.snapshot.params['companyid'];
-    //console.log("companyid", this.company_id)
-
-    this.firebaseservice.getProducts().snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    }).subscribe(product => {
-      this.products = product;
-    //console.log("log",this.products )
-    });
-
-    this.firebaseservice.getCompetitors().snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    }).subscribe(competitor => {
-      this.competitors = competitor;
-      //console.log("com", this.competitors)
-    });
-
-    this.firebaseservice.getOpportunitiesbycmpnyid(this.company_id).snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    }).subscribe(companies => {
-      this.oppoaccounts = companies;
-      //console.log(this.oppoaccounts)
-      companies.forEach((el: any) => 
-      {
-        this.firebaseservice.getproductname(el.product_key).snapshotChanges().subscribe((val: any)=>
-        {
-          var categorylist = val.payload.val().category
-          // console.log(categorylist)
-          if (categorylist == undefined)
-          {
-            //console.log("found none")
-          }
-          else 
-          {
-            //console.log(categorylist.category)
-            this.customerlandscape.push(categorylist.category)
-          }
-        
-        })
-      })
-
-      this.customerlandscape = this.customerlandscape
-      //console.log("this.customerlandscape", this.customerlandscape)
-
-    });
-
-
-    this.firebaseservice.getAccount(this.company_id).snapshotChanges().subscribe(value => {
-      this.account = value.payload.val()
-       // console.log(this.account)
-       this.account_name = this.account.companyname
-       this.industry_type = this.account.industrytype
-       this.company_type = this.account.companytype
-       this.employee_count = this.account.employee_count
-       if(this.account.employee_count_his != undefined) {
-         this.employee_count_his = this.account.employee_count_his
-      }
-      if(this.account.endpoints_his != undefined){
-       this.endpoints_his = this.account.endpoints_his
-     }
-
-       console.log("his", this.endpoints_his, this.employee_count_his)
-       this.contacts = Object.values(this.account.contact_persons)
-       if(this.account.competitor_products != undefined)
-       {
-        this.compproducts = Object.values(this.account.competitor_products)
-        }
-        else
-      {
-        this.compproducts = []
-       //console.log(this.contacts)
-      }
-
-      this.compproducts.forEach((el: any) => 
-      {
-        this.firebaseservice.getproductname(el.productid).snapshotChanges().subscribe((val: any)=>
-        {
-          var categorylistComp = val.payload.val().category
-          // console.log(categorylist)
-          if (categorylistComp == undefined)
-          {
-            console.log("found none")
-          }
-          else 
-          {
-            this.customerlandscapeComp.push(categorylistComp.category)
-          }
-        
-        })
-      })
-
-      this.customerlandscapeComp = this.customerlandscapeComp
-
-      if(this.account.endpoints != undefined){
-        this.endpoints = this.account.endpoints
-      }
-      else
-      {
-         this.endpoints = []
-      }
-
-    if(this.endpoints.length != 0){
- 
-      if(this.endpoints.laptop == undefined){
-        this.endpoints.laptop = 0
-      }
-
-      if(this.endpoints.desktop == undefined){
-        this.endpoints.desktop = 0
-      }
-
-      if(this.endpoints.mobile == undefined){
-        this.endpoints.mobile = 0
-      }
-
-      if(this.endpoints.servers.cloud == undefined){
-        this.endpoints.servers.cloud = 0
-      }
-
-      if(this.endpoints.servers.onprem == undefined){
-        this.endpoints.servers.onprem = 0
-      }
-    }
-
-      if(this.endpoints.length == 0)
-      {
-        this.totalendpoints = 0
-      }
-      else {
-        this.totalendpoints = Number(this.endpoints.laptop) + Number(this.endpoints.desktop) + Number(this.endpoints.mobile) + Number(this.endpoints.servers.onprem) + Number(this.endpoints.servers.cloud)
-      }
-
-      //console.log("endpointd",this.endpoints, this.totalendpoints)
-     })
-
-
-  }
 
   // intersectFunction()
   // {
@@ -241,6 +111,16 @@ export class CustomerComponent implements OnInit {
   //   console.log("this.customerlandscapeInter", this.customerlandscapeInter)
 
   // }
+
+
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+ 
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
 
   on_edit_accountname()
   {
@@ -523,4 +403,227 @@ onlicdtChange(value){
     console.log("toggle2", this.rakprods, this.compprods, this.contactshow)
   }
 
+    ngOnInit() {
+    this.company_id = ''
+    this.account = [];
+    this.account_name = '';
+    this.company_type = '';
+    this.industry_type = '';
+    this.employee_count = '';
+    this.rakprods = true
+    this.customerlandscape = [];
+    this.customerlandscapeComp = [];
+    this.compproducts = []
+    this.competitor_name = ''
+    this.Product_name = ''
+    this.productkey = ''
+    this.competitorid = ''
+    this.oppoaccounts = []
+    this.license_expiry_dt = null;
+    //this.endpoints = []
+    this.totalendpoints = 0;
+    this.elaptops = 0
+    this.emobiles = 0
+    this.eonprem = 0
+    this.ecloud = 0
+    this.edesktops = 0
+    this.endpoints = []
+    this.endpoints_his = []
+    this.employee_count_his = []
+    this.dataEmp = []
+    this.dateConv = null;
+    this.dataConv = 0;
+    this.dateEmp = []
+    this.dateEnd = []
+    this.dataEnd = []
+
+    //Display the company detail based on company id on respective fields
+    this.company_id = this.router.snapshot.params['companyid'];
+    //console.log("companyid", this.company_id)
+
+    this.firebaseservice.getProducts().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(product => {
+      this.products = product;
+    //console.log("log",this.products )
+    });
+
+    this.firebaseservice.getCompetitors().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(competitor => {
+      this.competitors = competitor;
+      //console.log("com", this.competitors)
+    });
+
+    this.firebaseservice.getOpportunitiesbycmpnyid(this.company_id).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(companies => {
+      this.oppoaccounts = companies;
+      //console.log(this.oppoaccounts)
+      companies.forEach((el: any) => 
+      {
+        this.firebaseservice.getproductname(el.product_key).snapshotChanges().subscribe((val: any)=>
+        {
+          var categorylist = val.payload.val().category
+          // console.log(categorylist)
+          if (categorylist == undefined)
+          {
+            //console.log("found none")
+          }
+          else 
+          {
+            //console.log(categorylist.category)
+            this.customerlandscape.push(categorylist.category)
+          }
+        
+        })
+      })
+
+      this.customerlandscape = this.customerlandscape
+      //console.log("this.customerlandscape", this.customerlandscape)
+
+    });
+
+
+    this.firebaseservice.getAccount(this.company_id).snapshotChanges().subscribe(value => {
+      this.account = value.payload.val()
+       // console.log(this.account)
+       this.account_name = this.account.companyname
+       this.industry_type = this.account.industrytype
+       this.company_type = this.account.companytype
+       this.employee_count = this.account.employee_count
+
+       if(this.account.employee_count_his != undefined) {
+         this.employee_count_his = Object.values(this.account.employee_count_his)
+
+          this.dataEmp = [];
+          this.dateEmp = [];
+   
+          //this.lineChartLabelsEm = []
+
+         for(let i=0; i < Object.keys(this.employee_count_his).length; i++){
+          this.dateConv = null;
+            this.dateConv = new Date(this.employee_count_his[i].create_date)
+            this.dataEmp.push(this.employee_count_his[i].emp_count)
+            
+            this.dateEmp.push(moment(this.dateConv).format('ll'))
+         }
+          
+         
+      }
+
+        this.lineChartDataEm = [
+          {data: this.dataEmp , label: 'Employee Count'}
+        ];
+
+        this.lineChartLabelsEm = this.dateEmp
+
+        console.log("dataEmp", this.lineChartDataEm, this.lineChartLabelsEm)
+
+
+
+      if(this.account.endpoints_his != undefined){
+       this.endpoints_his = Object.values(this.account.endpoints_his)
+
+       this.dataEnd = [];
+
+       for(let i=0; i < Object.keys(this.endpoints_his).length; i++){
+            this.dateConv = null;
+            this.dateConv = new Date(this.endpoints_his[i].create_date)
+            this.dataConv = 0;
+            this.dataConv = Number(this.endpoints_his[i].desktop) + Number(this.endpoints_his[i].mobile) + Number(this.endpoints_his[i].laptop)
+             + Number(this.endpoints_his[i].servers.cloud) + Number(this.endpoints_his[i].servers.onprem)
+            this.dataEnd.push(this.dataConv)
+            
+            this.dateEnd.push(moment(this.dateConv).format('ll'))
+         }
+
+     }
+
+      this.lineChartDataEnd = [
+          {data: this.dataEnd , label: 'Endpoints'}
+        ];
+
+        this.lineChartLabelsEnd = this.dateEnd
+
+        console.log("dataEmp", this.lineChartDataEnd, this.lineChartLabelsEnd)
+
+      
+
+       console.log("his", this.endpoints_his, this.employee_count_his)
+       this.contacts = Object.values(this.account.contact_persons)
+       if(this.account.competitor_products != undefined)
+       {
+        this.compproducts = Object.values(this.account.competitor_products)
+        }
+        else
+      {
+        this.compproducts = []
+       //console.log(this.contacts)
+      }
+
+      this.compproducts.forEach((el: any) => 
+      {
+        this.firebaseservice.getproductname(el.productid).snapshotChanges().subscribe((val: any)=>
+        {
+          var categorylistComp = val.payload.val().category
+          // console.log(categorylist)
+          if (categorylistComp == undefined)
+          {
+            console.log("found none")
+          }
+          else 
+          {
+            this.customerlandscapeComp.push(categorylistComp.category)
+          }
+        
+        })
+      })
+
+      this.customerlandscapeComp = this.customerlandscapeComp
+
+      if(this.account.endpoints != undefined){
+        this.endpoints = this.account.endpoints
+      }
+      else
+      {
+         this.endpoints = []
+      }
+
+    if(this.endpoints.length != 0){
+ 
+      if(this.endpoints.laptop == undefined){
+        this.endpoints.laptop = 0
+      }
+
+      if(this.endpoints.desktop == undefined){
+        this.endpoints.desktop = 0
+      }
+
+      if(this.endpoints.mobile == undefined){
+        this.endpoints.mobile = 0
+      }
+
+      if(this.endpoints.servers.cloud == undefined){
+        this.endpoints.servers.cloud = 0
+      }
+
+      if(this.endpoints.servers.onprem == undefined){
+        this.endpoints.servers.onprem = 0
+      }
+    }
+
+      if(this.endpoints.length == 0)
+      {
+        this.totalendpoints = 0
+      }
+      else {
+        this.totalendpoints = Number(this.endpoints.laptop) + Number(this.endpoints.desktop) + Number(this.endpoints.mobile) + Number(this.endpoints.servers.onprem) + Number(this.endpoints.servers.cloud)
+      }
+
+      //console.log("endpointd",this.endpoints, this.totalendpoints)
+     })
+
+
+  }
 }
