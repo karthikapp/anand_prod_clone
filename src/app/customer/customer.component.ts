@@ -60,6 +60,20 @@ export class CustomerComponent implements OnInit {
   dateConv: any;
   dataConv: any;
 
+
+
+
+  public lineChartData:Array<any> = [
+    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
+    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
+    {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
+  ];
+  public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+
+
+
+
   // lineChart
   public lineChartDataEnd:Array<any> = [{ data: [], label: 'Endpoints' }];
   public lineChartLabelsEnd:Array<any> = [];
@@ -495,7 +509,6 @@ onlicdtChange(value){
 
        if(this.account.employee_count_his != undefined) {
          this.employee_count_his = Object.values(this.account.employee_count_his)
-
           this.dataEmp = [];
           this.dateEmp = [];
    
@@ -505,20 +518,24 @@ onlicdtChange(value){
           this.dateConv = null;
             this.dateConv = new Date(this.employee_count_his[i].create_date)
             this.dataEmp.push(this.employee_count_his[i].emp_count)
-            
             this.dateEmp.push(moment(this.dateConv).format('ll'))
+
+
          }
           
          
       }
+
+    
+
 
         this.lineChartDataEm = [
           {data: this.dataEmp , label: 'Employee Count'}
         ];
 
         this.lineChartLabelsEm = this.dateEmp
+        // console.log("dataEmp", this.lineChartDataEm, this.lineChartLabelsEm)
 
-        console.log("dataEmp", this.lineChartDataEm, this.lineChartLabelsEm)
 
 
 
@@ -539,6 +556,9 @@ onlicdtChange(value){
          }
 
      }
+
+
+
 
       this.lineChartDataEnd = [
           {data: this.dataEnd , label: 'Endpoints'}
@@ -579,6 +599,13 @@ onlicdtChange(value){
         
         })
       })
+
+
+
+
+
+
+
 
       this.customerlandscapeComp = this.customerlandscapeComp
 
