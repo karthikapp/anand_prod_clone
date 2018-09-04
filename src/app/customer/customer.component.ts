@@ -60,8 +60,14 @@ export class CustomerComponent implements OnInit {
   dateConv: any;
   dataConv: any;
 
+  up_renewal_prod: any;
+  up_renewal_comprod: any;
+  datein4months: any;
 
-
+  lead_title: any;
+  prod_name: any;
+  prodkey: any;
+  quantity: any;
 
   public lineChartData:Array<any> = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
@@ -69,9 +75,6 @@ export class CustomerComponent implements OnInit {
     {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
   ];
   public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-
-
 
 
   // lineChart
@@ -104,9 +107,6 @@ export class CustomerComponent implements OnInit {
   public lineChartLegend:boolean = true;
   public lineChartType:string = 'line';
 
-
-
-
   constructor(private router: ActivatedRoute, private firebaseservice : FirebaseserviceService) 
   {
     this.isActive = true;
@@ -114,8 +114,6 @@ export class CustomerComponent implements OnInit {
     this.endpoints = []
     
   }
-
-
 
   // intersectFunction()
   // {
@@ -277,6 +275,13 @@ export class CustomerComponent implements OnInit {
     this.upd_license_expiry_dt = value
   }
 
+  on_create_lead(val, val1, val2)
+  {
+     this.prodkey = val
+     this.prod_name = val1
+     this.quantity = val2
+  }
+
 
 changeprod(value)
 {
@@ -396,7 +401,7 @@ onlicdtChange(value){
     this.rakprods = true
     this.compprods = false
     this.contactshow = false
-    console.log("toggle", this.rakprods, this.compprods, this.contactshow)
+    //console.log("toggle", this.rakprods, this.compprods, this.contactshow)
   }
 
   togglecompprods() 
@@ -405,7 +410,7 @@ onlicdtChange(value){
     this.compprods = true
     this.contactshow = false
     // console.log(this.isActive)
-    console.log("toggle1", this.rakprods, this.compprods, this.contactshow)
+    //console.log("toggle1", this.rakprods, this.compprods, this.contactshow)
   }
 
   togglechats() 
@@ -414,7 +419,7 @@ onlicdtChange(value){
     this.compprods = false
     this.contactshow = true
     // console.log(this.isActive_chats)
-    console.log("toggle2", this.rakprods, this.compprods, this.contactshow)
+    //console.log("toggle2", this.rakprods, this.compprods, this.contactshow)
   }
 
     ngOnInit() {
@@ -450,6 +455,13 @@ onlicdtChange(value){
     this.dateEmp = []
     this.dateEnd = []
     this.dataEnd = []
+    this.datein4months = null;
+    this.up_renewal_prod = [];
+    this.up_renewal_comprod = [];
+
+    var dateRes = moment();
+    this.datein4months = dateRes.add(4, 'months');
+    console.log("dateRes",  this.datein4months)
 
     //Display the company detail based on company id on respective fields
     this.company_id = this.router.snapshot.params['companyid'];
@@ -491,6 +503,12 @@ onlicdtChange(value){
           }
         
         })
+
+        if(new Date(el.prod_license_expiry_dt) >= this.datein4months)
+        {
+          this.up_renewal_prod.push(el);
+        }
+        console.log("up_renewal_prod", this.up_renewal_prod)
       })
 
       this.customerlandscape = this.customerlandscape
@@ -519,16 +537,8 @@ onlicdtChange(value){
             this.dateConv = new Date(this.employee_count_his[i].create_date)
             this.dataEmp.push(this.employee_count_his[i].emp_count)
             this.dateEmp.push(moment(this.dateConv).format('ll'))
-
-
          }
-          
-         
       }
-
-    
-
-
         this.lineChartDataEm = [
           {data: this.dataEmp , label: 'Employee Count'}
         ];
@@ -536,17 +546,16 @@ onlicdtChange(value){
         this.lineChartLabelsEm = this.dateEmp
         // console.log("dataEmp", this.lineChartDataEm, this.lineChartLabelsEm)
 
-
-
-
       if(this.account.endpoints_his != undefined){
        this.endpoints_his = Object.values(this.account.endpoints_his)
 
        this.dataEnd = [];
+       this.dateEnd = [];
 
        for(let i=0; i < Object.keys(this.endpoints_his).length; i++){
             this.dateConv = null;
             this.dateConv = new Date(this.endpoints_his[i].create_date)
+
             this.dataConv = 0;
             this.dataConv = Number(this.endpoints_his[i].desktop) + Number(this.endpoints_his[i].mobile) + Number(this.endpoints_his[i].laptop)
              + Number(this.endpoints_his[i].servers.cloud) + Number(this.endpoints_his[i].servers.onprem)
@@ -557,20 +566,17 @@ onlicdtChange(value){
 
      }
 
-
-
-
       this.lineChartDataEnd = [
           {data: this.dataEnd , label: 'Endpoints'}
         ];
 
         this.lineChartLabelsEnd = this.dateEnd
 
-        console.log("dataEmp", this.lineChartDataEnd, this.lineChartLabelsEnd)
+        //console.log("dataEmp", this.lineChartDataEnd, this.lineChartLabelsEnd)
 
-      
+        
 
-       console.log("his", this.endpoints_his, this.employee_count_his)
+       //console.log("his", this.endpoints_his, this.employee_count_his)
        this.contacts = Object.values(this.account.contact_persons)
        if(this.account.competitor_products != undefined)
        {
@@ -590,7 +596,7 @@ onlicdtChange(value){
           // console.log(categorylist)
           if (categorylistComp == undefined)
           {
-            console.log("found none")
+            //console.log("found none")
           }
           else 
           {
@@ -598,14 +604,14 @@ onlicdtChange(value){
           }
         
         })
+
+        if(new Date(el.license_expiry_dt) >= this.datein4months)
+        {
+          this.up_renewal_comprod.push(el);
+        }
+
+        console.log("up_renewal_comprod", this.up_renewal_comprod)
       })
-
-
-
-
-
-
-
 
       this.customerlandscapeComp = this.customerlandscapeComp
 
