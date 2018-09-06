@@ -68,6 +68,8 @@ export class CustomerComponent implements OnInit {
   prod_name: any;
   prodkey: any;
   quantity: any;
+  category_com: any;
+  ecategory_com: any;
 
   public lineChartData:Array<any> = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
@@ -151,6 +153,13 @@ export class CustomerComponent implements OnInit {
   on_edit_companytype()
   {
     this.firebaseservice.updateCompanyType(this.ecompanytype, this.ecompanyid).then(success => {
+      alert("Updated Successfully!!")
+    })
+  }
+
+  on_edit_categorycom()
+  {
+    this.firebaseservice.updateCategoryCom(this.ecategory_com, this.ecompanyid).then(success => {
       alert("Updated Successfully!!")
     })
   }
@@ -277,6 +286,9 @@ export class CustomerComponent implements OnInit {
 
   on_create_lead(val, val1, val2)
   {
+    this.prodkey = ''
+    this.prod_name = ''
+    this.quantity = ''
      this.prodkey = val
      this.prod_name = val1
      this.quantity = val2
@@ -293,6 +305,8 @@ changecompname(value){
   //console.log(value)
   this.competitorid = value
 }
+
+
 
 onlicdtChange(value){
   this.license_expiry_dt = value
@@ -322,6 +336,14 @@ onlicdtChange(value){
     this.ecompanyid = companyid
   }
 
+  editCategoryCom(category_com, companyid)
+  {
+    this.ecompanyid = ''
+    this.ecategory_com = ''
+    this.ecategory_com = category_com
+    this.ecompanyid = companyid
+  }
+
   editEmpCount(empcount, companyid)
   {
     this.eempcount = ''
@@ -332,6 +354,10 @@ onlicdtChange(value){
 
   changeCompanyType(value){
     this.ecompanytype = value;
+  }
+
+  changeCategoryCom(value){
+    this.ecategory_com = value;
   }
 
   removenull(customerlandscape)
@@ -385,6 +411,21 @@ onlicdtChange(value){
     if(company_type)
     {
       var returnvalue = company_type
+    }
+    else 
+    {
+      returnvalue = 'NA'
+    }
+
+    return returnvalue
+
+  }
+
+    returncategory(category_com)
+  {
+    if(category_com)
+    {
+      var returnvalue = category_com
     }
     else 
     {
@@ -458,6 +499,7 @@ onlicdtChange(value){
     this.datein4months = null;
     this.up_renewal_prod = [];
     this.up_renewal_comprod = [];
+    this.category_com = ''
 
     var dateRes = moment();
     this.datein4months = dateRes.add(4, 'months');
@@ -504,7 +546,7 @@ onlicdtChange(value){
         
         })
 
-        if(new Date(el.prod_license_expiry_dt) >= this.datein4months)
+        if(this.datein4months < new Date(el.prod_license_expiry_dt))
         {
           this.up_renewal_prod.push(el);
         }
@@ -523,6 +565,9 @@ onlicdtChange(value){
        this.account_name = this.account.companyname
        this.industry_type = this.account.industrytype
        this.company_type = this.account.companytype
+       if(this.account.category != undefined){
+       this.category_com = this.account.category 
+        }
        this.employee_count = this.account.employee_count
 
        if(this.account.employee_count_his != undefined) {
@@ -605,7 +650,7 @@ onlicdtChange(value){
         
         })
 
-        if(new Date(el.license_expiry_dt) >= this.datein4months)
+        if(this.datein4months < new Date(el.license_expiry_dt))
         {
           this.up_renewal_comprod.push(el);
         }

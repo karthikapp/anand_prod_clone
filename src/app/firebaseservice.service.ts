@@ -70,6 +70,11 @@ export class FirebaseserviceService {
     return this.af.object(comURLs).update({'companytype': ecompanytype})
   }
 
+  updateCategoryCom(ecategory_com, ecompanyid){
+    var catcomURLs = '/accounts/' + ecompanyid
+    return this.af.object(catcomURLs).update({'category': ecategory_com})
+  }
+
   updateEmpCount(eempcount, ecompanyid){
     var empcountURLs = '/accounts/' + ecompanyid + '/employee_count_his'
     var empcount = {

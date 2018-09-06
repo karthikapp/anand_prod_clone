@@ -4,9 +4,11 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'productSearch'
 })
 export class ProductSearchPipe implements PipeTransform {
+  val: any;
 
-  transform(value: any, input:any,division: any, args?: any): any {
+  transform(value: any, input:any, division: any, args?: any): any {
 
+    this.val = ''
     //When Input == search String is NULL or UNDEFINED, 
     //return ALL the accounts / oems/ events/ products/ distributors values
     if(input == null || input == undefined) { 
@@ -24,11 +26,13 @@ export class ProductSearchPipe implements PipeTransform {
       return value.filter( values => {
        return values.Product_name.toLowerCase().indexOf(input.toLowerCase()) > -1;
       })
-    } else if ((value != null || value != undefined) && division == 'accounts'){
+
+    } 
+    else if ((value != null || value != undefined) && division == 'accounts'){
       return value.filter( values => {
        return values.companyname.toLowerCase().indexOf(input.toLowerCase()) > -1;
       })
-    }
+    } 
     
 
 

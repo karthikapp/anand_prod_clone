@@ -14,6 +14,20 @@
       </div>
     </div>
 
+    <!--Filter Category on top right corner-->
+    <div style="float:left;font-family: 'Marvel', sans-serif;">
+      <form class="ui mini form">
+            <div class="form-group column">
+              <label style="font-weight: bold; font-size: 15px;color: black" for="exampleFormControlSelect8">Category: </label>
+              <select class="form-control" id="exampleFormControlSelect8" name="category" [(ngModel)]="category" (change)="onCategoryChange($event.target.value)"  style="height: 29px;font-size: 1.2em; padding-top: 4px; padding-bottom: 4px;">
+              <option [value]="'All'">All</option>
+              <option [value]="'thunderbird'">ThunderBird</option>
+            <option [value]="'classic'">Classic</option>
+              </select>
+            </div>
+          </form>
+    </div>
+
     <br> 
     <br>
     <br>
@@ -27,16 +41,20 @@
         <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp" style="width: 95%;height:50vh" >
        <thead style="background-color: #1e88e5;">
         <tr>
+          <th style="color: white;text-align: left;font-size: 14px;">Category</th>
           <th style="color: white;text-align: left;font-size: 14px;">Company Name</th>
           <th style="color: white;text-align: left;font-size: 14px;">Company Address</th>
           <th style="color: white;text-align: left;font-size: 14px;">Company Type</th>
           <th style="color: white;text-align: left;font-size: 14px;">Industry Type</th>
           <th style="color: white;text-align: left;font-size: 14px;">Employee Count</th>
             <th style="color: white;text-align: left;font-size: 14px;">Contacts</th>
+            
         </tr>
       </thead>
       <tbody>
-        <tr  *ngFor="let acct of accounts | productSearch: querystring: 'accounts' |sortorder | paginate: { id: 'cust', itemsPerPage: 6, currentPage: q }">
+        <tr  *ngFor="let acct of account_list | productSearch: querystring: 'accounts' |sortorder | paginate: { id: 'cust', itemsPerPage: 6, currentPage: q }">
+             <td style="text-align: left;">  {{getStringValue(acct.category)}}
+          </td>
           <td [routerLink]="['/companyinfo', acct.companyid]" style="text-align: left;">  {{acct.companyname}}</td>
           <td style="text-align: left;"> <p style="font-size: 12px;">  
             {{getAddressline1(acct.company_address_line1)}}
@@ -51,6 +69,7 @@
           </td>
                 <td style="text-align: left;">  {{countContactPerson(acct.contact_persons)}}
           </td>
+       
         </tr>
  
       </tbody>

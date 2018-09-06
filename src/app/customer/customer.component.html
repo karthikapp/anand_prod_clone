@@ -17,6 +17,8 @@
           <i class="edit outline icon" uk-toggle="target: #modal-edit-industrytype" (click)="editIndustryType(industry_type, company_id)"></i> 
           <a class="ui brown label">{{returncompanytype(company_type)}} </a>  
           <i class="edit outline icon" uk-toggle="target: #modal-edit-companytype" (click)="editCompanyType(company_type, company_id)"></i> 
+          <a class="ui blue label">{{returncategory(category_com)}} </a>  
+          <i class="edit outline icon" uk-toggle="target: #modal-edit-category_com" (click)="editCategoryCom(category_com, company_id)"></i> 
         </p>
 
         <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
@@ -213,6 +215,30 @@
       <p class="uk-text-right">
         <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
         <button class="uk-button uk-button-primary" type="button" (click)="on_edit_companytype()">Save</button>
+      </p>
+    </div>
+  </div>
+
+    <!--Modal for Editing Category for company -->
+  <div id="modal-edit-category_com" uk-modal>
+    <br>
+    <br>
+    <div class="uk-modal-dialog uk-modal-body">
+      <h2 class="uk-modal-title">Update Category</h2>
+      <form class="ui form">
+        <div class="form-group column" >
+          <label for="exampleFormControlSelect12">Category</label> {{ecategory_com}}
+          <select class="form-control" id="exampleFormControlSelect12" (change)="changeCategoryCom($event.target.value)" name="ecategory_com"> 
+            <option [value]="'thunderbird'">ThunderBird</option>
+            <option [value]="'classic'">Classic</option>
+          </select>
+        </div>
+      </form>
+      <br>
+      <br>
+      <p class="uk-text-right">
+        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+        <button class="uk-button uk-button-primary" type="button" (click)="on_edit_categorycom()">Save</button>
       </p>
     </div>
   </div>
@@ -486,7 +512,7 @@
           <span style="font-weight: bold;color: #2196f3">License Qty:</span> 
           <h4 style="color: #2196f3">1</h4>
           <p uk-margin>
-            <button class="uk-button uk-button-primary" uk-toggle="target: #modal-create-comlead">Create Lead</button>
+            <button class="uk-button uk-button-primary" uk-toggle="target: #modal-create-lead" (click)="on_create_lead(upcomingcomprod.productid, '', 1)">Create Lead</button>
           </p>
         </div>
       </div>
@@ -525,8 +551,11 @@
         </div>
         <br>
 
-     
-      
+        <div class="field">
+          <label>Quantity</label>
+          <input type="text" name="quantity" placeholder="Quantity" [(ngModel)]="quantity">
+        </div>
+        <br> 
     </form>
     <br>
     <br>

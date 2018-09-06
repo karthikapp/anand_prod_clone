@@ -10,9 +10,12 @@ export class CustomerlistComponent implements OnInit {
 
   accounts: any;
   querystring: string;
+  account_list: any;
 
   totalCounts: number;
   val: any;
+
+  category: any;
 
   //initializing p to one for pagination pipe
   q: number = 1;
@@ -26,14 +29,36 @@ export class CustomerlistComponent implements OnInit {
   {
     //Get company details
    
+    this.category = 'All';
+    this.accounts = [];
+    this.account_list = [];
+
     this.firebaseservice.getAccounts().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(companies => {
       this.accounts = companies;
+      this.onChangeofBoth();
     });
   }
 
+  onChangeofBoth(){
+     this.account_list = [];
+    if (this.category == 'All'){
+      this.account_list = this.accounts 
+    } 
+    else if (this.category != '' && this.category != undefined) {
+      this.account_list = this.accounts.filter (u =>  {
+        return (u.category == this.category)
+      })
+    }
+  }
 
+  onCategoryChange(value)
+  {
+    this.category = ''
+    this.category = value
+    this.onChangeofBoth();
+  }
 
   //Display the count of Contact Persons 
   countContactPerson(contct){
@@ -63,6 +88,8 @@ export class CustomerlistComponent implements OnInit {
       }
     }   
   }
+
+  
 
   getAddressline1(add1){
 
