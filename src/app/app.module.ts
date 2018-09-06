@@ -29,7 +29,7 @@ import {NgPipesModule} from 'ngx-pipes';
 import Chart from 'chart.js';
 import { ChartsModule } from 'ng2-charts';
 import { MomentModule } from 'angular2-moment';
-
+import { MultiselectDropdownModule } from 'ng2-multiselect';
 
 
 const appRoutes: Routes = [
@@ -67,7 +67,8 @@ const appRoutes: Routes = [
     SelectModule,
     NgPipesModule,
     ChartsModule,
-    MomentModule
+    MomentModule,
+    MultiselectDropdownModule
   ],
   providers: [FirebaseserviceService,
   AngularFireDatabase],

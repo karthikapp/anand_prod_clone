@@ -500,7 +500,7 @@
           <span style="font-weight: bold;">License Qty:</span> 
           <h4>{{upcomingprod.quantity}}</h4>
           <p uk-margin>
-            <button class="uk-button uk-button-default" uk-toggle="target: #modal-create-lead" (click)="on_create_lead(upcomingprod.product_key, upcomingprod.product_name, upcomingprod.quantity)">Create Lead</button>
+            <button class="uk-button uk-button-default" uk-toggle="target: #modal-create-lead" (click)="on_create_lead(upcomingprod.product_key, upcomingprod.quantity,'renewal')">Create Lead</button>
           </p>
         </div>
       </div>
@@ -512,7 +512,7 @@
           <span style="font-weight: bold;color: #2196f3">License Qty:</span> 
           <h4 style="color: #2196f3">1</h4>
           <p uk-margin>
-            <button class="uk-button uk-button-primary" uk-toggle="target: #modal-create-lead" (click)="on_create_lead(upcomingcomprod.productid, '', 1)">Create Lead</button>
+            <button class="uk-button uk-button-primary" uk-toggle="target: #modal-create-lead" (click)="on_create_lead(upcomingcomprod.productid, 1, 'competitor')">Create Lead</button>
           </p>
         </div>
       </div>
@@ -533,36 +533,132 @@
     <h2 class="uk-modal-title">Create Lead</h2>
      <form class="ui form">
         <div class="field">
-          <label>Lead Title</label>
+          <label>LEAD TITLE</label>
           <input type="text" name="lead_title" placeholder="Lead Title" [(ngModel)]="lead_title">
           <p style="color: white; font-size: 11px;padding-top: 2px;" *ngIf="lead_title == ''">  <i class="fas fa-info-circle"></i> &nbsp; Please Enter Lead Title </p>
         </div>
         <br>
 
         <div class="field">
-          <label>Company name</label>
+          <label>COMPANY NAME</label>
           <input type="text" name="account_name" placeholder="Company Name" [(ngModel)]="account_name" readonly>
         </div>
-        <br>
+        
 
-        <div class="field">
-          <label>product name</label>
-          <input type="text" name="prod_name" placeholder="product name" [(ngModel)]="prod_name" readonly>
+         <div class="form-group column">
+          <label  for="exampleFormControlSelect67" style="font-size: 13px"><b>CONTACT PERSON NAME</b></label>
+          <select class="form-control" id="exampleFormControlSelect67" [(ngModel)]="cp" name="cp">
+            <option [value]="''">Select an option </option>
+            <option *ngFor="let cp of contacts" [ngValue]="cp">{{cp.contact_person_name}}</option>
+          </select>
         </div>
         <br>
 
         <div class="field">
-          <label>Quantity</label>
-          <input type="text" name="quantity" placeholder="Quantity" [(ngModel)]="quantity">
+          <label>PRODUCT NAME</label>
+          <input type="text" name="prod_name" placeholder="Product name" [(ngModel)]="prod_name" readonly>
         </div>
-        <br> 
+
+        <div class="ui stackable two column grid">
+          <div class="column">
+            <div class="field">
+              <label>QUANTITY</label>
+              <input type="text" name="quantity" placeholder="Quantity" [(ngModel)]="quantity">
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="field">
+              <label>VALUE</label>
+              <input type="number" name="prodvalue" placeholder="Value" [(ngModel)]="prodvalue">
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group column">
+          <label  for="exampleFormControlSelect69" style="font-size: 13px"><b>LEAD SOURCE</b></label>
+          <select class="form-control" id="exampleFormControlSelect69" [(ngModel)]="lead_source" name="lead_source" (change)="changeLeadSource($event.target.value)">
+            <option value="inbound-landline">Inbound Landline</option>
+            <option value="event">Event</option>
+            <option value="distributor">Distributor</option>
+            <option value="oem">OEM</option>
+            <option value="outboundcall">Outbound Call</option>
+            <option value="onsite">On Site Visit</option>
+          </select>
+        </div>
+
+
+        <div class="form-group column" *ngIf="lead_source == 'event'">
+          <label  for="exampleFormControlSelect71" style="font-size: 13px"><b>EVENT NAME</b></label>
+          <select class="form-control" id="exampleFormControlSelect71" name="event" [(ngModel)]="event">
+            <option *ngFor="let event of events" [ngValue]="event">{{event.event_name}}</option>
+          </select>
+        </div>
+   
+
+        <div class="form-group column" *ngIf="lead_source == 'oem'">
+          <label  for="exampleFormControlSelect72" style="font-size: 13px"><b>OEM NAME</b></label>
+          <select class="form-control" id="exampleFormControlSelect72"  name="oem" [(ngModel)]="oem">
+            <option *ngFor="let oem of oems" [ngValue]="oem">{{oem.oem_name}}</option>
+          </select>
+        </div>
+   
+
+                <div class="form-group column" *ngIf="lead_source == 'distributor'">
+          <label  for="exampleFormControlSelect73" style="font-size: 13px"><b>DISTRIBUTOR NAME</b></label>
+          <select class="form-control" id="exampleFormControlSelect73"  name="distributor" [(ngModel)]="distributor">
+            <option *ngFor="let distributor of distributors" [ngValue]="distributor">{{distributor.distributor_name}}</option>
+          </select>
+        </div>
+
+        <br>
+
+             <div class="form-group column">
+          <label  for="exampleFormControlSelect74" style="font-size: 13px" ><b>NEED(s)</b></label>
+          <select class="form-control" id="exampleFormControlSelect74" multiple size="5" >
+            <option *ngFor="let needlist of needlists" [value]="needlist.need_id">{{needlist.need_name}}</option>
+          </select>
+        </div>
+        <br>
+
+        <div class="form-group column">
+          <label  for="exampleFormControlSelect75" style="font-size: 13px" ><b>ASSIGNED TO</b></label>
+          <select class="form-control" id="exampleFormControlSelect75" name="user" [(ngModel)]="user">
+            <option *ngFor="let user of users" [ngValue]="user">{{user.name}}</option>
+          </select>
+        </div>
+
+
+        <div class="form-group column">
+          <label  for="exampleFormControlSelect68" style="font-size: 13px"><b>REGION</b></label>
+          <select class="form-control" id="exampleFormControlSelect68" [(ngModel)]="region" name="region" (change)="changeRegion($event.target.value)">
+            <option value="bangalore">Bangalore</option>
+            <option value="chennai">Chennai</option>
+            <option value="hyderabad">Hyderabad</option>
+            <option value="coimbatore">Coimbatore</option>
+            <option value="mumbai">Mumbai</option>
+          </select>
+        </div>
+
+       <div>
+         <p style="color: white;font-size: 11px;padding-top: 2px;padding-left: 4px;" *ngIf="region == ''"> <i class="fas fa-info-circle"></i>  &nbsp; Please Enter Region</p>
+       </div>
+      <br>
+
+      <div class="field">
+          <label>MEETING REMARK</label>
+          <input type="text" name="meeting_remark" placeholder="Meeting Remark" [(ngModel)]="meeting_remark">
+        </div>
+
+
     </form>
     <br>
     <br>
     <br>
     <p class="uk-text-right">
       <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-      <button class="uk-button uk-button-primary" type="button">Add</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="createnewLead()">Add</button>
     </p>
   </div>
 </div>

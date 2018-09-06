@@ -229,6 +229,29 @@ export class FirebaseserviceService {
     return this.af.list('/competitors');
   }
 
+  getEvents(){
+    return this.af.list('/events')
+  }
+
+  getOEMS(){
+    return this.af.list('/oems')
+  }
+
+  getDistributors(){
+    return this.af.list('/distributors')
+  }
+
+  getNeedList(){
+    return this.af.list('/needlist')
+  }
+
+  getUsers(){
+    return this.af.list('/user')
+  }
+
+  addLead(leadobj){
+    return this.af.list('/leads').push(leadobj)
+  }
 
   //Update Product information
   saveProduct(product_key, productObject: {category: object, bundles: any}){

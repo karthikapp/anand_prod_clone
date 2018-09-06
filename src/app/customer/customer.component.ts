@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { FirebaseserviceService } from '../firebaseservice.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
-
+import { IMultiSelectOption,IMultiSelectSettings } from 'ng2-multiselect';
 
 @Component({
   selector: 'app-customer',
@@ -63,13 +63,52 @@ export class CustomerComponent implements OnInit {
   up_renewal_prod: any;
   up_renewal_comprod: any;
   datein4months: any;
+  category_com: any;
+  ecategory_com: any;
 
   lead_title: any;
+  lead_source: any;
   prod_name: any;
   prodkey: any;
   quantity: any;
-  category_com: any;
-  ecategory_com: any;
+  prodvalue: any;
+  Lbrand:any;
+  cpid: any;
+  cpname: any;
+  region: any;
+  event_id: any;
+  event_name: any;
+  distributor_id: any;
+  distributor_name: any;
+  oem_id:any;
+  oem_name:any;
+  person_designation: any;
+  created_at: any;
+  edc_date: any;
+  meeting_remark: any;
+  cp: any;
+  productlist: any;
+
+  events:any;
+  event: any;
+
+  distributors: any;
+  oems: any;
+  distributor: any;
+  oem: any;
+  lead_type: any;
+  needlist: any;
+  needlists: any;
+  
+  optionsModel: number[];
+
+  users: any;
+  user: any;
+
+  username: any;
+  userid: any;
+  reports_to: any;
+
 
   public lineChartData:Array<any> = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
@@ -199,8 +238,6 @@ export class CustomerComponent implements OnInit {
       create_date: this.firebaseservice.created_at
     }
 
-    //console.log("end", endpoints)
-
     this.firebaseservice.updateEndpoints(this.ecompanyid, endpoints).then(success => {
       alert("Updated Successfully!!")
     })
@@ -215,8 +252,6 @@ export class CustomerComponent implements OnInit {
     this.edesktops = 0
 
     this.ecompanyid = companyid
-
-    //console.log("endpoints", this.endpoints.length, this.endpoints)
 
     if(this.endpoints.length != 0)
     {
@@ -289,11 +324,122 @@ export class CustomerComponent implements OnInit {
     this.prodkey = ''
     this.prod_name = ''
     this.quantity = ''
-     this.prodkey = val
-     this.prod_name = val1
-     this.quantity = val2
+    this.Lbrand = ''
+    this.cpid = ''
+    this.cpname = ''
+    this.lead_type = ''
+    this.edc_date = ''
+    this.meeting_remark = ''
+    this.event = []
+    this.distributor = []
+    this.oem = []
+    this.cp = []
+    this.productlist = []
+    this.needlist = []
+    this.user = []
+    this.username = ''
+    this.userid = ''
+    this.reports_to = ''
+
+    this.prodkey = val
+     this.quantity = val1
+     this.lead_type = val2
+
+     this.firebaseservice.getproductname(this.prodkey).snapshotChanges().subscribe((val: any)=>
+        {
+          this.prod_name = val.payload.val().Product_name
+          this.Lbrand = val.payload.val().Brand
+          console.log("", val.payload.val(), this.Lbrand)
+        })
   }
 
+createnewLead()
+{
+  if(Object.keys(this.cp).length > 0){
+    this.cpname = this.cp.contact_person_name
+    this.cpid = this.cp.contact_person_id
+  }
+
+  if(this.user.length > 0){
+    this.username = this.user.name
+    this.userid = this.user.userid
+    this.reports_to = this.user.reports_to
+  }
+
+  if(this.lead_source == 'event')
+  {
+    this.event_name = this.event.event_name
+    this.event_id = this.event.event_id
+    this.distributor_id = ''
+    this.distributor_name = ''
+    this.oem_name = ''
+    this.oem_id = ''
+  }
+
+  if(this.lead_source == 'distributor')
+  {
+    this.distributor_id = this.distributor.distributor_id
+    this.distributor_name = this.distributor.distributor_name
+    this.event_name = ''
+    this.event_id = ''
+    this.oem_name = ''
+    this.oem_id = ''
+  }
+
+  if(this.lead_source == 'oem')
+  {
+    this.oem_id = this.oem.oem_id
+    this.oem_name = this.oem.oem_name
+    this.distributor_id = ''
+    this.distributor_name = ''
+    this.event_id = ''
+    this.event_name = ''
+  }
+
+  let productslist = {
+    brand: this.Lbrand,
+    product_key: this.prodkey,
+    product_name: this.prod_name,
+    productqty: this.quantity,
+    value: this.prodvalue
+  }
+
+  this.productlist.push(productslist)
+
+  let leadobj = {
+    leadsource: this.lead_source,
+       lead_title : this.lead_title,
+       existing_customer: true,
+       event_name: this.event_name,
+       event_id: this.event_id,
+       company_name:this.account_name,
+       company_id : this.company_id,
+       company_contact_person_name:this.cpname,
+       company_contact_person_id: this.cpid,
+       person_designation:this.person_designation,
+       created_at: this.created_at,
+       assigned_to: this.userid,
+       oem_name: this.oem_name,
+       oem_id: this.oem_id,
+       distributor_id: this.distributor_id,
+       distributor_name: this.distributor_name,
+       reports_to: this.reports_to,
+       assigned_to_name: this.username,
+       meeting_remark: this.meeting_remark,
+       products_list: this.productlist,
+       // oem_lock: this.isoemToggled,
+       leadstatus: 'prequal',
+       region: this.region,
+       // budget: this.budgetamount,
+       // approval_authority: this.authority_contact_id,
+        needlist: this.needlist,
+       edc: this.edc_date,
+       leadtype: this.lead_type
+  }
+  console.log("list", productslist, leadobj )
+
+  // this.firebaseservice.addLead(leadobj).then(success => {alert("Lead added Successfully")})
+}
 
 changeprod(value)
 {
@@ -306,6 +452,14 @@ changecompname(value){
   this.competitorid = value
 }
 
+  changeLeadSource(value){
+    this.lead_source = value
+  }
+
+  changeRegion(value)
+  {
+    this.region = value
+  }
 
 
 onlicdtChange(value){
@@ -359,6 +513,8 @@ onlicdtChange(value){
   changeCategoryCom(value){
     this.ecategory_com = value;
   }
+
+
 
   removenull(customerlandscape)
   {
@@ -499,7 +655,12 @@ onlicdtChange(value){
     this.datein4months = null;
     this.up_renewal_prod = [];
     this.up_renewal_comprod = [];
-    this.category_com = ''
+    this.category_com = '';
+    this.events = [];
+    this.distributors = [];
+    this.oems = [];
+    this.needlists = []
+    this.users = []
 
     var dateRes = moment();
     this.datein4months = dateRes.add(4, 'months');
@@ -523,11 +684,45 @@ onlicdtChange(value){
       //console.log("com", this.competitors)
     });
 
+    this.firebaseservice.getEvents().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(event => {
+      this.events = event;
+      console.log("this.events", this.events)
+    });
+
+    this.firebaseservice.getDistributors().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(dist => {
+      this.distributors = dist;
+    });
+
+    this.firebaseservice.getOEMS().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(oem => {
+      this.oems = oem;
+    });
+
+    this.firebaseservice.getNeedList().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(needlist => {
+      this.needlists = needlist;
+      console.log("nd", this.needlists)
+    })
+
+    this.firebaseservice.getUsers().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    }).subscribe(user => {
+      this.users = user;
+      console.log("nd", this.users)
+    })
+
     this.firebaseservice.getOpportunitiesbycmpnyid(this.company_id).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(companies => {
       this.oppoaccounts = companies;
-      //console.log(this.oppoaccounts)
+      console.log(this.oppoaccounts)
+      this.up_renewal_prod = []
       companies.forEach((el: any) => 
       {
         this.firebaseservice.getproductname(el.product_key).snapshotChanges().subscribe((val: any)=>
@@ -566,7 +761,6 @@ onlicdtChange(value){
        this.industry_type = this.account.industrytype
        this.company_type = this.account.companytype
        if(this.account.category != undefined){
-       this.category_com = this.account.category 
         }
        this.employee_count = this.account.employee_count
 
@@ -633,6 +827,7 @@ onlicdtChange(value){
        //console.log(this.contacts)
       }
 
+      this.up_renewal_comprod = []
       this.compproducts.forEach((el: any) => 
       {
         this.firebaseservice.getproductname(el.productid).snapshotChanges().subscribe((val: any)=>
@@ -704,4 +899,10 @@ onlicdtChange(value){
 
 
   }
+
+  onChange(value) {
+        console.log(this.optionsModel, value);
+    }
+
+
 }
