@@ -99,6 +99,9 @@ export class CustomerComponent implements OnInit {
   lead_type: any;
   needlist: any;
   needlists: any;
+  isoemToggled: any;
+  budgetamount: any;
+  authority_contact_id: any;
   
   optionsModel: number[];
 
@@ -340,6 +343,11 @@ export class CustomerComponent implements OnInit {
     this.username = ''
     this.userid = ''
     this.reports_to = ''
+    this.region = ''
+    this.isoemToggled = false
+    this.person_designation = ''
+    this.budgetamount = 0
+    this.authority_contact_id = ''
 
     this.prodkey = val
      this.quantity = val1
@@ -355,9 +363,32 @@ export class CustomerComponent implements OnInit {
 
 createnewLead()
 {
+  if(Object.keys(this.cp).length = 0){
+    this.cpid = ''
+    this.cpname = '' 
+  }
+
+  if(this.lead_source == undefined){
+    this.lead_source = ''
+  }
+
+  if(this.lead_title == undefined){
+    this.lead_title = ''
+  }
+
+  if(this.meeting_remark == undefined){
+    this.meeting_remark = ''
+  }
+
+  if(this.user.length == 0){
+    this.username = ''
+    this.userid = ''
+  }
+
   if(Object.keys(this.cp).length > 0){
     this.cpname = this.cp.contact_person_name
     this.cpid = this.cp.contact_person_id
+    this.person_designation = this.cp.contact_person_title
   }
 
   if(this.user.length > 0){
@@ -427,18 +458,24 @@ createnewLead()
        assigned_to_name: this.username,
        meeting_remark: this.meeting_remark,
        products_list: this.productlist,
-       // oem_lock: this.isoemToggled,
+       oem_lock: this.isoemToggled,
        leadstatus: 'prequal',
        region: this.region,
-       // budget: this.budgetamount,
-       // approval_authority: this.authority_contact_id,
+       budget: this.budgetamount,
+       approval_authority: this.authority_contact_id,
         needlist: this.needlist,
        edc: this.edc_date,
        leadtype: this.lead_type
   }
   console.log("list", productslist, leadobj )
 
-  // this.firebaseservice.addLead(leadobj).then(success => {alert("Lead added Successfully")})
+  if(this.lead_title == '' && this.lead_source == '' && this.region == '' && this.userid == '' && this.meeting_remark == '' )
+  {
+    alert("please enter region, lead_title , lead_source, meeting_remark and assigned_to")
+  }
+  else{
+  this.firebaseservice.addLead(leadobj).then(success => {alert("Lead created Successfully")})
+  }
 }
 
 changeprod(value)
@@ -661,6 +698,32 @@ onlicdtChange(value){
     this.oems = [];
     this.needlists = []
     this.users = []
+    this.lead_title = '';
+    this.lead_source = '';
+    this.lead_type = '';
+    this.prodkey = ''
+    this.prod_name = ''
+    this.quantity = ''
+    this.Lbrand = ''
+    this.cpid = ''
+    this.cpname = ''
+    this.edc_date = ''
+    this.meeting_remark = ''
+    this.event = []
+    this.distributor = []
+    this.oem = []
+    this.cp = []
+    this.productlist = []
+    this.needlist = []
+    this.user = []
+    this.username = ''
+    this.userid = ''
+    this.reports_to = ''
+    this.region = ''
+    this.isoemToggled = false
+    this.person_designation = ''
+    this.budgetamount = 0
+    this.authority_contact_id = ''
 
     var dateRes = moment();
     this.datein4months = dateRes.add(4, 'months');

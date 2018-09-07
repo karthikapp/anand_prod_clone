@@ -535,7 +535,7 @@
         <div class="field">
           <label>LEAD TITLE</label>
           <input type="text" name="lead_title" placeholder="Lead Title" [(ngModel)]="lead_title">
-          <p style="color: white; font-size: 11px;padding-top: 2px;" *ngIf="lead_title == ''">  <i class="fas fa-info-circle"></i> &nbsp; Please Enter Lead Title </p>
+          <p style="color: red; font-size: 11px;padding-top: 2px;" *ngIf="lead_title == ''">  <i class="fas fa-info-circle"></i> &nbsp; Please Enter Lead Title </p>
         </div>
         <br>
 
@@ -588,6 +588,9 @@
           </select>
         </div>
 
+        <div>
+        <p style="color: red; font-size: 11px;padding-top: 2px;" *ngIf="lead_source == ''">  <i class="fas fa-info-circle"></i> &nbsp; Please Enter Lead Source </p>
+      </div>
 
         <div class="form-group column" *ngIf="lead_source == 'event'">
           <label  for="exampleFormControlSelect71" style="font-size: 13px"><b>EVENT NAME</b></label>
@@ -629,6 +632,11 @@
           </select>
         </div>
 
+        <div>
+        <p style="color: red; font-size: 11px;padding-top: 2px;" *ngIf="user == ''">  <i class="fas fa-info-circle"></i> &nbsp; Please Enter Assigned To </p>
+      </div>
+
+        <br>
 
         <div class="form-group column">
           <label  for="exampleFormControlSelect68" style="font-size: 13px"><b>REGION</b></label>
@@ -642,8 +650,14 @@
         </div>
 
        <div>
-         <p style="color: white;font-size: 11px;padding-top: 2px;padding-left: 4px;" *ngIf="region == ''"> <i class="fas fa-info-circle"></i>  &nbsp; Please Enter Region</p>
+         <p style="color: red;font-size: 11px;padding-top: 2px;padding-left: 4px;" *ngIf="region == ''"> <i class="fas fa-info-circle"></i>  &nbsp; Please Enter Region</p>
        </div>
+      <br>
+
+      <div class="ui toggle checkbox">
+        <input type="checkbox" name="isoemToggled" [(ngModel)]="isoemToggled">
+        <label><b>CASE LOCK REQUIRED</b></label>
+      </div>
       <br>
 
       <div class="field">
@@ -651,6 +665,9 @@
           <input type="text" name="meeting_remark" placeholder="Meeting Remark" [(ngModel)]="meeting_remark">
         </div>
 
+        <div>
+        <p style="color: red;font-size: 11px;padding-top: 2px;padding-left: 4px;" *ngIf="meeting_remark == ''"> <i class="fas fa-info-circle"></i> &nbsp; Please Enter Meeting Remark</p>
+      </div>
 
     </form>
     <br>
@@ -658,7 +675,7 @@
     <br>
     <p class="uk-text-right">
       <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-      <button class="uk-button uk-button-primary" type="button" (click)="createnewLead()">Add</button>
+      <button class="uk-button uk-button-primary" type="button" (click)="createnewLead()">CREATE</button>
     </p>
   </div>
 </div>
