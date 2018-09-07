@@ -32,6 +32,10 @@ export class ProductSearchPipe implements PipeTransform {
       return value.filter( values => {
        return values.companyname.toLowerCase().indexOf(input.toLowerCase()) > -1;
       })
+    } else if ((value != null || value != undefined) && division == 'needlist'){
+      return value.filter( values => {
+       return values.need_name.toLowerCase().indexOf(input.toLowerCase()) > -1;
+      })
     } 
     
 

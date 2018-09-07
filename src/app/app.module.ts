@@ -30,6 +30,7 @@ import Chart from 'chart.js';
 import { ChartsModule } from 'ng2-charts';
 import { MomentModule } from 'angular2-moment';
 import { MultiselectDropdownModule } from 'ng2-multiselect';
+import { GetneednameComponent } from './getneedname/getneedname.component';
 
 
 const appRoutes: Routes = [
@@ -53,7 +54,8 @@ const appRoutes: Routes = [
     GetbrandnameComponent,
     GetassignedtonameComponent,
     GetcatsubcatComponent,
-    GetcompetitornameComponent
+    GetcompetitornameComponent,
+    GetneednameComponent
   ],
   imports: [
     BrowserModule,

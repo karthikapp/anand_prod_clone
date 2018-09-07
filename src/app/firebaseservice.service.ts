@@ -48,6 +48,12 @@ export class FirebaseserviceService {
    return this.af.object(compURLs)
   }
 
+    getneedname(needkey){
+    //console.log(productkey);
+    var needURLs = '/needlist/' + needkey
+   return this.af.object(needURLs)
+  }
+
 
   getassignedtoname(userid){
     //console.log(productkey);

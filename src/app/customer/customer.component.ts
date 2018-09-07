@@ -2,8 +2,6 @@ import { Component, OnInit} from '@angular/core';
 import { FirebaseserviceService } from '../firebaseservice.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
-import { IMultiSelectOption,IMultiSelectSettings } from 'ng2-multiselect';
-
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
@@ -67,7 +65,7 @@ export class CustomerComponent implements OnInit {
   ecategory_com: any;
 
   lead_title: any;
-  lead_source: any;
+  // lead_source: any;
   prod_name: any;
   prodkey: any;
   quantity: any;
@@ -76,35 +74,33 @@ export class CustomerComponent implements OnInit {
   cpid: any;
   cpname: any;
   region: any;
-  event_id: any;
-  event_name: any;
-  distributor_id: any;
-  distributor_name: any;
-  oem_id:any;
-  oem_name:any;
+  // event_id: any;
+  // event_name: any;
+  // distributor_id: any;
+  // distributor_name: any;
+  // oem_id:any;
+  // oem_name:any;
   person_designation: any;
   created_at: any;
   edc_date: any;
-  meeting_remark: any;
+  //meeting_remark: any;
   cp: any;
   productlist: any;
 
-  events:any;
-  event: any;
-
-  distributors: any;
-  oems: any;
-  distributor: any;
-  oem: any;
+  // events:any;
+  // event: any;
+  // distributors: any;
+  // oems: any;
+  // distributor: any;
+  // oem: any;
   lead_type: any;
-  needlist: any;
+  needlist: any[];
   needlists: any;
   isoemToggled: any;
   budgetamount: any;
   authority_contact_id: any;
+  querystring2: any;
   
-  optionsModel: number[];
-
   users: any;
   user: any;
 
@@ -332,10 +328,10 @@ export class CustomerComponent implements OnInit {
     this.cpname = ''
     this.lead_type = ''
     this.edc_date = ''
-    this.meeting_remark = ''
-    this.event = []
-    this.distributor = []
-    this.oem = []
+    //this.meeting_remark = ''
+    // this.event = []
+    // this.distributor = []
+    // this.oem = []
     this.cp = []
     this.productlist = []
     this.needlist = []
@@ -348,6 +344,9 @@ export class CustomerComponent implements OnInit {
     this.person_designation = ''
     this.budgetamount = 0
     this.authority_contact_id = ''
+    this.lead_title = ''
+    this.prodvalue = 0
+    this.querystring2 = ''
 
     this.prodkey = val
      this.quantity = val1
@@ -357,77 +356,83 @@ export class CustomerComponent implements OnInit {
         {
           this.prod_name = val.payload.val().Product_name
           this.Lbrand = val.payload.val().Brand
-          console.log("", val.payload.val(), this.Lbrand)
+          //console.log("", val.payload.val(), this.Lbrand)
         })
   }
 
 createnewLead()
 {
-  if(Object.keys(this.cp).length = 0){
-    this.cpid = ''
-    this.cpname = '' 
-  }
-
-  if(this.lead_source == undefined){
-    this.lead_source = ''
-  }
-
-  if(this.lead_title == undefined){
-    this.lead_title = ''
-  }
-
-  if(this.meeting_remark == undefined){
-    this.meeting_remark = ''
-  }
-
-  if(this.user.length == 0){
-    this.username = ''
-    this.userid = ''
-  }
-
   if(Object.keys(this.cp).length > 0){
     this.cpname = this.cp.contact_person_name
     this.cpid = this.cp.contact_person_id
     this.person_designation = this.cp.contact_person_title
   }
 
-  if(this.user.length > 0){
+  if(Object.keys(this.user).length > 0){
     this.username = this.user.name
     this.userid = this.user.userid
     this.reports_to = this.user.reports_to
+    this.region = this.user.region
   }
 
-  if(this.lead_source == 'event')
+  // if(this.lead_source == 'event')
+  // {
+  //   this.event_name = this.event.event_name
+  //   this.event_id = this.event.event_id
+  //   this.distributor_id = ''
+  //   this.distributor_name = ''
+  //   this.oem_name = ''
+  //   this.oem_id = ''
+  // }
+
+  // if(this.lead_source == 'distributor')
+  // {
+  //   this.distributor_id = this.distributor.distributor_id
+  //   this.distributor_name = this.distributor.distributor_name
+  //   this.event_name = ''
+  //   this.event_id = ''
+  //   this.oem_name = ''
+  //   this.oem_id = ''
+  // }
+
+  // if(this.lead_source == 'oem')
+  // {
+  //   this.oem_id = this.oem.oem_id
+  //   this.oem_name = this.oem.oem_name
+  //   this.distributor_id = ''
+  //   this.distributor_name = ''
+  //   this.event_id = ''
+  //   this.event_name = ''
+  // }
+
+  let productslist = {}
+
+  if(this.Lbrand == undefined)
   {
-    this.event_name = this.event.event_name
-    this.event_id = this.event.event_id
-    this.distributor_id = ''
-    this.distributor_name = ''
-    this.oem_name = ''
-    this.oem_id = ''
+    this.Lbrand = ''
   }
 
-  if(this.lead_source == 'distributor')
+  if(this.prodkey == undefined)
   {
-    this.distributor_id = this.distributor.distributor_id
-    this.distributor_name = this.distributor.distributor_name
-    this.event_name = ''
-    this.event_id = ''
-    this.oem_name = ''
-    this.oem_id = ''
+    this.prodkey = ''
   }
 
-  if(this.lead_source == 'oem')
+  if(this.prod_name == undefined)
   {
-    this.oem_id = this.oem.oem_id
-    this.oem_name = this.oem.oem_name
-    this.distributor_id = ''
-    this.distributor_name = ''
-    this.event_id = ''
-    this.event_name = ''
+    this.prod_name = ''
   }
 
-  let productslist = {
+  if(this.quantity == undefined)
+  {
+    this.quantity = 1
+  }
+
+  if(this.prodvalue == undefined)
+  {
+    this.prodvalue = 0
+  }
+
+  productslist = {
     brand: this.Lbrand,
     product_key: this.prodkey,
     product_name: this.prod_name,
@@ -437,41 +442,107 @@ createnewLead()
 
   this.productlist.push(productslist)
 
+
+
+  if(Object.keys(this.cp).length == 0){
+    this.cpid = ''
+    this.cpname = '' 
+    this.person_designation = ''
+  }
+
+  // if(this.lead_source == undefined){
+  //   this.lead_source = ''
+  // }
+
+  if(this.lead_title == undefined){
+    this.lead_title = ''
+  }
+
+  // if(this.meeting_remark == undefined){
+  //   this.meeting_remark = ''
+  // }
+
+  if(this.cpid == undefined)
+  {
+    this.cpid = ''
+  }
+
+  if(this.cpname == undefined)
+  {
+    this.cpname = ''
+  }
+
+  if(this.person_designation == undefined)
+  {
+    this.person_designation = ''
+  }
+
+  if(Object.keys(this.user).length == 0){
+    this.username = ''
+    this.userid = ''
+    this.reports_to = ''
+    this.region = ''
+  }
+
+  if(this.username == undefined)
+  {
+    this.username = ''
+  }
+
+  if(this.region == undefined)
+  {
+    this.region = ''
+  }
+
+  if(this.userid == undefined)
+  {
+    this.userid = ''
+  }
+
+  if(this.reports_to == undefined)
+  {
+    this.reports_to = ''
+  }
+
+  //console.log("lead", this.lead_title, this.needlist)
+
   let leadobj = {
-    leadsource: this.lead_source,
+        leadsource: 'Customer 360',
        lead_title : this.lead_title,
        existing_customer: true,
-       event_name: this.event_name,
-       event_id: this.event_id,
+       event_name: '',
+       event_id: '',
        company_name:this.account_name,
        company_id : this.company_id,
        company_contact_person_name:this.cpname,
-       company_contact_person_id: this.cpid,
+       company_contact_person_id: String(this.cpid),
        person_designation:this.person_designation,
-       created_at: this.created_at,
-       assigned_to: this.userid,
-       oem_name: this.oem_name,
-       oem_id: this.oem_id,
-       distributor_id: this.distributor_id,
-       distributor_name: this.distributor_name,
+       created_at: this.firebaseservice.created_at,
+       assigned_to: String(this.userid),
+       oem_name: '',
+       oem_id: '',
+       distributor_id: '',
+       distributor_name: '',
        reports_to: this.reports_to,
        assigned_to_name: this.username,
-       meeting_remark: this.meeting_remark,
+       meeting_remark: '',
        products_list: this.productlist,
        oem_lock: this.isoemToggled,
        leadstatus: 'prequal',
        region: this.region,
        budget: this.budgetamount,
        approval_authority: this.authority_contact_id,
-        needlist: this.needlist,
+       needlist: this.needlist,
        edc: this.edc_date,
        leadtype: this.lead_type
   }
-  console.log("list", productslist, leadobj )
+  
+  //console.log("list", productslist, leadobj, this.lead_title )
 
-  if(this.lead_title == '' && this.lead_source == '' && this.region == '' && this.userid == '' && this.meeting_remark == '' )
+  if(this.lead_title == ''  || String(this.userid) == '' || String(this.cpid) == '')
   {
-    alert("please enter region, lead_title , lead_source, meeting_remark and assigned_to")
+    //console.log("this.lead_title", this.lead_title, this.userid, this.cpid, this.lead_title == ''  || this.userid == '' || this.cpid == '')
+    alert("Please Enter All the Required Details - 1.Lead Title, 2.Contact Person Name and 3.Assigned To")
   }
   else{
   this.firebaseservice.addLead(leadobj).then(success => {alert("Lead created Successfully")})
@@ -489,14 +560,14 @@ changecompname(value){
   this.competitorid = value
 }
 
-  changeLeadSource(value){
-    this.lead_source = value
-  }
+  // changeLeadSource(value){
+  //   this.lead_source = value
+  // }
 
-  changeRegion(value)
-  {
-    this.region = value
-  }
+  // changeRegion(value)
+  // {
+  //   this.region = value
+  // }
 
 
 onlicdtChange(value){
@@ -656,6 +727,19 @@ onlicdtChange(value){
     //console.log("toggle2", this.rakprods, this.compprods, this.contactshow)
   }
 
+   addNeed(key)
+  {
+    this.needlist.push(key)
+    this.needlist = this.needlist.filter(function(item, i, ar){
+     return ar.indexOf(item) === i; });
+  }
+
+  removeNeed(need)
+  {
+    this.needlist = this.needlist.filter(e => e !== need)
+  }
+
+
     ngOnInit() {
     this.company_id = ''
     this.account = [];
@@ -693,13 +777,13 @@ onlicdtChange(value){
     this.up_renewal_prod = [];
     this.up_renewal_comprod = [];
     this.category_com = '';
-    this.events = [];
-    this.distributors = [];
-    this.oems = [];
+    // this.events = [];
+    // this.distributors = [];
+    // this.oems = [];
     this.needlists = []
     this.users = []
     this.lead_title = '';
-    this.lead_source = '';
+    //this.lead_source = '';
     this.lead_type = '';
     this.prodkey = ''
     this.prod_name = ''
@@ -708,10 +792,10 @@ onlicdtChange(value){
     this.cpid = ''
     this.cpname = ''
     this.edc_date = ''
-    this.meeting_remark = ''
-    this.event = []
-    this.distributor = []
-    this.oem = []
+    //this.meeting_remark = ''
+    // this.event = []
+    // this.distributor = []
+    // this.oem = []
     this.cp = []
     this.productlist = []
     this.needlist = []
@@ -724,10 +808,11 @@ onlicdtChange(value){
     this.person_designation = ''
     this.budgetamount = 0
     this.authority_contact_id = ''
+    this.querystring2 = ''
 
     var dateRes = moment();
     this.datein4months = dateRes.add(4, 'months');
-    console.log("dateRes",  this.datein4months)
+    //console.log("dateRes",  this.datein4months)
 
     //Display the company detail based on company id on respective fields
     this.company_id = this.router.snapshot.params['companyid'];
@@ -747,44 +832,44 @@ onlicdtChange(value){
       //console.log("com", this.competitors)
     });
 
-    this.firebaseservice.getEvents().snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    }).subscribe(event => {
-      this.events = event;
-      console.log("this.events", this.events)
-    });
+    // this.firebaseservice.getEvents().snapshotChanges().map(changes => {
+    //   return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    // }).subscribe(event => {
+    //   this.events = event;
+    //   console.log("this.events", this.events)
+    // });
 
-    this.firebaseservice.getDistributors().snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    }).subscribe(dist => {
-      this.distributors = dist;
-    });
+    // this.firebaseservice.getDistributors().snapshotChanges().map(changes => {
+    //   return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    // }).subscribe(dist => {
+    //   this.distributors = dist;
+    // });
 
-    this.firebaseservice.getOEMS().snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    }).subscribe(oem => {
-      this.oems = oem;
-    });
+    // this.firebaseservice.getOEMS().snapshotChanges().map(changes => {
+    //   return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    // }).subscribe(oem => {
+    //   this.oems = oem;
+    // });
 
     this.firebaseservice.getNeedList().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(needlist => {
       this.needlists = needlist;
-      console.log("nd", this.needlists)
+      //console.log("nd", this.needlists)
     })
 
     this.firebaseservice.getUsers().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(user => {
       this.users = user;
-      console.log("nd", this.users)
+      //console.log("nd", this.users)
     })
 
     this.firebaseservice.getOpportunitiesbycmpnyid(this.company_id).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     }).subscribe(companies => {
       this.oppoaccounts = companies;
-      console.log(this.oppoaccounts)
+      //console.log(this.oppoaccounts)
       this.up_renewal_prod = []
       companies.forEach((el: any) => 
       {
@@ -808,7 +893,7 @@ onlicdtChange(value){
         {
           this.up_renewal_prod.push(el);
         }
-        console.log("up_renewal_prod", this.up_renewal_prod)
+        //console.log("up_renewal_prod", this.up_renewal_prod)
       })
 
       this.customerlandscape = this.customerlandscape
@@ -913,7 +998,7 @@ onlicdtChange(value){
           this.up_renewal_comprod.push(el);
         }
 
-        console.log("up_renewal_comprod", this.up_renewal_comprod)
+        //console.log("up_renewal_comprod", this.up_renewal_comprod)
       })
 
       this.customerlandscapeComp = this.customerlandscapeComp
@@ -962,10 +1047,5 @@ onlicdtChange(value){
 
 
   }
-
-  onChange(value) {
-        console.log(this.optionsModel, value);
-    }
-
 
 }
