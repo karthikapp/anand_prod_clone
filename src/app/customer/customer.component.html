@@ -12,6 +12,9 @@
     <div>
       <div class="uk-card uk-card-default uk-card-hover uk-card-body">
         <h4 class="uk-heading-bullet" style="color: #303f9f;">{{account_name | uppercase}} &nbsp;<i class="edit outline icon" uk-toggle="target: #modal-edit-account" (click)="editAccountName(account_name, company_id)"></i> </h4>
+
+        <h5> CUSTOMER OVERALL VALUE : <span style="color:green">{{returnrupee(getTotal())}}</span> </h5>
+
         <p> 
           <a class="ui green label">{{returnindustrytype(industry_type)}}</a>  
           <i class="edit outline icon" uk-toggle="target: #modal-edit-industrytype" (click)="editIndustryType(industry_type, company_id)"></i> 
@@ -43,11 +46,11 @@
             </div>
           </div>
 
-          <div>
+<!--           <div>
             <div class="uk-background uk-padding">
 
             </div>
-          </div>
+          </div> -->
 
           <div>
             <div class="uk-background-muted uk-padding">
@@ -86,13 +89,13 @@
              </div>
            </div>
 
-           <div>
+         <!--   <div>
             <div class="uk-background-muted uk-padding">
               <span style="font-weight: bold;">CUSTOMER OVERALL VALUE :</span>
-              <h4 style="color: green"> {{returnrupee(getTotal())}}</h4>
+              <h4 style="color: green"> </h4>
               <br>
             </div>
-          </div>
+          </div> -->
 
           <div>
             <div class="uk-background-muted uk-padding">
@@ -180,10 +183,36 @@
     <div class="uk-modal-dialog uk-modal-body">
       <h2 class="uk-modal-title">Update Industry Type</h2>
       <form class="ui form">
-        <div class="field">
+        <div class="form-group column" >
+          <label for="exampleFormControlSelect98">Industry Type: </label> {{eindustrytype}}
+          <select class="form-control" id="exampleFormControlSelect98" (change)="changeIndustryType($event.target.value)" name="ecompanytype"> 
+            <option>Automotive</option>
+            <option>Banking/ Finance</option>
+            <option>Cement/ Construction</option>
+            <option>Chemicals</option>
+            <option>Conglomerates</option>
+            <option>Cons Durable</option>
+            <option>Cons Non-Durable</option>
+            <option>Engineering</option>
+            <option>Food & Beverage</option>
+            <option>Technology</option>
+            <option>Manufacturing</option>
+            <option>Media</option>
+            <option>Metals & Mining</option>
+            <option>Miscellaneous</option>
+            <option>Oil & Gas</option>
+            <option>Pharmaceuticals</option>
+            <option>Retail/ Real Estate</option>
+            <option>Services</option>
+            <option>Telecom</option>
+            <option>Tobacco</option>
+            <option>Utilities</option>
+          </select>
+        </div>
+       <!--  <div class="field">
           <label>Industry Type</label>
           <input type="text" name="eindustrytype" placeholder="Industry Type" [(ngModel)]="eindustrytype">
-        </div>
+        </div> -->
       </form>
       <br>
       <br>

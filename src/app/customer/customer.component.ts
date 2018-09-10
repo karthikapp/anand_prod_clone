@@ -618,6 +618,10 @@ onlicdtChange(value){
     this.ecompanytype = value;
   }
 
+  changeIndustryType(value){
+    this.eindustrytype = value;
+  }
+
   changeCategoryCom(value){
     this.ecategory_com = value;
   }
@@ -687,6 +691,7 @@ onlicdtChange(value){
 
     returncategory(category_com)
   {
+    //console.log("cc",category_com)
     if(category_com)
     {
       var returnvalue = category_com
@@ -909,6 +914,7 @@ onlicdtChange(value){
        this.industry_type = this.account.industrytype
        this.company_type = this.account.companytype
        if(this.account.category != undefined){
+        this.category_com = this.account.category
         }
        this.employee_count = this.account.employee_count
 
