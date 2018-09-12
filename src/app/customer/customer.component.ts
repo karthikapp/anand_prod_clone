@@ -108,6 +108,10 @@ export class CustomerComponent implements OnInit {
   userid: any;
   reports_to: any;
 
+  typeofcontact: any;
+  typeofcontacts: any;
+  contactid: any;
+  contacttype: any;
 
   public lineChartData:Array<any> = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
@@ -238,6 +242,12 @@ export class CustomerComponent implements OnInit {
     }
 
     this.firebaseservice.updateEndpoints(this.ecompanyid, endpoints).then(success => {
+      alert("Updated Successfully!!")
+    })
+  }
+
+  updateContactType(){
+    this.firebaseservice.updateContactType(this.ecompanyid, this.contactid, this.contacttype).then(success => {
       alert("Updated Successfully!!")
     })
   }
@@ -614,6 +624,24 @@ onlicdtChange(value){
     this.ecompanyid = companyid
   }
 
+  editContactType(contactid, contacttype){
+    this.contacttype = ''
+    this.contactid = ''
+    this.ecompanyid = ''
+    if(contacttype == undefined || contacttype == null || contacttype == '')
+    {
+      contacttype = ''
+    }
+
+    if(contactid == undefined || contactid == null || contactid == ''){
+      contactid = ''
+    }
+    
+    this.contacttype = contacttype
+    this.contactid = contactid
+    this.ecompanyid = this.company_id
+  }
+
   changeCompanyType(value){
     this.ecompanytype = value;
   }
@@ -624,6 +652,11 @@ onlicdtChange(value){
 
   changeCategoryCom(value){
     this.ecategory_com = value;
+  }
+
+  changeContactType(value)
+  {
+    this.contacttype = value;
   }
 
 
@@ -814,6 +847,10 @@ onlicdtChange(value){
     this.budgetamount = 0
     this.authority_contact_id = ''
     this.querystring2 = ''
+    this.typeofcontact = []
+    this.typeofcontacts = []
+    this.contactid = ''
+    this.contacttype = ''
 
     var dateRes = moment();
     this.datein4months = dateRes.add(4, 'months');
@@ -855,6 +892,13 @@ onlicdtChange(value){
     // }).subscribe(oem => {
     //   this.oems = oem;
     // });
+
+    this.firebaseservice.getContactType().snapshotChanges().subscribe(value => {
+      this.typeofcontact = value.payload.val();
+      this.typeofcontacts = Object.values(this.typeofcontact);
+      console.log("com", this.typeofcontact)
+    });
+
 
     this.firebaseservice.getNeedList().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
@@ -908,8 +952,9 @@ onlicdtChange(value){
 
 
     this.firebaseservice.getAccount(this.company_id).snapshotChanges().subscribe(value => {
+      console.log("value", value)
       this.account = value.payload.val()
-       // console.log(this.account)
+       console.log(this.account)
        this.account_name = this.account.companyname
        this.industry_type = this.account.industrytype
        this.company_type = this.account.companytype

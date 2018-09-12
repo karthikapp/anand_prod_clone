@@ -420,6 +420,16 @@
                 <p style="font-size: 12px;padding-top: 2px;color: black;"> <span style="font-weight: bold;"> Contact Number: </span> {{contact.contact_number }}</p>
               </div>
             </div>
+
+            <div class="ui grid">
+              <div class="eight wide column">
+                <p style="font-size: 12px;padding-bottom: 2px;color: black;"> <span style="font-weight: bold;">Contact Type: </span> {{contact.typeofcontact }} &nbsp; <i class="edit outline icon" uk-toggle="target: #modal-edit-typeofcontact" (click)="editContactType(contact.contact_person_id, contact.typeofcontact)"></i></p>
+              </div>
+              <div class="eight wide column">
+               
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -466,6 +476,29 @@
   <p class="uk-text-right">
     <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
     <button class="uk-button uk-button-primary" type="button" (click)="updateLicExpDt()">Save</button>
+  </p>
+</div>
+</div>
+
+<!-- This is the modal for Updating Type of contact -->
+<div id="modal-edit-typeofcontact" uk-modal>
+  <br>
+  <br>
+  <div class="uk-modal-dialog uk-modal-body">
+    <h2 class="uk-modal-title">Update Contact Type</h2>
+    <form class="ui form">
+     <div class="form-group column" >
+        <label for="exampleFormControlSelect98">Contact Type: </label> {{contacttype}}
+        <select class="form-control" id="exampleFormControlSelect98" (change)="changeContactType($event.target.value)"> 
+          <option [value]="''" [selected]="selected">Select an option </option>
+          <option *ngFor="let w of typeofcontacts" [value]="w">{{w}}</option>
+        </select>
+      </div>
+    <br>
+  </form>
+  <p class="uk-text-right">
+    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+    <button class="uk-button uk-button-primary" type="button" (click)="updateContactType()">Save</button>
   </p>
 </div>
 </div>

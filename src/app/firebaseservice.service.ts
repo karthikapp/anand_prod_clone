@@ -55,6 +55,8 @@ export class FirebaseserviceService {
   }
 
 
+
+
   getassignedtoname(userid){
     //console.log(productkey);
     var userURLs = '/user/' + userid
@@ -123,6 +125,12 @@ export class FirebaseserviceService {
   updLicExpDtR(val, val1){
     var updLicExpDtRURLs = '/opportunities/' + val 
     return this.af.object(updLicExpDtRURLs).update({'prod_license_expiry_dt': val1})
+  }
+
+  updateContactType(val,val1,val2){
+    console.log("ff", val, val1, val2)
+    var updContactTypeURLs = '/accounts/' + val + '/contact_persons/' + val1
+    return this.af.object(updContactTypeURLs).update({'typeofcontact': val2})
   }
 
   showcollectios()
@@ -253,6 +261,10 @@ export class FirebaseserviceService {
 
   getUsers(){
     return this.af.list('/user')
+  }
+
+   getContactType(){
+    return this.af.object('/typeofcontact')
   }
 
   addLead(leadobj){
