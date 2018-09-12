@@ -302,6 +302,12 @@ export class CustomerComponent implements OnInit {
     this.upd_license_expiry_dt = ''
     this.upd_comprodkey = ''
     this.value_toggle = ''
+
+    if(license_expiry_dt == null || license_expiry_dt == undefined || license_expiry_dt == '')
+    {
+      license_expiry_dt = ''
+    }
+    
     this.upd_license_expiry_dt = license_expiry_dt
     this.upd_comprodkey = comprodkey
     this.value_toggle = value
@@ -588,6 +594,11 @@ onlicdtChange(value){
   {
     this.ecompanyname = ''
     this.ecompanyid = ''
+    if(companyname == undefined || companyname == null || companyname == '')
+    {
+      companyname = ''
+    }
+
     this.ecompanyname = companyname
     this.ecompanyid = companyid
   }
@@ -596,6 +607,11 @@ onlicdtChange(value){
   {
     this.eindustrytype = ''
     this.ecompanyid = ''
+    if(industrytype == undefined || industrytype == null || industrytype == '')
+    {
+      industrytype = ''
+    }
+
     this.eindustrytype = industrytype
     this.ecompanyid = companyid
   }
@@ -604,6 +620,11 @@ onlicdtChange(value){
   {
     this.ecompanytype = ''
     this.ecompanyid = ''
+    if(companytype == undefined || companytype == null || companytype == '')
+    {
+      companytype = ''
+    }
+
     this.ecompanytype = companytype
     this.ecompanyid = companyid
   }
@@ -612,6 +633,11 @@ onlicdtChange(value){
   {
     this.ecompanyid = ''
     this.ecategory_com = ''
+    if(category_com == undefined || category_com == '' || category_com == null)
+    {
+      category_com = ''
+    }
+
     this.ecategory_com = category_com
     this.ecompanyid = companyid
   }
@@ -620,6 +646,11 @@ onlicdtChange(value){
   {
     this.eempcount = ''
     this.ecompanyid = ''
+    if(empcount == undefined || empcount == null || empcount == '')
+    {
+      empcount = ''
+    }
+
     this.eempcount = empcount
     this.ecompanyid = companyid
   }
@@ -636,7 +667,7 @@ onlicdtChange(value){
     if(contactid == undefined || contactid == null || contactid == ''){
       contactid = ''
     }
-    
+
     this.contacttype = contacttype
     this.contactid = contactid
     this.ecompanyid = this.company_id

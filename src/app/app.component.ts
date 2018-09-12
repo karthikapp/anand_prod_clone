@@ -12,7 +12,7 @@ export class AppComponent implements OnInit
 
 	constructor() 
 	{
-		
+		localStorage.removeItem('firebase:previous_websocket_failure');
 	}
 
  	ngOnInit() 

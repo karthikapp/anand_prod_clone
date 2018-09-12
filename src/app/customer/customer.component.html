@@ -185,7 +185,8 @@
       <form class="ui form">
         <div class="form-group column" >
           <label for="exampleFormControlSelect98">Industry Type: </label> {{eindustrytype}}
-          <select class="form-control" id="exampleFormControlSelect98" (change)="changeIndustryType($event.target.value)" name="ecompanytype"> 
+          <select class="form-control" id="exampleFormControlSelect98" (change)="changeIndustryType($event.target.value)" name="eindustrytype"> 
+            <option [value]="''" [selected]="selected">Select an option </option>
             <option>Automotive</option>
             <option>Banking/ Finance</option>
             <option>Cement/ Construction</option>
@@ -233,6 +234,7 @@
         <div class="form-group column" >
           <label for="exampleFormControlSelect2">Company Type: </label> {{ecompanytype}}
           <select class="form-control" id="exampleFormControlSelect2" (change)="changeCompanyType($event.target.value)" name="ecompanytype"> 
+            <option [value]="''" [selected]="selected">Select an option </option>
             <option>Pvt</option>
             <option>Inc</option>
             <option>Ltd</option>
@@ -257,7 +259,8 @@
       <form class="ui form">
         <div class="form-group column" >
           <label for="exampleFormControlSelect12">Category</label> {{ecategory_com}}
-          <select class="form-control" id="exampleFormControlSelect12" (change)="changeCategoryCom($event.target.value)" name="ecategory_com"> 
+          <select class="form-control" id="exampleFormControlSelect12" (change)="changeCategoryCom($event.target.value)" name="ecategory_com">
+            <option [value]="''" [selected]="selected">Select an option </option> 
             <option [value]="'thunderbird'">ThunderBird</option>
             <option [value]="'classic'">Classic</option>
           </select>
