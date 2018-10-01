@@ -83,6 +83,11 @@ export class FirebaseserviceService {
     return this.af.object(catcomURLs).update({'category': ecategory_com})
   }
 
+  updateEstdId(eestdid, ecompanyid){
+    var estdidURLs = '/accounts/' + ecompanyid
+    return this.af.object(estdidURLs).update({'establishment_id': eestdid})
+  }
+
   updateEmpCount(eempcount, ecompanyid){
     var empcountURLs = '/accounts/' + ecompanyid + '/employee_count_his'
     var empcount = {
@@ -295,6 +300,10 @@ export class FirebaseserviceService {
   getOpportunitiesbycmpnyid(companyid: string){
     return this.af.list('/opportunities', ref => ref.orderByChild('company_id').equalTo(String(companyid)));
 
+  }
+
+  getSimilarCompanies(){
+    return this.af.list('/similarcompanies')
   }
 
 }

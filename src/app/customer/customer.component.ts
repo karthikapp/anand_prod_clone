@@ -16,6 +16,7 @@ export class CustomerComponent implements OnInit {
   industry_type: any;
   company_type: any;
   employee_count: any;
+  estdid: any;
   oppoaccounts: any;
   totalamount: any;
   rakprods: Boolean;
@@ -28,6 +29,7 @@ export class CustomerComponent implements OnInit {
   eindustrytype: any;
   ecompanytype: any;
   eempcount: any;
+  eestdid: any;
  
   selected: Boolean = false;
   compproducts: any;
@@ -113,6 +115,10 @@ export class CustomerComponent implements OnInit {
   contactid: any;
   contacttype: any;
 
+  similarcompanies: any;
+  combinedtype: any;
+  rproductkey: any;
+
   public lineChartData:Array<any> = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
     {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
@@ -171,11 +177,11 @@ export class CustomerComponent implements OnInit {
 
   // events
   public chartClicked(e:any):void {
-    console.log(e);
+    //console.log(e);
   }
  
   public chartHovered(e:any):void {
-    console.log(e);
+    //console.log(e);
   }
 
   on_edit_accountname()
@@ -202,6 +208,13 @@ export class CustomerComponent implements OnInit {
   on_edit_categorycom()
   {
     this.firebaseservice.updateCategoryCom(this.ecategory_com, this.ecompanyid).then(success => {
+      alert("Updated Successfully!!")
+    })
+  }
+
+  on_edit_estd_id()
+  {
+    this.firebaseservice.updateEstdId(this.eestdid, this.ecompanyid).then(success => {
       alert("Updated Successfully!!")
     })
   }
@@ -642,6 +655,19 @@ onlicdtChange(value){
     this.ecompanyid = companyid
   }
 
+  editEstdId(estdid, companyid)
+  {
+    this.ecompanyid = ''
+    this.eestdid = ''
+    if(estdid == undefined || estdid == '' || estdid == null)
+    {
+      estdid = ''
+    }
+
+    this.eestdid = estdid
+    this.ecompanyid = companyid
+  }
+
   editEmpCount(empcount, companyid)
   {
     this.eempcount = ''
@@ -769,6 +795,21 @@ onlicdtChange(value){
 
   }
 
+  returnestdid(estdid)
+  {
+    //console.log("cc",estdid)
+    if(estdid)
+    {
+      var returnvalue = estdid
+    }
+    else 
+    {
+      returnvalue = 'NA'
+    }
+
+    return returnvalue
+
+  }
 
   togglerakprod() 
   {
@@ -806,6 +847,14 @@ onlicdtChange(value){
   removeNeed(need)
   {
     this.needlist = this.needlist.filter(e => e !== need)
+  }
+
+  extractproductkey(oppoaccounts){
+    this.rproductkey = []
+    oppoaccounts.forEach( productkey => {
+      this.rproductkey.push(productkey.product_key)
+    })
+    return this.rproductkey
   }
 
 
@@ -882,6 +931,8 @@ onlicdtChange(value){
     this.typeofcontacts = []
     this.contactid = ''
     this.contacttype = ''
+    this.combinedtype = ''
+    this.estdid = ''
 
     var dateRes = moment();
     this.datein4months = dateRes.add(4, 'months');
@@ -927,7 +978,7 @@ onlicdtChange(value){
     this.firebaseservice.getContactType().snapshotChanges().subscribe(value => {
       this.typeofcontact = value.payload.val();
       this.typeofcontacts = Object.values(this.typeofcontact);
-      console.log("com", this.typeofcontact)
+      //console.log("com", this.typeofcontact)
     });
 
 
@@ -944,6 +995,15 @@ onlicdtChange(value){
       this.users = user;
       //console.log("nd", this.users)
     })
+
+    this.firebaseservice.getSimilarCompanies().snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val()}));
+    }).subscribe(similarcompanies => {
+      this.similarcompanies = similarcompanies;   
+    })
+
+
+    
 
     this.firebaseservice.getOpportunitiesbycmpnyid(this.company_id).snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
@@ -983,15 +1043,24 @@ onlicdtChange(value){
 
 
     this.firebaseservice.getAccount(this.company_id).snapshotChanges().subscribe(value => {
-      console.log("value", value)
+      //console.log("value", value)
       this.account = value.payload.val()
-       console.log(this.account)
+       //console.log(this.account)
        this.account_name = this.account.companyname
        this.industry_type = this.account.industrytype
        this.company_type = this.account.companytype
+
+       this.combinedtype = String(this.industry_type) + String(this.company_type)
+
        if(this.account.category != undefined){
         this.category_com = this.account.category
         }
+
+        if(this.account.establishment_id != undefined)
+        {
+          this.estdid = this.account.establishment_id
+        }
+
        this.employee_count = this.account.employee_count
 
        if(this.account.employee_count_his != undefined) {
@@ -1126,7 +1195,6 @@ onlicdtChange(value){
 
       //console.log("endpointd",this.endpoints, this.totalendpoints)
      })
-
 
   }
 
