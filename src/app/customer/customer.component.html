@@ -355,8 +355,10 @@
               <th>BRAND</th>
               <th>CATEGORY AND SUB CATEGORIES</th>
               <th>QTY</th>
+              <th>VALUE</th>
               <th>LICENSE EXPIRY DATE</th>
               <th>ASSIGNED TO</th> 
+              <th>STATUS</th>
             </tr>
           </thead>
           <tbody *ngFor="let r of oppoaccounts ">
@@ -364,10 +366,12 @@
               <td>{{r.product_name }}</td>
               <td><app-getbrandname [id]="r.product_key"></app-getbrandname></td>
               <td><app-getcatsubcat [id]="r.product_key"></app-getcatsubcat></td>
-              <td>{{r.quantity }}</td>
+              <td>{{r.quantity}}</td>
+              <td>{{r.value}}</td>
               <td>{{r.prod_license_expiry_dt | date}}  &nbsp; <i class="edit outline icon" uk-toggle="target: #modal-edit-licexpdt" (click)="editLicExpDt(r.prod_license_expiry_dt, r.key, 'raksha')"></i> 
               </td>
-              <td><app-getassignedtoname [id]="r.opportunity_assignedto"></app-getassignedtoname></td> 
+              <td><app-getassignedtoname [id]="r.opportunity_assignedto"></app-getassignedtoname></td>
+              <td>{{changeOppoName(r.opportunity_state)}}</td>
             </tr>
             <!-- <tr>
               <td>Client Server Security for SMB - Worry-Free</td>

@@ -118,6 +118,7 @@ export class CustomerComponent implements OnInit {
   similarcompanies: any;
   combinedtype: any;
   rproductkey: any;
+  cwoppoaccounts: any;
 
   public lineChartData:Array<any> = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
@@ -732,11 +733,16 @@ onlicdtChange(value){
 
   getTotal() {
     let total = 0;
-    if (this.oppoaccounts)
+    this.cwoppoaccounts = []
+    this.cwoppoaccounts = this.oppoaccounts.filter( f => {
+      return f.opportunity_state == 'Case_won'
+    })
+
+    if (this.cwoppoaccounts)
     {
-      for (var i = 0; i < this.oppoaccounts.length; i++) {
-        if (this.oppoaccounts[i].value) {
-          total += this.oppoaccounts[i].value;
+      for (var i = 0; i < this.cwoppoaccounts.length; i++) {
+        if (this.cwoppoaccounts[i].value) {
+          total += this.cwoppoaccounts[i].value;
           this.totalamount = total;
         }
       }
@@ -855,6 +861,47 @@ onlicdtChange(value){
       this.rproductkey.push(productkey.product_key)
     })
     return this.rproductkey
+  }
+
+  changeOppoName(text){
+    if(text == 'Qualified_lead')
+    {
+      return 'Qualified Lead'
+    }
+    else if (text == 'Presales_Presentation')
+    {
+      return 'Presales Presentation'
+    }
+    else if (text == 'Budgetary_Price_Shared')
+    {
+      return 'Budgetary Price Shared'
+    }
+    else if (text == 'Finalising_BOM')
+    {
+      return 'Finalising BOM'
+    }
+    else if (text == 'POC/Demo')
+    {
+      return 'POC / Demo'
+    }
+    else if (text == 'Final_Proposal')
+    {
+      return 'Final Proposal'
+    }
+    else if (text == 'Final_Negotiation')
+    {
+      return 'Final Negotiation'
+    }
+    else if (text == 'Case_won')
+    {
+      return 'Case Won'
+    }
+    else if (text == 'Case_lost')
+    {
+      return 'Case Lost'
+    }
+
+
   }
 
 
