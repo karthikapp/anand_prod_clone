@@ -697,12 +697,12 @@
         </div> -->
 
       
-        <div class="form-group column">
+        <!-- <div class="form-group column">
           <label  for="exampleFormControlSelect74" style="font-size: 13px" ><b>NEED(s)</b></label>
           <select class="form-control" id="exampleFormControlSelect74" multiple size="5" >
             <option *ngFor="let needlist of needlists" [value]="needlist.need_id">{{needlist.need_name}}</option>
           </select>
-        </div>
+        </div> -->
 
         <span style="font-weight: bold;">NEED(s): </span>
         <div class="ui segment" *ngIf="needlist?.length>0">
