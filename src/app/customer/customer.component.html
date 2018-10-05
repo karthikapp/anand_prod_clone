@@ -176,7 +176,8 @@
           <label for="exampleFormControlSelect98">Industry Type: </label> {{eindustrytype}}
           <select class="form-control" id="exampleFormControlSelect98" (change)="changeIndustryType($event.target.value)" name="eindustrytype"> 
             <option [value]="''" [selected]="selected">Select an option </option>
-            <option>Automotive</option>
+            <option *ngFor="let k of industrytypes" [value]="k"> {{k}}</option>
+            <!-- <option>Automotive</option>
             <option>Banking/ Finance</option>
             <option>Cement/ Construction</option>
             <option>Chemicals</option>
@@ -196,13 +197,9 @@
             <option>Services</option>
             <option>Telecom</option>
             <option>Tobacco</option>
-            <option>Utilities</option>
+            <option>Utilities</option> -->
           </select>
         </div>
-       <!--  <div class="field">
-          <label>Industry Type</label>
-          <input type="text" name="eindustrytype" placeholder="Industry Type" [(ngModel)]="eindustrytype">
-        </div> -->
       </form>
       <br>
       <br>
@@ -227,6 +224,10 @@
             <option>Pvt</option>
             <option>Inc</option>
             <option>Ltd</option>
+            <option>NGO</option>
+            <option>Government/ Public Sector</option>
+            <option>Partnership</option>
+            <option>Individual</option>
           </select>
         </div>
       </form>
@@ -809,6 +810,22 @@
         </div>
       </div>
       
+      <br>
+      <br>
+
+      <!--Similar Companies Product Landscape-->
+      <div style="width: 100%;padding-left: 10px;padding-top: 20px;padding-right: 35px;">
+        <div class="uk-card-secondary uk-card-default uk-card-small uk-card-body">
+          <h3 class="uk-card-title">Similar Companies Product Landscape</h3>
+
+            <div style="padding-left: 20px;">
+                <a class="ui white label" *ngFor="let es of extractcategory(smlcomp.similarcategory_list)| without: removenull(customerlandscape)">
+                  <span style="color: black">{{es}}</span></a>
+            </div>
+        </div>
+      </div>
+
+
       <br>
       <br>
 

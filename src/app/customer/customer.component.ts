@@ -120,6 +120,10 @@ export class CustomerComponent implements OnInit {
   rproductkey: any;
   cwoppoaccounts: any;
 
+  sccategorylist: any;
+  industrytypes: any;
+  industrytypess: any;
+
   public lineChartData:Array<any> = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
     {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
@@ -857,9 +861,11 @@ onlicdtChange(value){
 
   extractproductkey(oppoaccounts){
     this.rproductkey = []
-    oppoaccounts.forEach( productkey => {
-      this.rproductkey.push(productkey.product_key)
-    })
+    if(oppoaccounts != undefined){
+      oppoaccounts.forEach( productkey => {
+        this.rproductkey.push(productkey.product_key)
+      })
+    }
     return this.rproductkey
   }
 
@@ -902,6 +908,19 @@ onlicdtChange(value){
     }
 
 
+  }
+
+  extractcategory(es){
+    this.sccategorylist = []
+
+    if (es != undefined){
+      es.forEach( u => {
+        this.sccategorylist.push(u.category)
+      })
+    }
+
+    //console.log("cat", this.sccategorylist, this.customerlandscape)
+    return this.sccategorylist
   }
 
 
@@ -980,6 +999,8 @@ onlicdtChange(value){
     this.contacttype = ''
     this.combinedtype = ''
     this.estdid = ''
+    this.industrytypes = []
+    this.industrytypess = []
 
     var dateRes = moment();
     this.datein4months = dateRes.add(4, 'months');
@@ -1043,6 +1064,12 @@ onlicdtChange(value){
       //console.log("nd", this.users)
     })
 
+    this.firebaseservice.getIndustryType().snapshotChanges().subscribe(value => {
+      this.industrytypess = value.payload.val();
+      this.industrytypes = Object.values(this.industrytypess);
+      //console.log("com", this.typeofcontact)
+    });
+
     this.firebaseservice.getSimilarCompanies().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val()}));
     }).subscribe(similarcompanies => {
@@ -1076,7 +1103,7 @@ onlicdtChange(value){
         
         })
 
-        if(this.datein4months < new Date(el.prod_license_expiry_dt))
+        if((this.datein4months < new Date(el.prod_license_expiry_dt)) && (el.opportunity_state == 'Case_won'))
         {
           this.up_renewal_prod.push(el);
         }

@@ -55,8 +55,6 @@ export class FirebaseserviceService {
   }
 
 
-
-
   getassignedtoname(userid){
     //console.log(productkey);
     var userURLs = '/user/' + userid
@@ -266,6 +264,10 @@ export class FirebaseserviceService {
 
   getUsers(){
     return this.af.list('/user')
+  }
+
+  getIndustryType(){
+    return this.af.object('/industrytype')
   }
 
    getContactType(){
