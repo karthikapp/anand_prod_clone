@@ -433,7 +433,7 @@
                 <p style="font-size: 12px;padding-bottom: 2px;color: black;"> <span style="font-weight: bold;"> Primary Contact: </span> {{contact.Primary_contact }}</p>
               </div>
               <div class="eight wide column">
-                <p style="font-size: 12px;padding-top: 2px;color: black;"> <span style="font-weight: bold;"> Contact Number: </span> {{contact.contact_number }}</p>
+                <p style="font-size: 12px;padding-top: 2px;color: black;"> <span style="font-weight: bold;"> Contact Number: </span> {{contact.contact_person_mobile }}</p>
               </div>
             </div>
 
@@ -442,7 +442,7 @@
                 <p style="font-size: 12px;padding-bottom: 2px;color: black;"> <span style="font-weight: bold;">Contact Type: </span> {{contact.typeofcontact }} &nbsp; <i class="edit outline icon" uk-toggle="target: #modal-edit-typeofcontact" (click)="editContactType(contact.contact_person_id, contact.typeofcontact)"></i></p>
               </div>
               <div class="eight wide column">
-               
+                <p style="font-size: 12px;padding-top: 2px;color: black;"> <span style="font-weight: bold;"> E-Mail: </span> {{contact.contact_person_email }}</p>
               </div>
             </div>
 
@@ -794,18 +794,28 @@
       <div style="width: 100%;padding-left: 10px;padding-top: 20px;padding-right: 35px;">
         <div class="uk-card-secondary uk-card-default uk-card-small uk-card-body">
           <h3 class="uk-card-title">Similar Companies</h3>
-          <div class="uk-child-width-3-3@m uk-grid-small uk-grid-match" uk-grid>
+          
+           <div id="table1">
+                    <div class="ui button" (click)="exportTableToCSV('similarcompanies.csv', '#table1')">
+                       Export CSV File
+                    </div>
+          
+          <div >
             <table class="ui orange table">
               <thead>
-                <tr><th>Company Name</th>
+                <tr>
+                  <th>Company Name</th>
+                  <th>Contact Details</th>
                 </tr>
               </thead>
               <tbody *ngFor="let cs of smlcomp.similarcompany_list| without: company_id">
                 <tr>
                   <td><app-getcompanyname [id]="cs"></app-getcompanyname></td>
+                  <td><app-getcompanydetails [id]="cs"></app-getcompanydetails></td>
                 </tr>
               </tbody>
             </table>
+          </div>
           </div>
         </div>
       </div>
@@ -832,6 +842,7 @@
       <div style="width: 100%;padding-left: 10px;padding-top: 20px;padding-right: 35px;">
         <div class="uk-card-secondary uk-card-default uk-card-small uk-card-body">
           <h3 class="uk-card-title">Similar Companies Bought</h3>
+       
           <div>
             <table class="ui inverted teal table">
               <thead>
@@ -847,6 +858,7 @@
 
               </tbody>
             </table>
+     
           </div>
         </div>
       </div>

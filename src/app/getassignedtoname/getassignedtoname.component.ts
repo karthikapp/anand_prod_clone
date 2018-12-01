@@ -16,7 +16,10 @@ export class GetassignedtonameComponent implements OnInit {
   {
   	this.firebaseservice.getassignedtoname(this.id).snapshotChanges().subscribe((val: any) => {
   		// console.log("from comp", val.payload.val())
-  		this.assignedtoname = val.payload.val().name
+      if(val.payload.val() == null)
+        this.assignedtoname = ''
+      else
+  		  this.assignedtoname = val.payload.val().name
   	})
   }
 

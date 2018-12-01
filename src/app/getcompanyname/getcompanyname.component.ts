@@ -16,7 +16,10 @@ export class GetcompanynameComponent implements OnInit {
   {
   	this.firebaseservice.getAccount(this.id).snapshotChanges().subscribe((val: any) => {
   		// console.log("from comp", val.payload.val())
-  		this.companyname = val.payload.val().companyname
+      if(val.payload.val() == null)
+        this.companyname = ''
+      else
+  		  this.companyname = val.payload.val().companyname
   	})
   }
 

@@ -32,6 +32,7 @@ import { MomentModule } from 'angular2-moment';
 import { MultiselectDropdownModule } from 'ng2-multiselect';
 import { GetneednameComponent } from './getneedname/getneedname.component';
 import { GetcompanynameComponent } from './getcompanyname/getcompanyname.component';
+import { GetcompanydetailsComponent } from './getcompanydetails/getcompanydetails.component';
 
 
 const appRoutes: Routes = [
@@ -57,7 +58,8 @@ const appRoutes: Routes = [
     GetcatsubcatComponent,
     GetcompetitornameComponent,
     GetneednameComponent,
-    GetcompanynameComponent
+    GetcompanynameComponent,
+    GetcompanydetailsComponent
   ],
   imports: [
     BrowserModule,

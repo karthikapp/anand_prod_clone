@@ -1,0 +1,2 @@
+<div *ngFor="let cntct of contacts"><p style="font-size: 14px;">{{(cntct.contact_person_name ? removewhitespaces(cntct.contact_person_name): 'NA') | uppercase }} - {{cntct.contact_person_mobile ? cntct.contact_person_mobile : 'NA' }} - {{cntct.contact_person_email ? cntct.contact_person_email : 'NA'}}</p>
+</div>

@@ -16,6 +16,8 @@
 
     <!--Filter Category on top right corner-->
     <div style="float:left;font-family: 'Marvel', sans-serif;">
+      <div class="ui three column grid">
+        <div class="column">
       <form class="ui mini form">
             <div class="form-group column">
               <label style="font-weight: bold; font-size: 15px;color: black" for="exampleFormControlSelect8">Category: </label>
@@ -26,6 +28,38 @@
               </select>
             </div>
           </form>
+        </div>
+
+        <div class="column">
+          <form class="ui mini form">
+            <div class="form-group column">
+              <label style="font-weight: bold; font-size: 15px;color: black" for="exampleFormControlSelect9">Company Type: </label>
+              <select class="form-control" id="exampleFormControlSelect9" name="companytype" [(ngModel)]="companytype" (change)="onCompanyTypeChange($event.target.value)"  style="height: 29px;font-size: 1.2em; padding-top: 4px; padding-bottom: 4px;">
+              <option [value]="'All'">All</option>
+              <option>Pvt</option>
+              <option>Inc</option>
+              <option>Ltd</option>
+              <option>NGO</option>
+              <option>Government/ Public Sector</option>
+              <option>Partnership</option>
+              <option>Individual</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="column">
+          <form class="ui mini form">
+            <div class="form-group column">
+              <label style="font-weight: bold; font-size: 15px;color: black" for="exampleFormControlSelect10">Industry Type: </label>
+              <select class="form-control" id="exampleFormControlSelect10" name="industrytype" [(ngModel)]="industrytype" (change)="onIndustryTypeChange($event.target.value)"  style="height: 29px;font-size: 1.2em; padding-top: 4px; padding-bottom: 4px;">
+              <option [value]="'All'">All</option>
+               <option *ngFor="let k of industrytypes" [value]="k"> {{k}}</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        </div>
     </div>
 
     <br> 

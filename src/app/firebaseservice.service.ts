@@ -308,4 +308,11 @@ export class FirebaseserviceService {
     return this.af.list('/similarcompanies')
   }
 
+  //Get Contact information for a specific company
+  getContactbyAccount(companyid: string){
+    var accountbyCntctURL = '/accounts/' + companyid + '/contact_persons'
+    return this.af.object(accountbyCntctURL);
+  }
+
+
 }

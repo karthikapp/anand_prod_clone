@@ -15,8 +15,11 @@ export class GetcompetitornameComponent implements OnInit {
   ngOnInit() 
   {
   	this.firebaseservice.getcompetitorname(this.id).snapshotChanges().subscribe((val: any) => {
-  		// console.log("from comp", val.payload.val())
-  		this.competitorname = val.payload.val().competitor_name
+  		//console.log("from comp", val.payload.val())
+      if(val.payload.val() == null)
+        this.competitorname = ''
+      else
+  		  this.competitorname = val.payload.val().competitor_name
   	})
   }
 

@@ -19,8 +19,11 @@ export class CustomerlistComponent implements OnInit {
 
   //initializing p to one for pagination pipe
   q: number = 1;
-
-
+  industrytypess: any;
+  industrytypes: any;
+  industrytype: any;
+  companytype: any;
+  
   constructor(private firebaseservice : FirebaseserviceService) {
 
   }
@@ -32,6 +35,10 @@ export class CustomerlistComponent implements OnInit {
     this.category = 'All';
     this.accounts = [];
     this.account_list = [];
+    this.industrytype = 'All';
+    this.companytype = 'All';
+    this.industrytypes = [];
+    this.industrytypess = [];
 
     this.firebaseservice.getAccounts().snapshotChanges().map(changes => {
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
@@ -39,16 +46,58 @@ export class CustomerlistComponent implements OnInit {
       this.accounts = companies;
       this.onChangeofBoth();
     });
+
+    this.firebaseservice.getIndustryType().snapshotChanges().subscribe(value => {
+      this.industrytypess = value.payload.val();
+      this.industrytypes = Object.values(this.industrytypess);
+      //console.log("com", this.typeofcontact)
+    });
   }
 
   onChangeofBoth(){
      this.account_list = [];
-    if (this.category == 'All'){
+    if (this.category == 'All' && this.companytype == 'All' && this.industrytype == 'All'){
       this.account_list = this.accounts 
     } 
-    else if (this.category != '' && this.category != undefined) {
+    else if ((this.category != '' && this.category != undefined && this.category != 'All') && this.companytype == 'All' && this.industrytype == 'All') {
       this.account_list = this.accounts.filter (u =>  {
         return (u.category == this.category)
+      })
+    }
+    else if ((this.companytype != '' && this.companytype != undefined && this.companytype != 'All') && this.category == 'All' && this.industrytype == 'All') {
+      this.account_list = this.accounts.filter (u =>  {
+        return (u.companytype == this.companytype)
+      })
+    }
+    else if ((this.industrytype != '' && this.industrytype != undefined && this.industrytype != 'All') && this.companytype == 'All' && this.category == 'All') {
+      this.account_list = this.accounts.filter (u =>  {
+        return (u.industrytype == this.industrytype)
+      })
+    }
+    else if ((this.category != '' && this.category != undefined && this.category != 'All') && (this.companytype != '' && this.companytype != undefined && this.companytype != 'All') && this.industrytype == 'All') {
+      this.account_list = this.accounts.filter (u =>  {
+        return (u.category == this.category
+          && u.companytype == this.companytype)
+      })
+    }
+    else if ((this.category != '' && this.category != undefined && this.category != 'All') && this.companytype == 'All' && (this.industrytype != '' && this.industrytype != undefined && this.industrytype != 'All')) {
+      this.account_list = this.accounts.filter (u =>  {
+        return (u.category == this.category
+          && u.industrytype == this.industrytype)
+      })
+    }
+    else if ((this.industrytype != '' && this.industrytype != undefined && this.industrytype != 'All') && (this.companytype != '' && this.companytype != undefined && this.companytype != 'All') && this.category == 'All') {
+      this.account_list = this.accounts.filter (u =>  {
+        return (u.companytype == this.companytype
+          && u.industrytype == this.industrytype)
+      })
+    }
+    else if ((this.category != '' && this.category != undefined && this.category != 'All') && (this.companytype != '' && this.companytype != undefined && this.companytype != 'All') 
+      && (this.industrytype != '' && this.industrytype != undefined && this.industrytype != 'All')) {
+      this.account_list = this.accounts.filter (u =>  {
+        return (u.category == this.category
+          && u.industrytype == this.industrytype
+          && u.companytype == this.companytype)
       })
     }
   }
@@ -57,6 +106,18 @@ export class CustomerlistComponent implements OnInit {
   {
     this.category = ''
     this.category = value
+    this.onChangeofBoth();
+  }
+
+  onCompanyTypeChange(value){
+    this.companytype = ''
+    this.companytype = value
+    this.onChangeofBoth();
+  }
+
+  onIndustryTypeChange(value){
+    this.industrytype = ''
+    this.industrytype = value
     this.onChangeofBoth();
   }
 

@@ -16,7 +16,10 @@ export class GetneednameComponent implements OnInit {
   {
   	this.firebaseservice.getneedname(this.id).snapshotChanges().subscribe((val: any) => {
   		// console.log("from comp", val.payload.val())
-  		this.needname = val.payload.val().need_name
+      if (val.payload.val() == null)
+        this.needname = ''
+      else
+  		  this.needname = val.payload.val().need_name
   	})
   }
 

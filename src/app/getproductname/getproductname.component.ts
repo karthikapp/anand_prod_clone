@@ -14,8 +14,11 @@ export class GetproductnameComponent implements OnInit {
   ngOnInit() 
   {
   	this.firebaseservice.getproductname(this.id).snapshotChanges().subscribe((val: any) => {
-  		// console.log("from comp", val.payload.val())
-  		this.productname = val.payload.val().Product_name
+  		//console.log("from comp", val.payload.val())
+      if(val.payload.val() == null)
+        this.productname = ''
+      else
+  		  this.productname = val.payload.val().Product_name
   	})
   }
 

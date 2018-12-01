@@ -167,8 +167,82 @@ export class CustomerComponent implements OnInit {
     this.isActive = true;
     this.isActive_chats = false;
     this.endpoints = []
+
     
   }
+
+
+  exportTableToCSV(filename, id) {
+    var csv = [];
+    var csv1 = [];
+ 
+    var crows = document.querySelector(id);
+    var rows = crows.querySelectorAll("table tr");
+
+    for(var i =0 ; i<=0 ; i++){
+    var row = [];
+    var columns = rows[i].querySelectorAll("th");
+
+      for (var j = 0; j < columns.length; j++) 
+      if(columns[j] != undefined){
+        row.push(columns[j].textContent);
+      }
+      else{
+        row.push("");
+      }
+
+      csv.push(row.join(","));  
+      }
+    
+    for (var i = 2; i < rows.length; i++) {
+        var row = [];
+        var cols = rows[i].querySelectorAll("td");
+        
+        for (var j = 0; j < cols.length; j++) 
+          if(cols[j] != undefined){
+            var text = cols[j].textContent
+            text = text.replace(/[\n\r]+|[\s]{2,}/g,' ');
+            text = text.replace(/,/g, "");
+            //console.log("text", text);
+            row.push(text);
+            
+          }
+          else{
+            row.push("");
+          }
+        csv.push(row.join(","));   
+    }
+
+    // Download CSV file
+    this.downloadCSV(csv.join("\n"), filename);
+}
+
+downloadCSV(csv, filename) {
+    var csvFile;
+    var downloadLink;
+
+    // CSV file
+    csvFile = new Blob([csv], {type: "text/csv"});
+
+    // Download link
+    downloadLink = document.createElement("a");
+
+    // File name
+    downloadLink.download = filename;
+
+    // Create a link to the file
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+    // Hide download link
+    downloadLink.style.display = "none";
+
+    // Add the link to DOM
+    document.body.appendChild(downloadLink);
+
+    // Click download link
+    downloadLink.click();
+}
+
 
   // intersectFunction()
   // {
