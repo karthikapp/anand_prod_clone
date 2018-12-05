@@ -33,10 +33,13 @@ import { MultiselectDropdownModule } from 'ng2-multiselect';
 import { GetneednameComponent } from './getneedname/getneedname.component';
 import { GetcompanynameComponent } from './getcompanyname/getcompanyname.component';
 import { GetcompanydetailsComponent } from './getcompanydetails/getcompanydetails.component';
-
+import { LoginComponent } from './login/login.component';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 const appRoutes: Routes = [
-{ path: '', component: HomeComponent},
+{ path: '', redirectTo: 'login', pathMatch: 'full' },
+{ path: 'login', component: LoginComponent},
+{ path: 'home', component: HomeComponent},
 { path: 'companyinfo/:companyid', component: CustomerComponent}
 
 ]
@@ -59,7 +62,8 @@ const appRoutes: Routes = [
     GetcompetitornameComponent,
     GetneednameComponent,
     GetcompanynameComponent,
-    GetcompanydetailsComponent
+    GetcompanydetailsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +78,7 @@ const appRoutes: Routes = [
     NgPipesModule,
     ChartsModule,
     MomentModule,
+    AngularFireAuthModule,
     MultiselectDropdownModule
   ],
   providers: [FirebaseserviceService,

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument , AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
@@ -28,7 +29,7 @@ export class FirebaseserviceService {
   public created_at: any;
   public fireAuth: any;
 
-  constructor(public db: AngularFirestore, public af: AngularFireDatabase)
+  constructor(public db: AngularFirestore, public af: AngularFireDatabase, public afAuth: AngularFireAuth)
   {
     this.edittime = firebase.firestore.FieldValue.serverTimestamp();
     this.created_at = firebase.database.ServerValue.TIMESTAMP;
@@ -313,6 +314,29 @@ export class FirebaseserviceService {
     var accountbyCntctURL = '/accounts/' + companyid + '/contact_persons'
     return this.af.object(accountbyCntctURL);
   }
+
+  getUser(userid: string)
+  {
+
+    var userURLs = '/user/' + userid;
+    return this.af.object(userURLs);
+    
+  }
+
+  //START LOGIN & LOGOUT
+  //sign in using email and password
+  loginUser(email: string, password: string)
+  {
+    //console.log(email,password);
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
+  }
+
+  //Sign out from the app
+  logoutUser()
+  {
+    return this.afAuth.auth.signOut();
+  } 
+//END LOGIN AND LOGOUT
 
 
 }
